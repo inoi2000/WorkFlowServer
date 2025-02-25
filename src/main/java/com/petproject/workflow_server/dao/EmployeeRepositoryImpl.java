@@ -47,18 +47,32 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    public void addBusinessTripToEmployee(UUID employeeId, BusinessTrip businessTrip) {
+    public List<BusinessTrip> getAllBusinessTrips(UUID employeeId) {
+        Employee employee = getEmployeeById(employeeId);
+        return employee.getBusinessTrips();
+    }
+
+    @Override
+    public BusinessTrip addBusinessTripToEmployee(UUID employeeId, BusinessTrip businessTrip) {
         Employee employee = getEmployeeById(employeeId);
         businessTrip.setId(UUID.randomUUID());
         employee.addBusinessTrip(businessTrip);
         entityManager.merge(employee);
+        return businessTrip;
     }
 
     @Override
-    public void addVacationToEmployee(UUID employeeId, Vacation vacation) {
+    public List<Vacation> getAllVacations(UUID employeeId) {
+        Employee employee = getEmployeeById(employeeId);
+        return employee.getVacations();
+    }
+
+    @Override
+    public Vacation addVacationToEmployee(UUID employeeId, Vacation vacation) {
         Employee employee = getEmployeeById(employeeId);
         vacation.setId(UUID.randomUUID());
         employee.addVacation(vacation);
         entityManager.merge(employee);
+        return vacation;
     }
 }

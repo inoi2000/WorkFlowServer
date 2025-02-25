@@ -19,7 +19,7 @@ public interface EmployeeService {
 
     void updateEmployee(Employee employee);
 
-    void addBusinessTripToEmployee(UUID employeeId, BusinessTrip businessTrip);
+    BusinessTrip addBusinessTripToEmployee(UUID employeeId, BusinessTrip businessTrip);
 
-    void addVacationToEmployee(UUID employeeId, Vacation vacation);
+    Vacation addVacationToEmployee(UUID employeeId, Vacation vacation);
 }

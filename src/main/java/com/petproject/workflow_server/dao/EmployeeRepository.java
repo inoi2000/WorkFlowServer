@@ -19,7 +19,11 @@ public interface EmployeeRepository {
 
     void updateEmployee(Employee employee);
 
-    void addBusinessTripToEmployee(UUID employeeId, BusinessTrip businessTrip);
+    List<BusinessTrip> getAllBusinessTrips(UUID employeeId);
 
-    void addVacationToEmployee(UUID employeeId, Vacation vacation);
+    BusinessTrip addBusinessTripToEmployee(UUID employeeId, BusinessTrip businessTrip);
+
+    List<Vacation> getAllVacations(UUID employeeId);
+
+    Vacation addVacationToEmployee(UUID employeeId, Vacation vacation);
 }

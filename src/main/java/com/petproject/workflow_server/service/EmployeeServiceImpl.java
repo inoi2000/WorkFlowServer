@@ -49,13 +49,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public void addBusinessTripToEmployee(UUID employeeId, BusinessTrip businessTrip) {
-        employeeRepository.addBusinessTripToEmployee(employeeId, businessTrip);
+    public BusinessTrip addBusinessTripToEmployee(UUID employeeId, BusinessTrip businessTrip) {
+        return employeeRepository.addBusinessTripToEmployee(employeeId, businessTrip);
     }
 
     @Override
     @Transactional
-    public void addVacationToEmployee(UUID employeeId, Vacation vacation) {
-        employeeRepository.addVacationToEmployee(employeeId, vacation);
+    public Vacation addVacationToEmployee(UUID employeeId, Vacation vacation) {
+        return employeeRepository.addVacationToEmployee(employeeId, vacation);
     }
 }

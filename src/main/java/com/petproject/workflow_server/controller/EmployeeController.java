@@ -46,12 +46,21 @@ public class EmployeeController {
         return "Employee with id " + id + " deleted successfully";
     }
 
-//    @PostMapping(/)
-//    public void addBusinessTripToEmployee(UUID employeeId, BusinessTrip businessTrip) {
-//
-//    }
-//
-//    public void addVacationToEmployee(UUID employeeId, Vacation vacation) {
-//
-//    }
+
+
+    @PostMapping("/business_trips/{employeeId}")
+    public BusinessTrip addBusinessTripToEmployee(
+            @PathVariable("employeeId") String employeeId,
+            @RequestBody BusinessTrip businessTrip) {
+        return employeeService.addBusinessTripToEmployee(UUID.fromString(employeeId), businessTrip);
+    }
+
+    @PostMapping("/vacations/{employeeId}")
+    public Vacation addVacationToEmployee(
+            @PathVariable("employeeId") String employeeId,
+            @RequestBody Vacation vacation) {
+        return employeeService.addVacationToEmployee(UUID.fromString(employeeId), vacation);
+    }
+
+
 }
