@@ -39,22 +39,10 @@ public class UserService {
 
     }
 
-    /**
-     * Получение пользователя по имени пользователя
-     * <p>
-     * Нужен для Spring Security
-     *
-     * @return пользователь
-     */
     public UserDetailsService userDetailsService() {
         return this::getByUsername;
     }
 
-    /**
-     * Получение текущего пользователя
-     *
-     * @return текущий пользователь
-     */
     public User getCurrentUser() {
         // Получение имени пользователя из контекста Spring Security
         var username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -67,6 +55,7 @@ public class UserService {
      * <p>
      * Нужен для демонстрации
      */
+    @Deprecated
     @Transactional
     public void getAdmin() {
         var user = getCurrentUser();
