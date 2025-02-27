@@ -17,13 +17,13 @@ public class Task {
     @Column(name = "id", columnDefinition = "BYNARY(16)")
     private UUID id;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "creation")
+    @Column(name = "creation", nullable = false)
     private LocalDate creation;
 
-    @Column(name = "deadline")
+    @Column(name = "deadline", nullable = false)
     private LocalDate deadline;
 
     @Enumerated(EnumType.STRING)

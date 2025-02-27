@@ -44,14 +44,14 @@ public class EmployeeController {
     }
 
     @PostMapping("/business_trips/{employeeId}")
-    public BusinessTrip addBusinessTripToEmployee(
+    public BusinessTrip createBusinessTripToEmployee(
             @PathVariable("employeeId") String employeeId,
             @RequestBody BusinessTrip businessTrip) {
         return employeeService.addBusinessTripToEmployee(UUID.fromString(employeeId), businessTrip);
     }
 
     @PostMapping("/vacations/{employeeId}")
-    public Vacation addVacationToEmployee(
+    public Vacation createVacationToEmployee(
             @PathVariable("employeeId") String employeeId,
             @RequestBody Vacation vacation) {
         return employeeService.addVacationToEmployee(UUID.fromString(employeeId), vacation);
