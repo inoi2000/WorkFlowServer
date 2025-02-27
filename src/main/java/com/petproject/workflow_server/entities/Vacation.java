@@ -1,10 +1,19 @@
 package com.petproject.workflow_server.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "vacations")
 public class Vacation {
     @Id
@@ -12,35 +21,9 @@ public class Vacation {
     private UUID id;
 
     @Column(name = "start")
-    private String start;
+    private LocalDate start;
 
     @Column(name = "end")
-    private String end;
-
-    public Vacation() {
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getStart() {
-        return start;
-    }
-
-    public void setStart(String start) {
-        this.start = start;
-    }
-
-    public String getEnd() {
-        return end;
-    }
-
-    public void setEnd(String end) {
-        this.end = end;
-    }
+    private LocalDate end;
 }
+

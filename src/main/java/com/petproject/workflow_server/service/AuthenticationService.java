@@ -1,6 +1,6 @@
 package com.petproject.workflow_server.service;
 
-import com.petproject.workflow_server.dtos.JwtAuthenticationResponse;
+import com.petproject.workflow_server.dtos.AuthenticationResponse;
 import com.petproject.workflow_server.dtos.SignInRequest;
 import com.petproject.workflow_server.dtos.SignUpRequest;
 import com.petproject.workflow_server.entities.Role;
@@ -19,7 +19,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public JwtAuthenticationResponse signUp(SignUpRequest request) {
+    public AuthenticationResponse signUp(SignUpRequest request) {
 
         var user = User.builder()
                 .username(request.getUsername())
@@ -28,23 +28,23 @@ public class AuthenticationService {
                 .role(Role.ROLE_USER)
                 .build();
 
-        userService.create(user);
+        user = userService.create(user);
 
         var jwt = jwtService.generateToken(user);
-        return new JwtAuthenticationResponse(jwt);
+        return new AuthenticationResponse(user.getId(), jwt);
     }
 
-    public JwtAuthenticationResponse signIn(SignInRequest request) {
+    public AuthenticationResponse signIn(SignInRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 request.getUsername(),
                 request.getPassword()
         ));
 
-        var user = userService
+        var user = (User) userService
                 .userDetailsService()
                 .loadUserByUsername(request.getUsername());
 
         var jwt = jwtService.generateToken(user);
-        return new JwtAuthenticationResponse(jwt);
+        return new AuthenticationResponse(user.getId(), jwt);
     }
 }

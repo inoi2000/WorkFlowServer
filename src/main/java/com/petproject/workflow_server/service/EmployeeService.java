@@ -15,9 +15,7 @@ public interface EmployeeService {
 
     void deleteEmployee(UUID id);
 
-    void createEmployee(Employee employee);
-
-    void updateEmployee(Employee employee);
+    Employee save(Employee employee);
 
     BusinessTrip addBusinessTripToEmployee(UUID employeeId, BusinessTrip businessTrip);
 

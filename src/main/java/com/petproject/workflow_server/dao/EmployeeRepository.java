@@ -15,9 +15,7 @@ public interface EmployeeRepository {
 
     void deleteEmployee(UUID id);
 
-    void createEmployee(Employee employee);
-
-    void updateEmployee(Employee employee);
+    Employee save(Employee employee);
 
     List<BusinessTrip> getAllBusinessTrips(UUID employeeId);
 

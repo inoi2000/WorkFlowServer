@@ -8,33 +8,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "departments")
+@Table(name = "approvals")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
-public class Department {
+public class Approval {
     @Id
     @Column(name = "id", columnDefinition = "BYNARY(16)")
     private UUID id;
 
-    @Column(name = "name")
-    private String name;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "executor_id")
+    private Employee executor;
 
-    @OneToMany(mappedBy = "department", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Employee> staff;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "inspector_id")
+    private Employee inspector;
 
-    public void addEmployee(Employee employee) {
-        if (staff == null) {
-            staff = new ArrayList<>();
-        }
-        staff.add(employee);
-    }
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "task_id")
+    private Task task;
 }
