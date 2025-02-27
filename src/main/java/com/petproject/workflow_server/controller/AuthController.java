@@ -1,6 +1,6 @@
 package com.petproject.workflow_server.controller;
 
-import com.petproject.workflow_server.dtos.JwtAuthenticationResponse;
+import com.petproject.workflow_server.dtos.AuthenticationResponse;
 import com.petproject.workflow_server.dtos.SignInRequest;
 import com.petproject.workflow_server.dtos.SignUpRequest;
 import com.petproject.workflow_server.service.AuthenticationService;
@@ -21,12 +21,12 @@ public class AuthController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/sign-up")
-    public JwtAuthenticationResponse signUp(@RequestBody @Valid SignUpRequest request) {
+    public AuthenticationResponse signUp(@RequestBody @Valid SignUpRequest request) {
         return authenticationService.signUp(request);
     }
 
     @PostMapping("/sign-in")
-    public JwtAuthenticationResponse signIn(@RequestBody @Valid SignInRequest request) {
+    public AuthenticationResponse signIn(@RequestBody @Valid SignInRequest request) {
         return authenticationService.signIn(request);
     }
 }

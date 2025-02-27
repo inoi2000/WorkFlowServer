@@ -24,20 +24,17 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public Employee getEmployee(@PathVariable("id") String id) {
-        Employee employee = employeeService.getEmployeeById(UUID.fromString(id));
-        return employee;
+        return employeeService.getEmployeeById(UUID.fromString(id));
     }
 
     @PostMapping("/")
     public Employee createEmployee(@RequestBody Employee employee) {
-        employeeService.createEmployee(employee);
-        return employee;
+        return employeeService.save(employee);
     }
 
     @PutMapping("/")
     public Employee updateEmployee(@RequestBody Employee employee) {
-        employeeService.updateEmployee(employee);
-        return employee;
+        return employeeService.save(employee);
     }
 
     @DeleteMapping("/{id}")
@@ -45,8 +42,6 @@ public class EmployeeController {
         employeeService.deleteEmployee(UUID.fromString(id));
         return "Employee with id " + id + " deleted successfully";
     }
-
-
 
     @PostMapping("/business_trips/{employeeId}")
     public BusinessTrip addBusinessTripToEmployee(
@@ -61,6 +56,4 @@ public class EmployeeController {
             @RequestBody Vacation vacation) {
         return employeeService.addVacationToEmployee(UUID.fromString(employeeId), vacation);
     }
-
-
 }

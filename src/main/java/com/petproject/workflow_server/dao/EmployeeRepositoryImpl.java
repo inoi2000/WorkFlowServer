@@ -36,14 +36,14 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    public void createEmployee(Employee employee) {
-        employee.setId(UUID.randomUUID());
-        entityManager.persist(employee);
-    }
-
-    @Override
-    public void updateEmployee(Employee employee) {
-        entityManager.merge(employee);
+    public Employee save(Employee employee) {
+        if (employee.getId() == null) {
+            employee.setId(UUID.randomUUID());
+            entityManager.persist(employee);
+        } else {
+            entityManager.merge(employee);
+        }
+        return employee;
     }
 
     @Override
