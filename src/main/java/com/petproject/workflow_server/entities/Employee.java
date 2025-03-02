@@ -1,7 +1,7 @@
 package com.petproject.workflow_server.entities;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.petproject.workflow_server.serialization.DepartmentSerializer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,8 +18,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "employees")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class Employee {
     @Id
     @Column(name = "id", columnDefinition = "BYNARY(16)")
@@ -32,10 +30,10 @@ public class Employee {
     private String position;
 
     @OneToMany(mappedBy = "inspector", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Approval> onApproval;
+    private List<Task> inspectionTasks;
 
-    @OneToMany(mappedBy = "employee", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Task> tasks;
+    @OneToMany(mappedBy = "executor", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Task> executionTasks;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "employee_id")
@@ -45,6 +43,7 @@ public class Employee {
     @JoinColumn(name = "employee_id")
     private List<Vacation> vacations;
 
+    @JsonSerialize(using = DepartmentSerializer.class)
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "department_id")
     private Department department;
