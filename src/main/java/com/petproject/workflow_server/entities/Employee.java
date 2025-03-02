@@ -30,10 +30,10 @@ public class Employee {
     private String position;
 
     @OneToMany(mappedBy = "inspector", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Approval> onApproval;
+    private List<Task> inspectionTasks;
 
-    @OneToMany(mappedBy = "employee", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Task> tasks;
+    @OneToMany(mappedBy = "executor", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Task> executionTasks;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "employee_id")

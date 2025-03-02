@@ -1,5 +1,8 @@
 package com.petproject.workflow_server.entities;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.petproject.workflow_server.serialization.DepartmentSerializer;
+import com.petproject.workflow_server.serialization.EmployeeSerializer;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,6 +10,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,7 +34,13 @@ public class Task {
     @Column(name = "status", nullable = false)
     private TaskStatus status;
 
+    @JsonSerialize(using = EmployeeSerializer.class)
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+    @JoinColumn(name = "executor_id")
+    private Employee executor;
+
+    @JsonSerialize(using = EmployeeSerializer.class)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "inspector_id")
+    private Employee inspector;
 }
