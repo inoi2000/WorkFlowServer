@@ -1,7 +1,6 @@
 package com.petproject.workflow_server.entities;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.petproject.workflow_server.serialization.DepartmentSerializer;
 import com.petproject.workflow_server.serialization.EmployeeSerializer;
 import jakarta.persistence.*;
 import lombok.*;
