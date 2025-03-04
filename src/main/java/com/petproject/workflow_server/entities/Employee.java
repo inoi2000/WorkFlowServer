@@ -2,6 +2,7 @@ package com.petproject.workflow_server.entities;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.petproject.workflow_server.serialization.DepartmentSerializer;
+import com.petproject.workflow_server.serialization.TaskListSerializer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,9 +30,11 @@ public class Employee {
     @Column(name = "position")
     private String position;
 
+    @JsonSerialize(using = TaskListSerializer.class)
     @OneToMany(mappedBy = "inspector", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Task> inspectionTasks;
 
+    @JsonSerialize(using = TaskListSerializer.class)
     @OneToMany(mappedBy = "executor", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Task> executionTasks;
 
