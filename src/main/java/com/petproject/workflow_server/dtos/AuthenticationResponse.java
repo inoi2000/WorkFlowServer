@@ -12,6 +12,5 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthenticationResponse {
-    private UUID id;
     private String token;
 }
