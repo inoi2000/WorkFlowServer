@@ -20,4 +20,6 @@ public interface EmployeeService {
     BusinessTrip addBusinessTripToEmployee(UUID employeeId, BusinessTrip businessTrip);
 
     Vacation addVacationToEmployee(UUID employeeId, Vacation vacation);
+
+    List<Employee> findEmployeesByPatternName(String patternName);
 }

@@ -75,4 +75,11 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
         entityManager.merge(employee);
         return vacation;
     }
+
+    @Override
+    public List<Employee> findEmployeesByPatternName(String patternName) {
+        Query query = entityManager.createQuery("from Employee where name like :patternName");
+        query.setParameter("patternName", "%" + patternName + "%");
+        return query.getResultList();
+    }
 }
