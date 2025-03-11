@@ -23,18 +23,13 @@ public class TaskController {
         return taskService.save(task);
     }
 
-    @GetMapping("/{empId}")
+
+    //Работа с выполенением задач
+    @GetMapping("/execution/{empId}")
     private List<Task> getAllExecutingTasks(@PathVariable("empId") String empId) {
         return taskService.getAllExecutingTasks(UUID.fromString(empId));
     }
 
-    @GetMapping("/{empId}")
-    private List<Task> getAllInspectingTasks(@PathVariable("empId") String empId) {
-        return taskService.getAllInspectingTasks(UUID.fromString(empId));
-    }
-
-
-    //Работа с выполенением задач
     @PutMapping("/execution/{taskId}")
     private void submitTaskOnApproval(@PathVariable("taskId") String taskId) {
         taskService.updateTaskStatus(UUID.fromString(taskId), TaskStatus.ON_APPROVAL);
@@ -50,5 +45,12 @@ public class TaskController {
     @PutMapping("/approval/{taskId}")
     public void approveTask(@PathVariable("taskId") String taskId) {
         taskService.updateTaskStatus(UUID.fromString(taskId), TaskStatus.COMPLETED);
+    }
+
+
+    //Работа с порученными задачами
+    @GetMapping("/inspection/{empId}")
+    private List<Task> getAllInspectingTasks(@PathVariable("empId") String empId) {
+        return taskService.getAllInspectingTasks(UUID.fromString(empId));
     }
 }
