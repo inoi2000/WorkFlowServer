@@ -24,4 +24,6 @@ public interface EmployeeRepository {
     List<Vacation> getAllVacations(UUID employeeId);
 
     Vacation addVacationToEmployee(UUID employeeId, Vacation vacation);
+
+    List<Employee> findEmployeesByPatternName(String patternName);
 }

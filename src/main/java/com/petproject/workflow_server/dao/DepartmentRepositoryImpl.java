@@ -53,4 +53,11 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
         query.setParameter("id", employeeId);
         query.executeUpdate();
     }
+
+    @Override
+    public List<Department> findDepartmentsByPatternName(String patternName) {
+        Query query = entityManager.createQuery("from Department where name like :patternName");
+        query.setParameter("patternName", "%" + patternName + "%");
+        return query.getResultList();
+    }
 }

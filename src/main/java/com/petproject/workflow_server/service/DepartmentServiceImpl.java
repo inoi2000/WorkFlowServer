@@ -1,9 +1,7 @@
 package com.petproject.workflow_server.service;
 
 import com.petproject.workflow_server.dao.DepartmentRepository;
-import com.petproject.workflow_server.dao.EmployeeRepository;
 import com.petproject.workflow_server.entities.Department;
-import com.petproject.workflow_server.entities.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,5 +49,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Transactional
     public void addEmployeeToDepartment(UUID departmentId, UUID employeeId) {
         departmentRepository.addEmployeeToDepartment(departmentId, employeeId);
+    }
+
+    @Override
+    @Transactional
+    public List<Department> findDepartmentsByPatternName(String patternName) {
+        return departmentRepository.findDepartmentsByPatternName(patternName);
     }
 }

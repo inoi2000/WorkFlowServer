@@ -22,7 +22,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/{id}")
-    public Department getDepartment(@PathVariable("id") String id) {
+    public Department getDepartmentById(@PathVariable("id") String id) {
         return departmentService.getDepartmentById(UUID.fromString(id));
     }
 
@@ -50,5 +50,10 @@ public class DepartmentController {
             @PathVariable("employeeId") String employeeId) {
         departmentService.addEmployeeToDepartment(UUID.fromString(departmentId), UUID.fromString(employeeId));
         return "Employee with id " + employeeId + " added into department with id " + departmentId + " successfully";
+    }
+
+    @GetMapping("/name/{name}")
+    public List<Department> findDepartmentsByPatternName(@PathVariable("name") String patternName) {
+        return departmentService.findDepartmentsByPatternName(patternName);
     }
 }

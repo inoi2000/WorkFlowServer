@@ -19,4 +19,5 @@ public interface DepartmentService {
 
     void addEmployeeToDepartment(UUID departmentId, UUID employeeId);
 
+    List<Department> findDepartmentsByPatternName(String patternName);
 }

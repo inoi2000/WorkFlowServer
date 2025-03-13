@@ -56,4 +56,9 @@ public class EmployeeController {
             @RequestBody Vacation vacation) {
         return employeeService.addVacationToEmployee(UUID.fromString(employeeId), vacation);
     }
+
+    @GetMapping("/name/{name}")
+    public List<Employee> findEmployeesByPatternName(@PathVariable("name") String patternName) {
+        return employeeService.findEmployeesByPatternName(patternName);
+    }
 }

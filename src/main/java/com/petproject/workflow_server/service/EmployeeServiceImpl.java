@@ -52,4 +52,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Vacation addVacationToEmployee(UUID employeeId, Vacation vacation) {
         return employeeRepository.addVacationToEmployee(employeeId, vacation);
     }
+
+    @Override
+    @Transactional
+    public List<Employee> findEmployeesByPatternName(String patternName) {
+        return employeeRepository.findEmployeesByPatternName(patternName);
+    }
 }

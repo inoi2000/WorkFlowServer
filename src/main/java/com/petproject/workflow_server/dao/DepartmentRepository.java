@@ -18,4 +18,6 @@ public interface DepartmentRepository {
     void updateDepartment(Department department);
 
     void addEmployeeToDepartment(UUID departmentId, UUID employeeId);
+
+    List<Department> findDepartmentsByPatternName(String patternName);
 }
