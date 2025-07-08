@@ -47,6 +47,9 @@ public class Employee {
     @OneToMany(mappedBy = "executor", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Task> executionTasks;
 
+    @Transient
+    private boolean canAssignTask;
+
     public void addAbsence(Absence absence) {
         if (this.absences == null) {
             this.absences = new ArrayList<>();
