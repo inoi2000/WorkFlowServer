@@ -33,6 +33,7 @@
 
     <modules>
         <module>workflow-main</module>
+        <module>workflow-auth-server</module>
     </modules>
 
     <build>
