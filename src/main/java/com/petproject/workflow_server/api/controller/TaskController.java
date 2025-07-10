@@ -4,7 +4,10 @@ import com.petproject.workflow_server.api.dtos.TaskDto;
 import com.petproject.workflow_server.store.entities.Task;
 import com.petproject.workflow_server.store.entities.TaskStatus;
 import com.petproject.workflow_server.api.service.TaskService;
+import com.petproject.workflow_server.store.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,8 +52,11 @@ public class TaskController {
 
 
     //Работа с порученными задачами
+    @PostAuthorize("empId.equals(user.id)")
     @GetMapping("/inspection/{empId}")
-    private List<Task> getAllInspectingTasks(@PathVariable("empId") String empId) {
+    private List<Task> getAllInspectingTasks(
+            @PathVariable("empId") String empId,
+            @AuthenticationPrincipal User user) {
         return taskService.getAllInspectingTasks(UUID.fromString(empId));
     }
 }
