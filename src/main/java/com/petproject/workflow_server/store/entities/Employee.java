@@ -49,7 +49,7 @@ public class Employee {
 
     @Transient
     private boolean canAssignTask;
-
+  
     public void addAbsence(Absence absence) {
         if (this.absences == null) {
             this.absences = new ArrayList<>();
