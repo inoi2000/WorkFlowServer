@@ -63,7 +63,7 @@ public class AuthorizationServerConfig {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
-                .issuer("http://localhost:9000")
+                .issuer("https://192.168.0.159:9000")
                 .build();
     }
 
@@ -74,14 +74,15 @@ public class AuthorizationServerConfig {
                 RegisteredClient
                         .withId(UUID.randomUUID().toString())
                         .clientId("client")
-                        .clientSecret("secret")
+                        .clientSecret(passwordEncoder.encode("secret"))
                         .clientAuthenticationMethod(
                                 ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                        .redirectUri("http://127.0.0.1:9090/login/oauth2/code/client")
+                        .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                        .redirectUri("com.petproject.workflow://oauth2callback")
                         .scope(OidcScopes.OPENID)
                         .clientSettings(ClientSettings.builder()
-                                .requireProofKey(false)
+                                .requireProofKey(true)
                                 .build())
                         .build();
         RegisteredClient registeredClient2 =
