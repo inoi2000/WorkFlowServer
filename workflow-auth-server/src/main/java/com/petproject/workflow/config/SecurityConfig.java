@@ -28,7 +28,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()
                 )
-                .formLogin(withDefaults());
+                .formLogin(withDefaults())
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/login"))
+        ;
         return http.build();
     }
 
@@ -42,6 +44,8 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        var bcrypt = new BCryptPasswordEncoder();
+        System.out.printf("bcrypt:%s\n", bcrypt.encode("secret"));
+        return bcrypt;
     }
 }
