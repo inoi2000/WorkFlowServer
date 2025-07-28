@@ -80,6 +80,7 @@ public class AuthorizationServerConfig {
                         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                         .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                         .redirectUri("com.petproject.workflow://oauth2callback")
+                        .postLogoutRedirectUri("com.petproject.workflow://logoutcallback")
                         .scope(OidcScopes.OPENID)
                         .clientSettings(ClientSettings.builder()
                                 .requireProofKey(true)

@@ -29,7 +29,9 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .formLogin(withDefaults())
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/login"))
+                .logout(logout -> logout
+                        .logoutUrl("/connect/logout").permitAll())
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/login", "/connect/logout"))
         ;
         return http.build();
     }
