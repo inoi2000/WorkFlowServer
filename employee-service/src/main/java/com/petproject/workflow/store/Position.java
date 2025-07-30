@@ -1,6 +1,9 @@
 package com.petproject.workflow.store;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,9 +16,8 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "employees")
-public class Employee {
-
+@Table(name = "positions")
+public class Position {
     @Id
     @Column(name = "id", columnDefinition = "BYNARY(16)")
     private UUID id;
@@ -23,7 +25,6 @@ public class Employee {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "position_id")
-    private Position position;
+    @Column(name = "level")
+    private int level;
 }
