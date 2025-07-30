@@ -63,7 +63,8 @@ public class AuthorizationServerConfig {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
-                .issuer("https://192.168.0.159:9000")
+//                .issuer("https://192.168.0.159:9000")
+                .issuer("http://localhost:9000")
                 .build();
     }
 
@@ -88,16 +89,14 @@ public class AuthorizationServerConfig {
                         .build();
         RegisteredClient registeredClient2 =
                 RegisteredClient.withId(UUID.randomUUID().toString())
-                        .clientId("taco-admin-client")
+                        .clientId("admin-client")
                         .clientSecret(passwordEncoder.encode("secret"))
                         .clientAuthenticationMethod(
                                 ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                         .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                         .redirectUri(
-                                "http://127.0.0.1:9090/login/oauth2/code/taco-admin-client")
-                        .scope("writeIngredients")
-                        .scope("deleteIngredients")
+                                "http://127.0.0.1:9090/login/oauth2/code/admin-client")
                         .scope(OidcScopes.OPENID)
                         .clientSettings(ClientSettings.builder()
                                 .requireProofKey(false)

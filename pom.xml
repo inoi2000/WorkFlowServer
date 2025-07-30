@@ -35,6 +35,7 @@
         <module>workflow-main</module>
         <module>workflow-auth-server</module>
         <module>employee-service</module>
+        <module>admin-panel</module>
     </modules>
 
     <build>
