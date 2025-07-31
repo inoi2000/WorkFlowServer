@@ -1,4 +1,4 @@
-package com.petproject.workflow;
+package com.petproject.workflow.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

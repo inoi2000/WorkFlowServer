@@ -28,9 +28,9 @@ public class WorkFlowAuthServerApplication {
 
             User admin = new User(UUID.fromString(
                     "123e4567-e89b-12d3-a456-426614174000"),
-                    "mihsavinov",
+                    "mishavinov",
                     encoder.encode("12345"),
-                    "mihsavinov@mail.ru",
+                    "mishavinov@mail.ru",
                     Role.ROLE_ADMIN
                     );
             User director = new User(UUID.fromString(
