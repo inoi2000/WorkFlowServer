@@ -25,6 +25,9 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/api/users") // Отключаем CSRF для регистрации
+                )
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().authenticated()
                 )
@@ -46,8 +49,6 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        var bcrypt = new BCryptPasswordEncoder();
-        System.out.printf("bcrypt:%s\n", bcrypt.encode("secret"));
-        return bcrypt;
+        return new BCryptPasswordEncoder();
     }
 }
