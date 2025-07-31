@@ -102,6 +102,16 @@ public class AuthorizationServerConfig {
                                 .requireProofKey(false)
                                 .build())
                         .build();
+        RegisteredClient registeredClient3 =
+                RegisteredClient.withId(UUID.randomUUID().toString())
+                        .clientId("auth-server-client")
+                        .clientSecret(passwordEncoder.encode("secret"))
+                        .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                        .scope("internal")
+                        .clientSettings(ClientSettings.builder()
+                                .requireProofKey(false)
+                                .build())
+                        .build();
         return new InMemoryRegisteredClientRepository(registeredClient, registeredClient2);
     }
 
