@@ -61,22 +61,7 @@ public class UserServiceClient implements UserDetailsService {
         );
         if (response.getStatusCode() == HttpStatus.OK) {
             User user = response.getBody();
-            return new UserDetails() {
-                @Override
-                public Collection<? extends GrantedAuthority> getAuthorities() {
-                    return List.of(new SimpleGrantedAuthority(user.getRole()));
-                }
-
-                @Override
-                public String getPassword() {
-                    return user.getPassword();
-                }
-
-                @Override
-                public String getUsername() {
-                    return user.getUsername();
-                }
-            };
+            return user;
         } else  {
             throw new UsernameNotFoundException("<UNK>");
         }
