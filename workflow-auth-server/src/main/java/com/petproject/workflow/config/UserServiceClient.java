@@ -1,61 +1,84 @@
 package com.petproject.workflow.config;
 
 import com.petproject.workflow.store.User;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Collection;
 import java.util.List;
 
+@Service
 public class UserServiceClient implements UserDetailsService {
 
-    private static final String BASE_URL = "http://localhost:9100/api/users";
+    private static final String BASE_URL = "http://localhost:9100/api/users/";
 
-    private RestTemplate restTemplate;
-    public UserServiceClient() {
-//        // Настройка OAuth2 клиента для client_credentials flow
-//        ClientCredentialsResourceDetails resourceDetails = new ClientCredentialsResourceDetails();
-//        resourceDetails.setClientId("auth-server-client");  // ID клиента в auth-server
-//        resourceDetails.setClientSecret("auth-server-secret");
-//        resourceDetails.setAccessTokenUri("http://localhost:8080/oauth/token");
-//        resourceDetails.setScope(List.of("internal"));  // scope для доступа к user-service
-//
-//        this.restTemplate = new OAuth2RestTemplate(resourceDetails);
+    private final RestTemplate restTemplate;
+    private final AuthorizedClientServiceOAuth2AuthorizedClientManager clientManager;
+
+    public UserServiceClient(
+            ClientRegistrationRepository clientRegistrationRepository,
+            OAuth2AuthorizedClientService authorizedClientService
+    ) {
+        this.clientManager = new AuthorizedClientServiceOAuth2AuthorizedClientManager(
+                clientRegistrationRepository,
+                authorizedClientService
+        );
+
+        this.restTemplate = new RestTemplate();
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        String url = BASE_URL + "/" + username;
-//
-//        try {
-//            // Запрос к user-service с автоматическим добавлением OAuth2 токена
-//            ResponseEntity<User> response = restTemplate.exchange(
-//                    url,
-//                    HttpMethod.GET,
-//                    null,
-//                    User.class
-//            );
-//
-//            UserDto userDto = response.getBody();
-//            if (userDto == null) {
-//                throw new UsernameNotFoundException("User not found: " + username);
-//            }
-//
-//            // Преобразование UserDto в UserDetails
-//            return User.builder()
-//                    .username(userDto.getUsername())
-//                    .password(userDto.getPassword())
-//                    .roles(userDto.getRoles().toArray(new String[0]))
-//                    .build();
-//
-//        } catch (HttpClientErrorException.NotFound e) {
-//            throw new UsernameNotFoundException("User not found: " + username);
-//        } catch (Exception e) {
-//            throw new RuntimeException("Failed to fetch user data", e);
-//        }
-        return  restTemplate.getForObject(BASE_URL + "/" + username, User.class);
+    public UserDetails loadUserByUsername(String username) {
+        // Получаем OAuth2 токен
+        OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest
+                .withClientRegistrationId("auth-server-client") // ID клиента из application.yml
+                .principal("internal-service") // Условное имя "сервисного" пользователя
+                .build();
+
+        OAuth2AuthorizedClient authorizedClient = clientManager.authorize(authorizeRequest);
+        String accessToken = authorizedClient.getAccessToken().getTokenValue();
+
+        // Делаем запрос с токеном
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(accessToken);
+
+        ResponseEntity<User> response = restTemplate.exchange(
+                BASE_URL + username,
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                User.class
+        );
+        if (response.getStatusCode() == HttpStatus.OK) {
+            User user = response.getBody();
+            return new UserDetails() {
+                @Override
+                public Collection<? extends GrantedAuthority> getAuthorities() {
+                    return List.of(new SimpleGrantedAuthority(user.getRole()));
+                }
+
+                @Override
+                public String getPassword() {
+                    return user.getPassword();
+                }
+
+                @Override
+                public String getUsername() {
+                    return user.getUsername();
+                }
+            };
+        } else  {
+            throw new UsernameNotFoundException("<UNK>");
+        }
     }
 }

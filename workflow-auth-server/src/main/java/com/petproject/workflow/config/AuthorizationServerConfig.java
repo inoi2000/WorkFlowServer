@@ -33,6 +33,7 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -112,7 +113,7 @@ public class AuthorizationServerConfig {
                                 .requireProofKey(false)
                                 .build())
                         .build();
-        return new InMemoryRegisteredClientRepository(registeredClient, registeredClient2);
+        return new InMemoryRegisteredClientRepository(registeredClient, registeredClient2, registeredClient3);
     }
 
     @Bean
@@ -122,9 +123,7 @@ public class AuthorizationServerConfig {
                 context.getClaims().claim("id", user.getId());
                 context.getClaims().claim(
                         "authorities",
-                        user.getAuthorities().stream()
-                                .map(GrantedAuthority::getAuthority)
-                                .collect(Collectors.toList())
+                        List.of(user.getRole())
                 );
             }
         };
