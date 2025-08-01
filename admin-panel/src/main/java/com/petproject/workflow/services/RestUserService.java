@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 public class RestUserService implements UserService {
 
-    private static final String BASE_URL = "http://localhost:9000/api/users";
+    private static final String BASE_URL = "http://localhost:9100/api/users";
 
     private RestTemplate restTemplate;
 

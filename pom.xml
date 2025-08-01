@@ -36,6 +36,7 @@
         <module>workflow-auth-server</module>
         <module>employee-service</module>
         <module>admin-panel</module>
+        <module>user-service</module>
     </modules>
 
     <build>
