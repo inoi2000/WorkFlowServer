@@ -2,8 +2,6 @@ package com.petproject.workflow.config;
 
 import com.petproject.workflow.store.User;
 import org.springframework.http.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,9 +12,6 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Collection;
-import java.util.List;
 
 @Service
 public class UserServiceClient implements UserDetailsService {
@@ -60,8 +55,7 @@ public class UserServiceClient implements UserDetailsService {
                 User.class
         );
         if (response.getStatusCode() == HttpStatus.OK) {
-            User user = response.getBody();
-            return user;
+            return response.getBody();
         } else  {
             throw new UsernameNotFoundException("<UNK>");
         }

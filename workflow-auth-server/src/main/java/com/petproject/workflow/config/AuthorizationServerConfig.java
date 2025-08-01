@@ -10,11 +10,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -35,7 +35,6 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Configuration
 public class AuthorizationServerConfig {
@@ -108,7 +107,7 @@ public class AuthorizationServerConfig {
                         .clientId("auth-server-client")
                         .clientSecret(passwordEncoder.encode("secret"))
                         .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                        .scope("internal")
+                        .scope("INTERNAL")
                         .clientSettings(ClientSettings.builder()
                                 .requireProofKey(false)
                                 .build())
@@ -117,14 +116,12 @@ public class AuthorizationServerConfig {
     }
 
     @Bean
-    public OAuth2TokenCustomizer<JwtEncodingContext> jwtTokenCustomizer() {
+    public OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer() {
         return context -> {
             if (context.getPrincipal().getPrincipal() instanceof User user) {
-                context.getClaims().claim("id", user.getId());
-                context.getClaims().claim(
-                        "authorities",
-                        List.of(user.getRole())
-                );
+                JwtClaimsSet.Builder claims = context.getClaims();
+                claims.claim("id", user.getId());
+                claims.claim("authorities", List.of(user.getRole()));
             }
         };
     }

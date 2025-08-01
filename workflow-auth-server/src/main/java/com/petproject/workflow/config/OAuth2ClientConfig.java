@@ -25,7 +25,7 @@ public class OAuth2ClientConfig {
                 .clientSecret("secret")
                 .authorizationGrantType(registeredClient.getAuthorizationGrantTypes().iterator().next())
                 .scope(registeredClient.getScopes())
-                .tokenUri("http://localhost:9000/oauth2/token") // Ваш endpoint для получения токенов
+                .tokenUri("http://localhost:9000/oauth2/token")
                 .build();
 
         return new InMemoryClientRegistrationRepository(clientRegistration);
