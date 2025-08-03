@@ -24,7 +24,7 @@ public class RegistrationController {
     @GetMapping
     public String registerForm(Model model) {
         Iterable<String> roles = userService.getRoles();
-//        model.addAttribute("roles", roles);
+        model.addAttribute("roles", roles);
         return "registration";
     }
 

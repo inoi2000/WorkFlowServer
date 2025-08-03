@@ -11,8 +11,16 @@
         Username: <input type="text" name="username"/><br/>
         Email: <input type="text" name="email"/><br/>
         Password: <input type="password" name="password"/><br/>
-    <!--    <label for="fullname">Full name: </label>-->
-    <!--    <input type="text" name="fullname"/><br/>-->
+        Role: <select th:field="*{roles}">
+                <option value="">-- Выберите --</option>
+                <option th:each="option : ${options}"
+                        th:value="${option}"
+                        th:text="${option}"></option>
+            </select>
+            <br/><br/>
+
+        Full name: <input type="text" name="fullname"/><br/>
+
     <!--    <label for="street">Street: </label>-->
     <!--    <input type="text" name="street"/><br/>-->
     <!--    <label for="city">City: </label>-->
