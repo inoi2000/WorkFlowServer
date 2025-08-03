@@ -22,7 +22,9 @@ public class RegistrationController {
     private final UserService userService;
 
     @GetMapping
-    public String registerForm() {
+    public String registerForm(Model model) {
+        Iterable<String> roles = userService.getRoles();
+//        model.addAttribute("roles", roles);
         return "registration";
     }
 

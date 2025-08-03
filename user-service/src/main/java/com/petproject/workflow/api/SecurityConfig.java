@@ -27,7 +27,7 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(HttpMethod.GET, "/api/users/**").hasAuthority("INTERNAL")
+                        .requestMatchers("/api/users/auth/**").hasAuthority("INTERNAL")
                         .requestMatchers("/api/users", "/api/users/**").hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/", "/**").permitAll())
                 .headers(headers -> headers

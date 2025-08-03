@@ -36,6 +36,13 @@ public class RestUserService implements UserService {
                 User[].class));
     }
 
+    @Override
+    public Iterable<String> getRoles() {
+        return Arrays.asList(restTemplate.getForObject(
+                BASE_URL + "/roles",
+                String[].class));
+    }
+
     private ClientHttpRequestInterceptor getBearerTokenInterceptor(String accessToken) {
         return (request, bytes, execution) -> {
             request.getHeaders().add("Authorization", "Bearer " + accessToken);
