@@ -11,6 +11,8 @@ public class RegistrationForm {
     private String username;
     private String password;
     private String email;
+    private String role;
+
     private String fullname;
     private String street;
     private String city;

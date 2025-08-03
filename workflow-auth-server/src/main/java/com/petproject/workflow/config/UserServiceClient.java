@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class UserServiceClient implements UserDetailsService {
 
-    private static final String BASE_URL = "http://localhost:9100/api/users/";
+    private static final String BASE_URL = "http://localhost:9100/api/users/auth/";
 
     private final RestTemplate restTemplate;
     private final AuthorizedClientServiceOAuth2AuthorizedClientManager clientManager;

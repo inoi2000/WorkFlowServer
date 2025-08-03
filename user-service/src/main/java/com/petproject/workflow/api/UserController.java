@@ -1,11 +1,13 @@
 package com.petproject.workflow.api;
 
+import com.petproject.workflow.store.Role;
 import com.petproject.workflow.store.User;
 import com.petproject.workflow.store.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,7 +26,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/auth/{username}")
     public ResponseEntity<User> getUser(@PathVariable("username") String username) {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         return optionalUser
@@ -36,5 +38,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public User saveUser(@RequestBody User user) {
         return userRepository.save(user);
+    }
+
+    @GetMapping("/roles")
+    public String[] getRoles() {
+        return Arrays.stream(Role.values()).map(Enum::name).toArray(String[]::new);
     }
 }
