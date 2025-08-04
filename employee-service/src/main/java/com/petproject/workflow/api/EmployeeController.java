@@ -34,4 +34,9 @@ public class EmployeeController {
                 .map(employee -> new ResponseEntity<>(employee, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
+
+    @GetMapping("/subordinate/{id}")
+    public Iterable<Employee> getSubordinateEmployees(@PathVariable("id") String id) {
+        return employeeRepository.findAllEmployeesWithLowerPositionLevel(UUID.fromString(id));
+    }
 }
