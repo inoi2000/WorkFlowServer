@@ -37,6 +37,7 @@
         <module>employee-service</module>
         <module>admin-panel</module>
         <module>user-service</module>
+        <module>task-service</module>
     </modules>
 
     <build>
