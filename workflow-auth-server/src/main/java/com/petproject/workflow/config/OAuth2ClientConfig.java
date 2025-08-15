@@ -25,7 +25,8 @@ public class OAuth2ClientConfig {
                 .clientSecret("secret")
                 .authorizationGrantType(registeredClient.getAuthorizationGrantTypes().iterator().next())
                 .scope(registeredClient.getScopes())
-                .tokenUri("http://localhost:9000/oauth2/token")
+//                .tokenUri("http://localhost:9000/oauth2/token")
+                .tokenUri("https://192.168.0.159:9000/oauth2/token")
                 .build();
 
         return new InMemoryClientRegistrationRepository(clientRegistration);
