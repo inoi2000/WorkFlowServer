@@ -27,6 +27,7 @@ public class CommentController {
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public Comment createComment(@RequestBody Comment comment) {
+        comment.setId(UUID.randomUUID());
         return commentRepository.save(comment);
     }
 }

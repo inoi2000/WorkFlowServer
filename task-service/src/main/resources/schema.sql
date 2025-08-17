@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     status varchar(24) NOT NULL,
     priority varchar(24) NOT NULL,
     destination varchar(64),
+    should_be_inspected boolean NOT NULL,
     executor_id binary(16) NOT NULL,
     inspector_id binary(16) NOT NULL,
     PRIMARY KEY (id)
