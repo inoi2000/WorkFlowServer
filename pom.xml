@@ -38,6 +38,7 @@
         <module>admin-panel</module>
         <module>user-service</module>
         <module>task-service</module>
+        <module>absence_service</module>
     </modules>
 
     <build>
