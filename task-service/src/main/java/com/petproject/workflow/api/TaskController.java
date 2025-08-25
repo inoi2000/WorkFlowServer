@@ -2,10 +2,12 @@ package com.petproject.workflow.api;
 
 import com.petproject.workflow.store.Task;
 import com.petproject.workflow.store.TaskRepository;
+import com.petproject.workflow.store.TaskStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -45,5 +47,16 @@ public class TaskController {
     public Task createTask(@RequestBody Task task) {
         task.setId(UUID.randomUUID());
         return taskRepository.save(task);
+    }
+
+    @PostMapping("/{id}/approval")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Task> approvalTask(@PathVariable String id) {
+        Optional<Task> optionalTask = taskRepository.findById(UUID.fromString(id));
+        return optionalTask.map(task -> {
+            task.setStatus(TaskStatus.COMPLETED);
+            taskRepository.save(task);
+            return new ResponseEntity<>(task, HttpStatus.OK);
+        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

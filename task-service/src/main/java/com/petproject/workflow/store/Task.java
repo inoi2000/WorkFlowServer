@@ -40,6 +40,9 @@ public class Task {
     @Column(name = "destination")
     private String destination;
 
+    @Column(name = "should_be_inspected")
+    private boolean shouldBeInspected;
+
     @Column(name = "executor_id", columnDefinition = "BYNARY(16)")
     private UUID executor;
 
