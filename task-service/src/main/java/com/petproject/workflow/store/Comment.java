@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -24,12 +25,12 @@ public class Comment {
     private String text;
 
     @Column(name = "creation")
-    private LocalDateTime creation;
+    private LocalDate creation;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "comment_status")
     private CommentStatus commentStatus;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "task_id")
-    private Task task;
+    @Column(name = "task_id", columnDefinition = "BYNARY(16)")
+    private UUID taskId;
 }

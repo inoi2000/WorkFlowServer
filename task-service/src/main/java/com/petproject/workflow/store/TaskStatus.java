@@ -6,5 +6,6 @@ public enum TaskStatus {
     COMPLETED,
     FAILED,
     ON_APPROVAL,
-    NOT_APPROVAL;
+    NOT_APPROVAL,
+    CANCELED
 }

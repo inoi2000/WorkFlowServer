@@ -49,6 +49,7 @@ public class Task {
     @Column(name = "inspector_id", columnDefinition = "BYNARY(16)")
     private UUID inspector;
 
-    @OneToMany(mappedBy = "task", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "task_id")
     private List<Comment> comments;
 }
