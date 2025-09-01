@@ -1,4 +1,4 @@
-package com.petproject.workflow.api;
+package com.petproject.workflow.api.controllers;
 
 import com.petproject.workflow.store.Comment;
 import com.petproject.workflow.store.CommentRepository;

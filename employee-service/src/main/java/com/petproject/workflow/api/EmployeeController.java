@@ -42,4 +42,9 @@ public class EmployeeController {
     public Iterable<Employee> getSubordinateEmployees(@PathVariable("id") String id) {
         return employeeRepository.findAllEmployeesWithLowerPositionLevel(UUID.fromString(id));
     }
+
+    @PostMapping("/batch")
+    public Iterable<Employee> getBatchEmployees(@RequestBody Iterable<UUID> uuids) {
+        return employeeRepository.findAllById(uuids);
+    }
 }

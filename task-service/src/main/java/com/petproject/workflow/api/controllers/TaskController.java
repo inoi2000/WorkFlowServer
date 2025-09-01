@@ -1,5 +1,7 @@
-package com.petproject.workflow.api;
+package com.petproject.workflow.api.controllers;
 
+import com.petproject.workflow.api.dtos.TaskDto;
+import com.petproject.workflow.api.services.TaskService;
 import com.petproject.workflow.store.Task;
 import com.petproject.workflow.store.TaskRepository;
 import com.petproject.workflow.store.TaskStatus;
@@ -15,47 +17,41 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "/api/tasks", produces = "application/json")
 public class TaskController {
-    private final TaskRepository taskRepository;
     private final TaskService taskService;
 
     @Autowired
     public TaskController(TaskRepository taskRepository, TaskService taskService) {
-        this.taskRepository = taskRepository;
         this.taskService = taskService;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTaskById(@PathVariable String id) {
-        Optional<Task> optionalTask = taskRepository.findById(UUID.fromString(id));
+    public ResponseEntity<TaskDto> getTaskById(@PathVariable UUID id) {
+        Optional<TaskDto> optionalTask = taskService.getTaskById(id);
         return optionalTask
                 .map(task -> new ResponseEntity<>(task, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/executors/{executorId}")
-    public Iterable<Task> getAllTasksByExecutor(@PathVariable String executorId) {
-        UUID uuid = UUID.fromString(executorId);
-        return taskRepository.findAllByExecutor(uuid);
+    public Iterable<TaskDto> getAllTasksByExecutor(@PathVariable UUID executorId) {
+        return taskService.getAllTasksByExecutor(executorId);
     }
 
     @GetMapping("/inspectors/{inspectorId}")
-    public Iterable<Task> getAllTasksByInspector(@PathVariable String inspectorId) {
-        UUID uuid = UUID.fromString(inspectorId);
-        return taskRepository.findAllByInspector(uuid);
+    public Iterable<TaskDto> getAllTasksByInspector(@PathVariable UUID inspectorId) {
+        return taskService.getAllTasksByInspector(inspectorId);
     }
 
     //    создание новой задачи
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public Task createTask(@RequestBody Task task) {
-        task.setId(UUID.randomUUID());
-        task.setStatus(TaskStatus.NEW);
-        return taskRepository.save(task);
+    public TaskDto createTask(@RequestBody TaskDto task) {
+        return taskService.createTask(task.toTask());
     }
 
     //    принятие задачи на выполнение
     @PostMapping("/{taskId}/accept")
-    public ResponseEntity<Task> acceptTask(@PathVariable UUID taskId,
+    public ResponseEntity<TaskDto> acceptTask(@PathVariable UUID taskId,
                                            JwtAuthenticationToken authentication) {
         try {
             return taskService.acceptTask(taskId, getUserId(authentication))
@@ -68,7 +64,7 @@ public class TaskController {
 
     //    отправка на утверждение
     @PostMapping("/{taskId}/submit")
-    public ResponseEntity<Task> submitTask(@PathVariable UUID taskId,
+    public ResponseEntity<TaskDto> submitTask(@PathVariable UUID taskId,
                                            JwtAuthenticationToken authentication) {
         try {
             return taskService.submitTask(taskId, getUserId(authentication))
@@ -81,7 +77,7 @@ public class TaskController {
 
     //    утверждение задачи
     @PostMapping("/{taskId}/approve")
-    public ResponseEntity<Task> approvalTask(@PathVariable UUID taskId,
+    public ResponseEntity<TaskDto> approvalTask(@PathVariable UUID taskId,
                                            JwtAuthenticationToken authentication) {
         try {
             return taskService.approvalTask(taskId, getUserId(authentication))
@@ -94,7 +90,7 @@ public class TaskController {
 
     //    отказ в утверждении
     @PostMapping("/{taskId}/reject")
-    public ResponseEntity<Task> rejectTask(@PathVariable UUID taskId,
+    public ResponseEntity<TaskDto> rejectTask(@PathVariable UUID taskId,
                                              JwtAuthenticationToken authentication) {
         try {
             return taskService.rejectTask(taskId, getUserId(authentication))
@@ -107,7 +103,7 @@ public class TaskController {
 
     //    отмена задачи
     @PostMapping("/{taskId}/cancel")
-    public ResponseEntity<Task> cancelTask(@PathVariable UUID taskId,
+    public ResponseEntity<TaskDto> cancelTask(@PathVariable UUID taskId,
                                            JwtAuthenticationToken authentication) {
         try {
             return taskService.cancelTask(taskId, getUserId(authentication))

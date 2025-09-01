@@ -71,7 +71,7 @@ public class AuthorizationServerConfig {
     @Bean
     public RegisteredClientRepository registeredClientRepository(
             PasswordEncoder passwordEncoder) {
-        RegisteredClient registeredClient =
+        RegisteredClient androidApp =
                 RegisteredClient
                         .withId(UUID.randomUUID().toString())
                         .clientId("client")
@@ -87,7 +87,7 @@ public class AuthorizationServerConfig {
                                 .requireProofKey(true)
                                 .build())
                         .build();
-        RegisteredClient registeredClient2 =
+        RegisteredClient adminPanel =
                 RegisteredClient.withId(UUID.randomUUID().toString())
                         .clientId("admin-client")
                         .clientSecret(passwordEncoder.encode("secret"))
@@ -102,7 +102,7 @@ public class AuthorizationServerConfig {
                                 .requireProofKey(false)
                                 .build())
                         .build();
-        RegisteredClient registeredClient3 =
+        RegisteredClient authServer =
                 RegisteredClient.withId(UUID.randomUUID().toString())
                         .clientId("auth-server-client")
                         .clientSecret(passwordEncoder.encode("secret"))
@@ -112,7 +112,23 @@ public class AuthorizationServerConfig {
                                 .requireProofKey(false)
                                 .build())
                         .build();
-        return new InMemoryRegisteredClientRepository(registeredClient, registeredClient2, registeredClient3);
+        RegisteredClient taskService =
+                RegisteredClient.withId("123e4567-e89b-12d3-a456-426614174000")
+                        .clientId("task-service-client")
+                        .clientSecret(passwordEncoder.encode("secret"))
+                        .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                        .scope("INTERNAL")
+                        .clientSettings(ClientSettings.builder()
+                                .requireProofKey(false)
+                                .build())
+                        .build();
+
+        return new InMemoryRegisteredClientRepository(
+                androidApp,
+                adminPanel,
+                authServer,
+                taskService
+        );
     }
 
     @Bean
