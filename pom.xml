@@ -39,6 +39,7 @@
         <module>user-service</module>
         <module>task-service</module>
         <module>absence_service</module>
+        <module>announcement_service</module>
     </modules>
 
     <build>
