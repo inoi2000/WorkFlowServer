@@ -20,7 +20,7 @@ import java.util.UUID;
 @Table(name = "announcements")
 public class Announcement {
     @Id
-    @Column(name = "id", columnDefinition = "BYNARY(16)")
+    @Column(name = "id", columnDefinition = "BINARY(16)")
     private UUID id;
 
     @Column(name = "title")

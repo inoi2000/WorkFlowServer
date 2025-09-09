@@ -18,7 +18,7 @@ import java.util.UUID;
 @Table(name = "comments")
 public class Comment {
     @Id
-    @Column(name = "id", columnDefinition = "BYNARY(16)")
+    @Column(name = "id", columnDefinition = "BINARY(16)")
     private UUID id;
 
     @Column(name = "text")
@@ -31,6 +31,6 @@ public class Comment {
     @Column(name = "comment_status")
     private CommentStatus commentStatus;
 
-    @Column(name = "task_id", columnDefinition = "BYNARY(16)")
+    @Column(name = "task_id", columnDefinition = "BINARY(16)")
     private UUID taskId;
 }
