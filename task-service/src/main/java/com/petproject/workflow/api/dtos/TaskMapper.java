@@ -4,6 +4,7 @@ import com.petproject.workflow.store.Comment;
 import com.petproject.workflow.store.Task;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -17,9 +18,14 @@ public class TaskMapper {
 
     public Task mapToTask(TaskDto dto) {
 
-        List<Comment> comments = dto.getComments().stream().map(
-                commentMapper::mapToComment
-        ).toList();
+        List<Comment> comments;
+        if (dto.getComments() != null) {
+            comments = dto.getComments().stream().map(
+                    commentMapper::mapToComment
+            ).toList();
+        } else {
+            comments = Collections.emptyList();
+        }
 
         return new Task(dto.getId(),
                 dto.getDescription(),
@@ -37,9 +43,14 @@ public class TaskMapper {
 
     public TaskDto mapToTaskDto(Task task, EmployeeDto executor, EmployeeDto inspector) {
 
-        List<CommentDto> comments = task.getComments().stream().map(
-                commentMapper::mapToCommentDto
-        ).toList();
+        List<CommentDto> comments;
+        if (task.getComments() != null) {
+            comments = task.getComments().stream().map(
+                    commentMapper::mapToCommentDto
+            ).toList();
+        } else {
+            comments = Collections.emptyList();
+        }
 
         return new TaskDto(
                 task.getId(),

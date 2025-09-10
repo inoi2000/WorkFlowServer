@@ -23,7 +23,9 @@ public class CommentDto {
     private LocalDate creation;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
+    @NotNull
     private CommentStatus commentStatus;
 
+    @NotNull
     private UUID taskId;
 }

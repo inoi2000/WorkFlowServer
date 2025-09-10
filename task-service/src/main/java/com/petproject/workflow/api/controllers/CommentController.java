@@ -4,6 +4,7 @@ import com.petproject.workflow.api.dtos.CommentDto;
 import com.petproject.workflow.api.dtos.CommentMapper;
 import com.petproject.workflow.store.Comment;
 import com.petproject.workflow.store.CommentRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,7 @@ public class CommentController {
 
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public Comment createComment(@RequestBody CommentDto dto) {
+    public Comment createComment(@RequestBody @Valid CommentDto dto) {
         dto.setId(UUID.randomUUID());
         dto.setCreation(LocalDate.now());
         Comment comment = commentMapper.mapToComment(dto);

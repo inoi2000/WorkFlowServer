@@ -2,7 +2,7 @@ package com.petproject.workflow.api.controllers;
 
 import com.petproject.workflow.api.dtos.TaskDto;
 import com.petproject.workflow.api.services.TaskService;
-import com.petproject.workflow.store.TaskRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +44,7 @@ public class TaskController {
     //    создание новой задачи
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public TaskDto createTask(@RequestBody TaskDto task) {
+    public TaskDto createTask(@RequestBody @Valid TaskDto task) {
         return taskService.createTask(task);
     }
 
