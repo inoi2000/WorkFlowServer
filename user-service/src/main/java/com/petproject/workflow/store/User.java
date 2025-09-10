@@ -19,7 +19,7 @@ import java.util.UUID;
 @Table(name = "users")
 public class User {
     @Id
-    @Column(name = "id", columnDefinition = "BYNARY(16)")
+    @Column(name = "id", columnDefinition = "BINARY(16)")
     private UUID id;
 
     @Column(name = "username", unique = true, nullable = false)

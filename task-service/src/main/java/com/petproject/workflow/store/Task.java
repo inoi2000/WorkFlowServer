@@ -17,7 +17,7 @@ import java.util.UUID;
 @Table(name = "tasks")
 public class Task {
     @Id
-    @Column(name = "id", columnDefinition = "BYNARY(16)")
+    @Column(name = "id", columnDefinition = "BINARY(16)")
     private UUID id;
 
     @Column(name = "description", nullable = false)
@@ -43,10 +43,10 @@ public class Task {
     @Column(name = "should_be_inspected")
     private boolean shouldBeInspected;
 
-    @Column(name = "executor_id", columnDefinition = "BYNARY(16)")
+    @Column(name = "executor_id", columnDefinition = "BINARY(16)")
     private UUID executor;
 
-    @Column(name = "inspector_id", columnDefinition = "BYNARY(16)")
+    @Column(name = "inspector_id", columnDefinition = "BINARY(16)")
     private UUID inspector;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
