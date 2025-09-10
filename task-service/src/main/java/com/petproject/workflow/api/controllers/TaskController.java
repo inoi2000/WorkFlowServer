@@ -2,9 +2,7 @@ package com.petproject.workflow.api.controllers;
 
 import com.petproject.workflow.api.dtos.TaskDto;
 import com.petproject.workflow.api.services.TaskService;
-import com.petproject.workflow.store.Task;
 import com.petproject.workflow.store.TaskRepository;
-import com.petproject.workflow.store.TaskStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +15,11 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "/api/tasks", produces = "application/json")
 public class TaskController {
+
     private final TaskService taskService;
 
     @Autowired
-    public TaskController(TaskRepository taskRepository, TaskService taskService) {
+    public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
 
@@ -46,7 +45,7 @@ public class TaskController {
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public TaskDto createTask(@RequestBody TaskDto task) {
-        return taskService.createTask(task.toTask());
+        return taskService.createTask(task);
     }
 
     //    принятие задачи на выполнение

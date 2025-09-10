@@ -2,12 +2,14 @@ package com.petproject.workflow.api.services;
 
 import com.petproject.workflow.api.dtos.EmployeeDto;
 import com.petproject.workflow.api.dtos.TaskDto;
+import com.petproject.workflow.api.dtos.TaskMapper;
 import com.petproject.workflow.store.Task;
 import com.petproject.workflow.store.TaskRepository;
 import com.petproject.workflow.store.TaskStatus;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -19,14 +21,22 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final EmployeeServiceClient employeeServiceClient;
 
-    public TaskService(TaskRepository taskRepository, EmployeeServiceClient employeeServiceClient) {
+    private final TaskMapper taskMapper;
+
+    public TaskService(
+            TaskRepository taskRepository,
+            EmployeeServiceClient employeeServiceClient,
+            TaskMapper taskMapper) {
         this.taskRepository = taskRepository;
         this.employeeServiceClient = employeeServiceClient;
+        this.taskMapper = taskMapper;
     }
 
-    public TaskDto createTask(Task task) {
+    public TaskDto createTask(TaskDto dto) {
+        Task task = taskMapper.mapToTask(dto);
         task.setId(UUID.randomUUID());
         task.setStatus(TaskStatus.NEW);
+        task.setCreation(LocalDate.now());
         return toTaskDto(taskRepository.save(task));
     }
 
@@ -41,11 +51,11 @@ public class TaskService {
     }
 
     public Iterable<TaskDto> getAllTasksByExecutor(UUID executorId) {
-        Iterable<Task> tasks = taskRepository.findAllByExecutor(executorId);
+        List<Task> tasks = taskRepository.findAllByExecutor(executorId);
         Set<UUID> employeeIds = collectEmployeesUUIDtoSet(tasks);
         Map<UUID, EmployeeDto> employees = toMap(employeeServiceClient.getEmployeesByIds(employeeIds));
-        return StreamSupport.stream(tasks.spliterator(), false).map(task ->
-                new TaskDto(
+        return tasks.stream().map(task ->
+                taskMapper.mapToTaskDto(
                         task,
                         employees.get(task.getExecutor()),
                         employees.get(task.getInspector())
@@ -54,11 +64,11 @@ public class TaskService {
     }
 
     public Iterable<TaskDto> getAllTasksByInspector(UUID inspectorId) {
-        Iterable<Task> tasks = taskRepository.findAllByInspector(inspectorId);
+        List<Task> tasks = taskRepository.findAllByInspector(inspectorId);
         Set<UUID> employeeIds = collectEmployeesUUIDtoSet(tasks);
         Map<UUID, EmployeeDto> employees = toMap(employeeServiceClient.getEmployeesByIds(employeeIds));
-        return StreamSupport.stream(tasks.spliterator(), false).map(task ->
-                new TaskDto(
+        return tasks.stream().map(task ->
+                taskMapper.mapToTaskDto(
                         task,
                         employees.get(task.getExecutor()),
                         employees.get(task.getInspector())
@@ -127,7 +137,7 @@ public class TaskService {
     private TaskDto toTaskDto(Task task) {
         Set<UUID> employeeIds = collectEmployeeUUIDtoSet(task);
         Map<UUID, EmployeeDto> employees = toMap(employeeServiceClient.getEmployeesByIds(employeeIds));
-        return new TaskDto(
+        return taskMapper.mapToTaskDto(
                 task,
                 employees.get(task.getExecutor()),
                 employees.get(task.getInspector())
