@@ -1,11 +1,11 @@
 package com.petproject.workflow.store;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -52,4 +52,37 @@ public class Task {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "task_id")
     private List<Comment> comments;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return shouldBeInspected == task.shouldBeInspected &&
+                Objects.equals(id, task.id) &&
+                Objects.equals(description, task.description) &&
+                status == task.status &&
+                priority == task.priority &&
+                Objects.equals(creation, task.creation) &&
+                Objects.equals(deadline, task.deadline) &&
+                Objects.equals(destination, task.destination) &&
+                Objects.equals(executor, task.executor) &&
+                Objects.equals(inspector, task.inspector);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                id,
+                description,
+                status,
+                priority,
+                creation,
+                deadline,
+                destination,
+                shouldBeInspected,
+                executor,
+                inspector
+        );
+    }
 }
