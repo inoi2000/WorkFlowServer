@@ -33,8 +33,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDto> getEmployee(@PathVariable("id") String id) {
-        Optional<Employee> optionalEmployee = employeeRepository.findById(UUID.fromString(id));
+    public ResponseEntity<EmployeeDto> getEmployee(@PathVariable("id") UUID id) {
+        Optional<Employee> optionalEmployee = employeeRepository.findById(id);
         return optionalEmployee
                 .map(employee ->
                         new ResponseEntity<>(employeeMapper.mapToEmployeeDto(employee), HttpStatus.OK))
@@ -44,6 +44,8 @@ public class EmployeeController {
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public EmployeeDto saveEmployee(@RequestBody @Valid EmployeeDto dto) {
+        dto.setId(UUID.randomUUID());
+        if (dto.getPosition().getId() == null) { dto.getPosition().setId(UUID.randomUUID()); }
         Employee employee = employeeMapper.mapToEmployee(dto);
         employee = employeeRepository.save(employee);
         return employeeMapper.mapToEmployeeDto(employee);

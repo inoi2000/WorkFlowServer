@@ -5,7 +5,9 @@ import com.petproject.workflow.store.PositionRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.UUID;
 import java.util.stream.StreamSupport;
 
 @RestController
@@ -31,6 +33,17 @@ public class PositionController {
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public PositionDto savePosition(@RequestBody @Valid PositionDto dto) {
+        dto.setId(UUID.randomUUID());
+        Position position = positionMapper.mapToPosition(dto);
+        position = positionRepository.save(position);
+        return positionMapper.mapToPositionDto(position);
+    }
+
+    @PatchMapping
+    public PositionDto editPosition(@RequestBody @Valid PositionDto dto) {
+        if(dto.getId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
         Position position = positionMapper.mapToPosition(dto);
         position = positionRepository.save(position);
         return positionMapper.mapToPositionDto(position);

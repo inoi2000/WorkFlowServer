@@ -1,5 +1,6 @@
 package com.petproject.workflow.api;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -16,5 +17,6 @@ public class PositionDto {
     @NotNull
     @Size(min=3, message="Description must be at least 3 characters long")
     private String name;
+    @Min(0)
     private int level;
 }
