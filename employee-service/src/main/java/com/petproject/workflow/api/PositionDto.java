@@ -15,7 +15,7 @@ import java.util.UUID;
 public class PositionDto {
     private UUID id;
     @NotNull
-    @Size(min=3, message="Description must be at least 3 characters long")
+    @Size(min=3, message="Name must be at least 3 characters long")
     private String name;
     @Min(0)
     private int level;
