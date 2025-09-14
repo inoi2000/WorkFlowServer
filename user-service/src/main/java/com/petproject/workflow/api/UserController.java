@@ -3,6 +3,7 @@ package com.petproject.workflow.api;
 import com.petproject.workflow.store.Role;
 import com.petproject.workflow.store.User;
 import com.petproject.workflow.store.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,9 +36,15 @@ public class UserController {
     }
 
     @PostMapping(consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    public User saveUser(@RequestBody User user) {
-        return userRepository.save(user);
+    public ResponseEntity<User> saveUser(@RequestBody @Valid User user) {
+        user.setId(UUID.randomUUID());
+        if(userRepository.findByUsername(user.getUsername()).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED) ;
     }
 
     @GetMapping("/roles")
