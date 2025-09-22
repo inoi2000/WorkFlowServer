@@ -3,10 +3,12 @@ package com.petproject.workflow.api.services;
 import com.petproject.workflow.api.dtos.EmployeeDto;
 import com.petproject.workflow.api.dtos.TaskDto;
 import com.petproject.workflow.api.dtos.TaskMapper;
+import com.petproject.workflow.api.dtos.TaskNotificationDto;
 import com.petproject.workflow.store.Task;
 import com.petproject.workflow.store.TaskRepository;
 import com.petproject.workflow.store.TaskStatus;
 import jakarta.transaction.Transactional;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,15 +22,18 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final EmployeeServiceClient employeeServiceClient;
+    private final KafkaTemplate<String, TaskNotificationDto> kafkaTemplate;
 
     private final TaskMapper taskMapper;
 
     public TaskService(
             TaskRepository taskRepository,
             EmployeeServiceClient employeeServiceClient,
+            KafkaTemplate<String, TaskNotificationDto> kafkaTemplate,
             TaskMapper taskMapper) {
         this.taskRepository = taskRepository;
         this.employeeServiceClient = employeeServiceClient;
+        this.kafkaTemplate = kafkaTemplate;
         this.taskMapper = taskMapper;
     }
 
@@ -37,7 +42,13 @@ public class TaskService {
         task.setId(UUID.randomUUID());
         task.setStatus(TaskStatus.NEW);
         task.setCreation(LocalDate.now());
-        return toTaskDto(taskRepository.save(task));
+        var result = toTaskDto(taskRepository.save(task));
+        var notification = new TaskNotificationDto(
+                task.getId(),
+                task.getExecutor(),
+                "Новая задача");
+        kafkaTemplate.sendDefault(notification);
+        return result;
     }
 
     public Optional<TaskDto> getTaskById(UUID id) {
@@ -84,7 +95,13 @@ public class TaskService {
                         throw new IllegalStateException();
                     }
                     task.setStatus(TaskStatus.IN_PROGRESS);
-                    return toTaskDto(taskRepository.save(task));
+                    var result = toTaskDto(taskRepository.save(task));
+                    var notification = new TaskNotificationDto(
+                            task.getId(),
+                            task.getInspector(),
+                            "Задача принята в работу");
+                    kafkaTemplate.sendDefault(notification);
+                    return result;
                 });
     }
 
@@ -95,12 +112,21 @@ public class TaskService {
                     if (task.getStatus() != TaskStatus.IN_PROGRESS && task.getStatus() != TaskStatus.NOT_APPROVAL) {
                         throw new IllegalStateException();
                     }
+                    String text;
                     if (task.isShouldBeInspected()) {
                         task.setStatus(TaskStatus.ON_APPROVAL);
+                        text = "Задача находится на утверждении";
                     } else {
                         task.setStatus(TaskStatus.COMPLETED);
+                        text = "Порученная задача выполнена";
                     }
-                    return toTaskDto(taskRepository.save(task));
+                    var result = toTaskDto(taskRepository.save(task));
+                    var notification = new TaskNotificationDto(
+                            task.getId(),
+                            task.getInspector(),
+                            text);
+                    kafkaTemplate.sendDefault(notification);
+                    return result;
                 });
     }
 
@@ -109,7 +135,13 @@ public class TaskService {
                 .filter(task -> task.getInspector().equals(userId))
                 .map(task -> {
                     task.setStatus(TaskStatus.COMPLETED);
-                    return toTaskDto(taskRepository.save(task));
+                    var result = toTaskDto(taskRepository.save(task));
+                    var notification = new TaskNotificationDto(
+                            task.getId(),
+                            task.getExecutor(),
+                            "Задача выполнена");
+                    kafkaTemplate.sendDefault(notification);
+                    return result;
                 });
     }
 
@@ -121,7 +153,13 @@ public class TaskService {
                         throw new IllegalStateException();
                     }
                     task.setStatus(TaskStatus.NOT_APPROVAL);
-                    return toTaskDto(taskRepository.save(task));
+                    var result = toTaskDto(taskRepository.save(task));
+                    var notification = new TaskNotificationDto(
+                            task.getId(),
+                            task.getExecutor(),
+                            "Задача не утверждена");
+                    kafkaTemplate.sendDefault(notification);
+                    return result;
                 });
     }
 
@@ -130,7 +168,13 @@ public class TaskService {
                 .filter(task -> task.getInspector().equals(userId))
                 .map(task -> {
                     task.setStatus(TaskStatus.CANCELED);
-                    return toTaskDto(taskRepository.save(task));
+                    var result = toTaskDto(taskRepository.save(task));
+                    var notification = new TaskNotificationDto(
+                            task.getId(),
+                            task.getExecutor(),
+                            "Задача отменена");
+                    kafkaTemplate.sendDefault(notification);
+                    return result;
                 });
     }
 
