@@ -7,9 +7,9 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -28,17 +28,16 @@ public class UserController {
     }
 
     @GetMapping("/auth/{username}")
-    public ResponseEntity<User> getUser(@PathVariable("username") String username) {
-        Optional<User> optionalUser = userRepository.findByUsername(username);
-        return optionalUser
+    public Mono<ResponseEntity<User>> getUser(@PathVariable("username") String username) {
+        return Mono.just(userRepository.findByUsername(username))
                 .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+                .defaultIfEmpty(new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
     }
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<User> saveUser(@RequestBody @Valid User user) {
         user.setId(UUID.randomUUID());
-        if(userRepository.findByUsername(user.getUsername()).isPresent()) {
+        if(userRepository.findByUsername(user.getUsername()) != null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
