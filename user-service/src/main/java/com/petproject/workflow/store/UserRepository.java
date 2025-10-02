@@ -1,17 +1,24 @@
 package com.petproject.workflow.store;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.r2dbc.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import reactor.core.publisher.Mono;
 
-import java.util.Optional;
 import java.util.UUID;
 
-public interface UserRepository extends CrudRepository<User, UUID> {
+public interface UserRepository extends ReactiveCrudRepository<User, UUID>
+{
+    @Query("""
+        INSERT INTO users (id, username, email, password, role)
+        VALUES (:#{#user.id}, :#{#user.username}, :#{#user.email}, :#{#user.password}, :#{#user.role});
+        SELECT * FROM users WHERE id = :#{#user.id}
+        """)
+    Mono<User> insert(@Param("user") User user);
 
-    User findByUsername(String username);
+    Mono<User> findByUsername(String username);
 
-    Optional<User> findByEmail(String email);
+    Mono<Boolean> existsUserByUsername(String username);
 
-    boolean existsUserByUsername(String username);
-
-    boolean existsUserByEmail(String email);
+    Mono<Boolean> existsUserByEmail(String email);
 }

@@ -7,13 +7,14 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "/api/users", produces="application/json")
+@RequestMapping(path = "/api/users", produces = "application/json")
 public class UserController {
 
     private final UserRepository userRepository;
@@ -23,27 +24,28 @@ public class UserController {
     }
 
     @GetMapping
-    public Iterable<User> findAll() {
+    public Flux<User> findAll() {
         return userRepository.findAll();
     }
 
     @GetMapping("/auth/{username}")
     public Mono<ResponseEntity<User>> getUser(@PathVariable("username") String username) {
-        return Mono.just(userRepository.findByUsername(username))
+        return userRepository.findByUsername(username)
                 .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
-                .defaultIfEmpty(new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+                .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<User> saveUser(@RequestBody @Valid User user) {
-        user.setId(UUID.randomUUID());
-        if(userRepository.findByUsername(user.getUsername()) != null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(userRepository.save(user), HttpStatus.CREATED) ;
+    public Mono<ResponseEntity<User>> insertUser(@RequestBody @Valid User user) {
+        return Mono.just(user)
+                .filterWhen(obj -> userRepository.existsUserByUsername(obj.getUsername()))
+                .filterWhen(obj -> userRepository.existsUserByEmail(obj.getEmail()))
+                .flatMap(obj -> {
+                    obj.setId(UUID.randomUUID());
+                    return userRepository.insert(obj);
+                })
+                .map(obj -> new ResponseEntity<>(obj, HttpStatus.CREATED))
+                .defaultIfEmpty(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
     @GetMapping("/roles")

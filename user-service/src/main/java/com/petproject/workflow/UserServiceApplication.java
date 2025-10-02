@@ -7,7 +7,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import reactor.core.publisher.Flux;
 
 import java.util.UUID;
 
@@ -19,45 +21,33 @@ public class UserServiceApplication {
 
     @Bean
     public CommandLineRunner dataLoader(
-            UserRepository repository,
-            PasswordEncoder encoder)
-    {
+            UserRepository userRepository,
+            PasswordEncoder encoder,
+            R2dbcEntityTemplate entityTemplate) {
         return args -> {
-            repository.deleteAll(); // TODO: Quick hack to avoid tests from stepping on each other with constraint violations
-
-            User admin = new User(UUID.fromString(
-                    "123e4567-e89b-12d3-a456-426614174000"),
-                    "mishavinov",
-                    encoder.encode("12345"),
-                    "mishavinov@mail.ru",
-                    Role.ROLE_ADMIN
-            );
-            User director = new User(UUID.fromString(
-                    "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"),
-                    "ivanov",
-                    encoder.encode("12345"),
-                    "ivanov@mail.ru",
-                    Role.ROLE_DIRECTOR
-            );
-            User hr = new User(UUID.fromString(
-                    "16763be4-6022-406e-a950-fcd5018633ca"),
-                    "yakovleva09",
-                    encoder.encode("12345"),
-                    "yakovleva09@mail.ru",
-                    Role.ROLE_HR
-            );
-            User driver = new User(UUID.fromString(
-                    "1a6fce5a-cd67-11eb-b8bc-0242ac130003"),
-                    "starii",
-                    encoder.encode("12345"),
-                    "starii@mail.ru",
-                    Role.ROLE_DRIVER
-            );
-
-            repository.save(admin);
-            repository.save(director);
-            repository.save(hr);
-            repository.save(driver);
+            userRepository.deleteAll()
+                    .thenMany(Flux.just(
+                            createUser("123e4567-e89b-12d3-a456-426614174000", "mishavinov", "12345", "mishavinov@mail.ru", Role.ROLE_ADMIN, encoder),
+                            createUser("f81d4fae-7dec-11d0-a765-00a0c91e6bf6", "ivanov", "12345", "ivanov@mail.ru", Role.ROLE_DIRECTOR, encoder),
+                            createUser("16763be4-6022-406e-a950-fcd5018633ca", "yakovleva09", "12345", "yakovleva09@mail.ru", Role.ROLE_HR, encoder),
+                            createUser("1a6fce5a-cd67-11eb-b8bc-0242ac130003", "starii", "12345", "starii@mail.ru", Role.ROLE_DRIVER, encoder)
+                    ))
+                    .flatMap(user -> entityTemplate.insert(User.class).using(user))
+                    .subscribe(
+                            user -> System.out.println("Saved user: " + user.getUsername()),
+                            error -> System.err.println("Error: " + error),
+                            () -> System.out.println("Data loading completed")
+                    );
         };
+    }
+
+    private User createUser(String uuid, String username, String password, String email, Role role, PasswordEncoder encoder) {
+        return User.builder()
+                .id(UUID.fromString(uuid))
+                .username(username)
+                .password(encoder.encode(password))
+                .email(email)
+                .role(role)
+                .build();
     }
 }
