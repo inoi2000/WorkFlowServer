@@ -16,6 +16,7 @@ public class EmployeeMapper {
         return new Employee(
                 employeeDto.getId(),
                 employeeDto.getName(),
+                employeeDto.getPhone(),
                 positionMapper.mapToPosition(employeeDto.getPosition())
         );
     }
@@ -24,6 +25,7 @@ public class EmployeeMapper {
         return new EmployeeDto(
                 employee.getId(),
                 employee.getName(),
+                employee.getPhone(),
                 positionMapper.mapToPositionDto(employee.getPosition())
         );
     }

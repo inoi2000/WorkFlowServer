@@ -19,4 +19,6 @@ public class PositionDto {
     private String name;
     @Min(0)
     private int level;
+    @NotNull
+    private boolean requiresSpecialDocuments;
 }

@@ -27,4 +27,7 @@ public class Position {
 
     @Column(name = "level")
     private int level;
+
+    @Column(name = "requires_special_documents")
+    private boolean requiresSpecialDocuments;
 }
