@@ -21,6 +21,7 @@ public class EmployeeMapper {
                 employeeDto.getId(),
                 employeeDto.getName(),
                 employeeDto.getPhone(),
+                employeeDto.getEmail(),
                 positionMapper.mapToPosition(employeeDto.getPosition()),
                 departmentMapper.maptoDepartment(employeeDto.getDepartment())
         );
@@ -31,6 +32,7 @@ public class EmployeeMapper {
                 employee.getId(),
                 employee.getName(),
                 employee.getPhone(),
+                employee.getEmail(),
                 positionMapper.mapToPositionDto(employee.getPosition()),
                 departmentMapper.maptoDepartmentDto(employee.getDepartment())
         );

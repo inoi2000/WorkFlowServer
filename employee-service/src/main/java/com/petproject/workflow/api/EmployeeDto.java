@@ -20,6 +20,9 @@ public class EmployeeDto {
     @Size(min = 12, max = 12, message="Phone must 12 characters long")
     private String phone;
     @NotNull
+    @Size(min = 10, message="Email must at least 10 characters long")
+    private String email;
+    @NotNull
     private PositionDto position;
     private DepartmentDto department;
 }
