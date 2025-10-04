@@ -32,10 +32,6 @@ public class User {
     private String password;
 
     @NotNull
-    @Column("email")
-    private String email;
-
-    @NotNull
     @Column("role")
     private Role role;
 }

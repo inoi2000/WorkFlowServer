@@ -1,7 +1,9 @@
-package com.petproject.workflow.api;
+package com.petproject.workflow.api.controllers;
 
-import com.petproject.workflow.store.Employee;
-import com.petproject.workflow.store.EmployeeRepository;
+import com.petproject.workflow.api.dtos.EmployeeDto;
+import com.petproject.workflow.api.dtos.EmployeeMapper;
+import com.petproject.workflow.store.entities.Employee;
+import com.petproject.workflow.store.repositories.EmployeeRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

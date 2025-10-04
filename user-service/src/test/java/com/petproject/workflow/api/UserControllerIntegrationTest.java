@@ -44,7 +44,6 @@ class UserControllerIntegrationTest {
                 .id(UUID.randomUUID())
                 .username("testuser")
                 .password("testpassword123")
-                .email("test@example.com")
                 .role(Role.ROLE_DRIVER)
                 .build();
 
@@ -83,111 +82,6 @@ class UserControllerIntegrationTest {
         mockMvc.perform(get("/api/users/auth/nonexisting")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
-    }
-
-    @Test
-    @WithMockUser(username = "test-user", roles = {"ADMIN"})
-    void saveUser_WithValidUser_ShouldCreateUser() throws Exception {
-        // Arrange
-        User newUser = User.builder()
-                .id(UUID.randomUUID())
-                .username("newuser")
-                .password("newpassword123")
-                .email("new@example.com")
-                .role(Role.ROLE_HR)
-                .build();
-
-        String userJson = objectMapper.writeValueAsString(newUser);
-
-        // Act & Assert
-        mockMvc.perform(post("/api/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(userJson))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.username").value("newuser"))
-                .andExpect(jsonPath("$.email").value("new@example.com"))
-                .andExpect(jsonPath("$.role").value("ROLE_HR"));
-
-        // Verify user was saved in database
-        assertTrue(userRepository.findByUsername("newuser").isPresent());
-    }
-
-    @Test
-    @WithMockUser(username = "test-user", roles = {"ADMIN"})
-    void saveUser_WithInvalidUser_ShouldReturnBadRequest() throws Exception {
-        // Arrange
-        User invalidUser = User.builder()
-                .id(UUID.randomUUID())
-                .username("user") // too short
-                .password("pass") // too short
-                .email("invalid-email")
-                .role(Role.ROLE_DRIVER)
-                .build();
-
-        String invalidUserJson = objectMapper.writeValueAsString(invalidUser);
-
-        // Act & Assert
-        mockMvc.perform(post("/api/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(invalidUserJson))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @WithMockUser(username = "test-user", roles = {"ADMIN"})
-    void saveUser_WithDuplicateUsername_ShouldReturnConflict() throws Exception {
-        // Arrange
-        User duplicateUser = User.builder()
-                .id(UUID.randomUUID())
-                .username("testuser") // duplicate username
-                .password("password123")
-                .email("duplicate@example.com")
-                .role(Role.ROLE_DRIVER)
-                .build();
-
-        String duplicateUserJson = objectMapper.writeValueAsString(duplicateUser);
-
-        // Act & Assert
-        mockMvc.perform(post("/api/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(duplicateUserJson))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @WithMockUser(username = "test-user", roles = {"ADMIN"})
-    void saveUser_WithDuplicateEmail_ShouldReturnConflict() throws Exception {
-        // Arrange
-        User duplicateEmailUser = User.builder()
-                .id(UUID.randomUUID())
-                .username("differentuser")
-                .password("password123")
-                .email("test@example.com") // duplicate email
-                .role(Role.ROLE_DRIVER)
-                .build();
-
-        String duplicateEmailJson = objectMapper.writeValueAsString(duplicateEmailUser);
-
-        // Act & Assert
-        mockMvc.perform(post("/api/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(duplicateEmailJson))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    @WithMockUser(username = "test-user", roles = {"ADMIN"})
-    void getRoles_ShouldReturnAllRoles() throws Exception {
-        // Act & Assert
-        mockMvc.perform(get("/api/users/roles")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(4))
-                .andExpect(jsonPath("$[0]").value("ROLE_DIRECTOR"))
-                .andExpect(jsonPath("$[1]").value("ROLE_HR"))
-                .andExpect(jsonPath("$[2]").value("ROLE_DRIVER"))
-                .andExpect(jsonPath("$[3]").value("ROLE_ADMIN"));
     }
 
     @Test

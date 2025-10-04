@@ -27,10 +27,10 @@ public class UserServiceApplication {
         return args -> {
             userRepository.deleteAll()
                     .thenMany(Flux.just(
-                            createUser("123e4567-e89b-12d3-a456-426614174000", "mishavinov", "12345", "mishavinov@mail.ru", Role.ROLE_ADMIN, encoder),
-                            createUser("f81d4fae-7dec-11d0-a765-00a0c91e6bf6", "ivanov", "12345", "ivanov@mail.ru", Role.ROLE_DIRECTOR, encoder),
-                            createUser("16763be4-6022-406e-a950-fcd5018633ca", "yakovleva09", "12345", "yakovleva09@mail.ru", Role.ROLE_HR, encoder),
-                            createUser("1a6fce5a-cd67-11eb-b8bc-0242ac130003", "starii", "12345", "starii@mail.ru", Role.ROLE_DRIVER, encoder)
+                            createUser("123e4567-e89b-12d3-a456-426614174000", "mishavinov", "12345", Role.ROLE_ADMIN, encoder),
+                            createUser("f81d4fae-7dec-11d0-a765-00a0c91e6bf6", "ivanov", "12345", Role.ROLE_DIRECTOR, encoder),
+                            createUser("16763be4-6022-406e-a950-fcd5018633ca", "yakovleva09", "12345", Role.ROLE_HR, encoder),
+                            createUser("1a6fce5a-cd67-11eb-b8bc-0242ac130003", "starii", "12345", Role.ROLE_DRIVER, encoder)
                     ))
                     .flatMap(user -> entityTemplate.insert(User.class).using(user))
                     .subscribe(
@@ -41,12 +41,11 @@ public class UserServiceApplication {
         };
     }
 
-    private User createUser(String uuid, String username, String password, String email, Role role, PasswordEncoder encoder) {
+    private User createUser(String uuid, String username, String password, Role role, PasswordEncoder encoder) {
         return User.builder()
                 .id(UUID.fromString(uuid))
                 .username(username)
                 .password(encoder.encode(password))
-                .email(email)
                 .role(role)
                 .build();
     }

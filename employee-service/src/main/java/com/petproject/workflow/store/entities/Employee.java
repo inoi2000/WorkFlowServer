@@ -1,4 +1,4 @@
-package com.petproject.workflow.store;
+package com.petproject.workflow.store.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,6 +25,9 @@ public class Employee {
 
     @Column(name = "phone")
     private String phone;
+
+    @Column(name = "email")
+    private String email;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "position_id")

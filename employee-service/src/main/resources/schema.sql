@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS employees
     id BINARY(16) NOT NULL,
     name VARCHAR(64) NOT NULL,
     phone VARCHAR(12) NOT NULL,
+    email VARCHAR(32) NOT NULL,
     position_id BINARY(16),
     department_id BINARY(16),
     PRIMARY KEY (id),

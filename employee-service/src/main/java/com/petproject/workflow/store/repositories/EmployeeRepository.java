@@ -1,5 +1,6 @@
-package com.petproject.workflow.store;
+package com.petproject.workflow.store.repositories;
 
+import com.petproject.workflow.store.entities.Employee;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

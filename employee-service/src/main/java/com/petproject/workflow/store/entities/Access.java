@@ -1,9 +1,6 @@
-package com.petproject.workflow.store;
+package com.petproject.workflow.store.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,12 +32,14 @@ public class Access {
     @Column(name = "valid_until")
     private LocalDate validUntil;
 
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "data_id")
+    private AccessData data;
+
     @Column(name = "issuer_id", columnDefinition = "BINARY(16)")
     private UUID issuerId;
     @Column(name = "holder_id", columnDefinition = "BINARY(16)")
     private UUID holderId;
-    @Column(name = "data_id", columnDefinition = "BINARY(16)")
-    private UUID data_id;
 
     private static final int NUMBER_OF_DAYS_UNTIL_ACCESS_EXPIRES = 7;
 

@@ -1,4 +1,4 @@
-package com.petproject.workflow.api;
+package com.petproject.workflow.api.dtos;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -11,9 +11,18 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DepartmentDto {
+public class EmployeeDto {
     private UUID id;
     @NotNull
     @Size(min=3, message="Name must be at least 3 characters long")
     private String name;
+    @NotNull
+    @Size(min = 12, max = 12, message="Phone must 12 characters long")
+    private String phone;
+    @NotNull
+    @Size(min = 10, message="Email must at least 10 characters long")
+    private String email;
+    @NotNull
+    private PositionDto position;
+    private DepartmentDto department;
 }
