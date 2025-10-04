@@ -7,16 +7,22 @@ import org.springframework.stereotype.Component;
 public class EmployeeMapper {
 
     private final PositionMapper positionMapper;
+    private final DepartmentMapper departmentMapper;
 
-    public EmployeeMapper(PositionMapper positionMapper) {
+    public EmployeeMapper(
+            PositionMapper positionMapper,
+            DepartmentMapper departmentMapper) {
         this.positionMapper = positionMapper;
+        this.departmentMapper = departmentMapper;
     }
 
     public Employee mapToEmployee(EmployeeDto employeeDto) {
         return new Employee(
                 employeeDto.getId(),
                 employeeDto.getName(),
-                positionMapper.mapToPosition(employeeDto.getPosition())
+                employeeDto.getPhone(),
+                positionMapper.mapToPosition(employeeDto.getPosition()),
+                departmentMapper.maptoDepartment(employeeDto.getDepartment())
         );
     }
 
@@ -24,7 +30,9 @@ public class EmployeeMapper {
         return new EmployeeDto(
                 employee.getId(),
                 employee.getName(),
-                positionMapper.mapToPositionDto(employee.getPosition())
+                employee.getPhone(),
+                positionMapper.mapToPositionDto(employee.getPosition()),
+                departmentMapper.maptoDepartmentDto(employee.getDepartment())
         );
     }
 }

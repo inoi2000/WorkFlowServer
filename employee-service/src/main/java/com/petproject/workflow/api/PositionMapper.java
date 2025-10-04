@@ -10,7 +10,8 @@ public class PositionMapper {
         return new Position(
                 positionDto.getId(),
                 positionDto.getName(),
-                positionDto.getLevel()
+                positionDto.getLevel(),
+                positionDto.isRequiresSpecialDocuments()
         );
     }
 
@@ -18,7 +19,8 @@ public class PositionMapper {
         return new PositionDto(
                 position.getId(),
                 position.getName(),
-                position.getLevel()
+                position.getLevel(),
+                position.isRequiresSpecialDocuments()
         );
     }
 }

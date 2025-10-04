@@ -23,7 +23,14 @@ public class Employee {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "phone")
+    private String phone;
+
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "position_id")
     private Position position;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "department_id")
+    private Department department;
 }

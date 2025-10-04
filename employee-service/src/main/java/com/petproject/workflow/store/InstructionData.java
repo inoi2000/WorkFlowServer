@@ -16,18 +16,13 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "positions")
-public class Position {
+@Table(name = "instructions_data")
+public class InstructionData {
+
     @Id
     @Column(name = "id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "level")
-    private int level;
-
-    @Column(name = "requires_special_documents")
-    private boolean requiresSpecialDocuments;
+    @Column(name = "text")
+    private String text;
 }
