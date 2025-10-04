@@ -1,9 +1,6 @@
 package com.petproject.workflow;
 
-import com.petproject.workflow.store.Employee;
-import com.petproject.workflow.store.EmployeeRepository;
-import com.petproject.workflow.store.Position;
-import com.petproject.workflow.store.PositionRepository;
+import com.petproject.workflow.store.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,11 +17,24 @@ public class EmployeeServiceApplication {
     @Bean
     public CommandLineRunner dataLoader(
             EmployeeRepository employeeRepository,
-            PositionRepository positionRepository)
+            PositionRepository positionRepository,
+            DepartmentRepository departmentRepository)
     {
         return args -> {
             employeeRepository.deleteAll();
             positionRepository.deleteAll();
+            departmentRepository.deleteAll();
+
+            Department office = new Department(
+                    UUID.randomUUID(),
+                    "Офис"
+            );
+            Department base = new Department(
+                    UUID.randomUUID(),
+                    "База"
+            );
+            departmentRepository.save(office);
+            departmentRepository.save(base);
 
             Position adminPosition = new Position(
                     UUID.randomUUID(),
@@ -60,25 +70,29 @@ public class EmployeeServiceApplication {
                     "123e4567-e89b-12d3-a456-426614174000"),
                     "Авинов Михаил Сергеевич",
                     "+79033653774",
-                    adminPosition
+                    adminPosition,
+                    null
             );
             Employee director = new Employee(UUID.fromString(
                     "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"),
                     "Иванов Иван Иванович",
                     "+79066653994",
-                    directorPosition
+                    directorPosition,
+                    office
             );
             Employee hr = new Employee(UUID.fromString(
                     "16763be4-6022-406e-a950-fcd5018633ca"),
                     "Яковлева Елена Сергеевна",
                     "+79256653999",
-                    hrPosition
+                    hrPosition,
+                    office
             );
             Employee driver = new Employee(UUID.fromString(
                     "1a6fce5a-cd67-11eb-b8bc-0242ac130003"),
                     "Стариханов Федр Петрович",
                     "+79067853343",
-                    driverPosition
+                    driverPosition,
+                    base
             );
 
             employeeRepository.save(admin);

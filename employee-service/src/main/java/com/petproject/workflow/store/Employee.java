@@ -29,4 +29,8 @@ public class Employee {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "position_id")
     private Position position;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "department_id")
+    private Department department;
 }

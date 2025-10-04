@@ -1,3 +1,10 @@
+CREATE TABLE IF NOT EXISTS departments
+(
+    id BINARY(16) NOT NULL,
+    name VARCHAR(64) NOT NULL,
+    PRIMARY KEY (id)
+    );
+
 CREATE TABLE IF NOT EXISTS positions
 (
     id BINARY(16) NOT NULL,
@@ -13,8 +20,10 @@ CREATE TABLE IF NOT EXISTS employees
     name VARCHAR(64) NOT NULL,
     phone VARCHAR(12) NOT NULL,
     position_id BINARY(16),
+    department_id BINARY(16),
     PRIMARY KEY (id),
-    FOREIGN KEY (position_id) REFERENCES workflow.positions(id)
+    FOREIGN KEY (position_id) REFERENCES workflow.positions(id),
+    FOREIGN KEY (department_id) REFERENCES workflow.departments(id)
     );
 
 CREATE TABLE IF NOT EXISTS accesses_data
