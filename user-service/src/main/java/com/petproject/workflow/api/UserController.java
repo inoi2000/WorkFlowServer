@@ -39,7 +39,6 @@ public class UserController {
     public Mono<ResponseEntity<User>> insertUser(@RequestBody @Valid User user) {
         return Mono.just(user)
                 .filterWhen(obj -> userRepository.existsUserByUsername(obj.getUsername()))
-                .filterWhen(obj -> userRepository.existsUserByEmail(obj.getEmail()))
                 .flatMap(obj -> {
                     obj.setId(UUID.randomUUID());
                     return userRepository.insert(obj);
