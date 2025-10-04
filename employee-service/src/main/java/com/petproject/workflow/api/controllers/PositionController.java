@@ -1,7 +1,9 @@
-package com.petproject.workflow.api;
+package com.petproject.workflow.api.controllers;
 
-import com.petproject.workflow.store.Position;
-import com.petproject.workflow.store.PositionRepository;
+import com.petproject.workflow.api.dtos.PositionDto;
+import com.petproject.workflow.api.dtos.PositionMapper;
+import com.petproject.workflow.store.entities.Position;
+import com.petproject.workflow.store.repositories.PositionRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

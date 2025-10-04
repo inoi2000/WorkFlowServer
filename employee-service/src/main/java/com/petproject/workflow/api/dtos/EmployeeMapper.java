@@ -1,6 +1,6 @@
-package com.petproject.workflow.api;
+package com.petproject.workflow.api.dtos;
 
-import com.petproject.workflow.store.Employee;
+import com.petproject.workflow.store.entities.Employee;
 import org.springframework.stereotype.Component;
 
 @Component

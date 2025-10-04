@@ -1,4 +1,4 @@
-package com.petproject.workflow.store;
+package com.petproject.workflow.store.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,11 @@
 package com.petproject.workflow;
 
-import com.petproject.workflow.store.*;
+import com.petproject.workflow.store.entities.Department;
+import com.petproject.workflow.store.entities.Employee;
+import com.petproject.workflow.store.entities.Position;
+import com.petproject.workflow.store.repositories.DepartmentRepository;
+import com.petproject.workflow.store.repositories.EmployeeRepository;
+import com.petproject.workflow.store.repositories.PositionRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -70,6 +75,7 @@ public class EmployeeServiceApplication {
                     "123e4567-e89b-12d3-a456-426614174000"),
                     "Авинов Михаил Сергеевич",
                     "+79033653774",
+                    "mishavinov@mail.ru",
                     adminPosition,
                     null
             );
@@ -77,6 +83,7 @@ public class EmployeeServiceApplication {
                     "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"),
                     "Иванов Иван Иванович",
                     "+79066653994",
+                    "ivanov@inbox.ru",
                     directorPosition,
                     office
             );
@@ -84,6 +91,7 @@ public class EmployeeServiceApplication {
                     "16763be4-6022-406e-a950-fcd5018633ca"),
                     "Яковлева Елена Сергеевна",
                     "+79256653999",
+                    "yacovleva@mail.ru",
                     hrPosition,
                     office
             );
@@ -91,6 +99,7 @@ public class EmployeeServiceApplication {
                     "1a6fce5a-cd67-11eb-b8bc-0242ac130003"),
                     "Стариханов Федр Петрович",
                     "+79067853343",
+                    "staricov22@mail.ru",
                     driverPosition,
                     base
             );

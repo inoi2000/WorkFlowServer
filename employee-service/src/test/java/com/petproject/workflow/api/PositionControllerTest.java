@@ -1,8 +1,11 @@
 package com.petproject.workflow.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.petproject.workflow.store.Position;
-import com.petproject.workflow.store.PositionRepository;
+import com.petproject.workflow.api.controllers.PositionController;
+import com.petproject.workflow.api.dtos.PositionDto;
+import com.petproject.workflow.api.dtos.PositionMapper;
+import com.petproject.workflow.store.entities.Position;
+import com.petproject.workflow.store.repositories.PositionRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

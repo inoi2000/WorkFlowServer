@@ -1,9 +1,13 @@
 package com.petproject.workflow.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.petproject.workflow.store.Employee;
-import com.petproject.workflow.store.EmployeeRepository;
-import com.petproject.workflow.store.Position;
+import com.petproject.workflow.api.controllers.EmployeeController;
+import com.petproject.workflow.api.dtos.EmployeeDto;
+import com.petproject.workflow.api.dtos.EmployeeMapper;
+import com.petproject.workflow.api.dtos.PositionDto;
+import com.petproject.workflow.store.entities.Employee;
+import com.petproject.workflow.store.repositories.EmployeeRepository;
+import com.petproject.workflow.store.entities.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

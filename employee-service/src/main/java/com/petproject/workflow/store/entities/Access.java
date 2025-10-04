@@ -1,4 +1,4 @@
-package com.petproject.workflow.store;
+package com.petproject.workflow.store.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

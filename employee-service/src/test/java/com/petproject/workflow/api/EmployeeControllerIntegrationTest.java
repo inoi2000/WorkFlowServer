@@ -1,9 +1,9 @@
 package com.petproject.workflow.api;
 
-import com.petproject.workflow.store.Employee;
-import com.petproject.workflow.store.EmployeeRepository;
-import com.petproject.workflow.store.Position;
-import com.petproject.workflow.store.PositionRepository;
+import com.petproject.workflow.store.entities.Employee;
+import com.petproject.workflow.store.repositories.EmployeeRepository;
+import com.petproject.workflow.store.entities.Position;
+import com.petproject.workflow.store.repositories.PositionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

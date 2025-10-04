@@ -1,4 +1,4 @@
-package com.petproject.workflow.store;
+package com.petproject.workflow.store.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,13 +16,12 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "instructions_data")
-public class InstructionData {
-
+@Table(name = "departments")
+public class Department {
     @Id
     @Column(name = "id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @Column(name = "text")
-    private String text;
+    @Column(name = "name")
+    private String name;
 }

@@ -1,6 +1,8 @@
 package com.petproject.workflow.api;
 
-import com.petproject.workflow.store.Position;
+import com.petproject.workflow.api.dtos.PositionDto;
+import com.petproject.workflow.api.dtos.PositionMapper;
+import com.petproject.workflow.store.entities.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
