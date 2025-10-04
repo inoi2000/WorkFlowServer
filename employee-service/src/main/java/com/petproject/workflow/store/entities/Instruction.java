@@ -1,9 +1,6 @@
 package com.petproject.workflow.store.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,11 +33,13 @@ public class Instruction {
     @Column(name = "instructor_id")
     private UUID instructorId;
 
-    @Column(name = "data_id", columnDefinition = "BINARY(16)")
-    private UUID data_id;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "data_id")
+    private InstructionData data;
 
+    private transient UUID employeeId;
     private transient boolean isConfirmed;
-    private transient boolean confirmedAt;
+    private transient LocalDateTime confirmedAt;
 
     private static final int NUMBER_OF_DAYS_UNTIL_INSTRUCTION_EXPIRES = 7;
 
