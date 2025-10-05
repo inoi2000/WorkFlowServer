@@ -1,16 +1,12 @@
 package com.petproject.workflow.store.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Setter
@@ -20,9 +16,8 @@ import java.util.UUID;
 @Table(name = "instruction_confirmations")
 public class InstructionConfirmation {
 
-    @Id
-    @Column(name = "id", columnDefinition = "BINARY(16)")
-    private UUID id;
+    @EmbeddedId
+    private InstructionConfirmationKey id;
 
     @Column(name = "is_confirmed")
     private boolean isConfirmed;

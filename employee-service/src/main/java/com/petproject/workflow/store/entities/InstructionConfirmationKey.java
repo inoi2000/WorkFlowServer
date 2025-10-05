@@ -16,7 +16,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeInstructionKey implements Serializable {
+public class InstructionConfirmationKey implements Serializable {
 
     @Column(name = "employee_id", columnDefinition = "BINARY(16)")
     private UUID employeeId;
@@ -28,7 +28,7 @@ public class EmployeeInstructionKey implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        EmployeeInstructionKey that = (EmployeeInstructionKey) o;
+        InstructionConfirmationKey that = (InstructionConfirmationKey) o;
         return Objects.equals(employeeId, that.employeeId) &&
                 Objects.equals(instructionId, that.instructionId);
     }

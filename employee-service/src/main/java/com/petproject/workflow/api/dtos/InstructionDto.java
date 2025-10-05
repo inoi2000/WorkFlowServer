@@ -38,24 +38,19 @@ public class InstructionDto {
     private Status status;
 
     @NotNull
-    @JsonProperty("is_confirmed")
-    private boolean isConfirmed;
-
-    @NotNull
     @JsonProperty("instructor_id")
     private UUID instructorId;
 
     @NotNull
     private InstructionData data;
 
-    @JsonProperty("confirmed_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime confirmedAt;
-
     @JsonProperty("valid_until")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate validUntil;
 
-    @JsonProperty("employees")
-    private List<Employee> employees;
+    @JsonProperty("confirmation")
+    private InstructionConfirmationDto instructionConfirmation;
+
+    @JsonProperty("confirmations")
+    private List<InstructionConfirmationDto> instructionConfirmations;
 }

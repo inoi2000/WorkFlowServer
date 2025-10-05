@@ -24,11 +24,11 @@ public class EmployeeServiceApplication {
             DepartmentRepository departmentRepository,
             InstructionDataRepository instructionDataRepository,
             InstructionRepository instructionRepository,
-            EmployeeInstructionStatusRepository employeeInstructionStatusRepository)
+            InstructionConfirmationRepository instructionConfirmationRepository)
     {
         return args -> {
 
-            employeeInstructionStatusRepository.deleteAll();
+            instructionConfirmationRepository.deleteAll();
             instructionRepository.deleteAll();
             instructionDataRepository.deleteAll();
 
@@ -143,24 +143,18 @@ public class EmployeeServiceApplication {
                     LocalDate.now().plusDays(7),
                     UUID.fromString("73ea403e-8c9a-4cf8-bc7a-88d68dfcc20f"),
                     instructionData,
-                    false,
-                    null,
                     null
             );
             instructionRepository.save(instruction);
-            EmployeeInstructionStatus employeeInstructionStatus = new EmployeeInstructionStatus(
-                    new EmployeeInstructionKey(
+            InstructionConfirmation instructionConfirmation = new InstructionConfirmation(
+                    new InstructionConfirmationKey(
                             UUID.fromString("1a6fce5a-cd67-11eb-b8bc-0242ac130003"),
                             UUID.fromString("bc66e0af-0f63-4110-89ad-1d49da666a33")
                     ),
-                    false,
+                    true,
                     LocalDateTime.now()
             );
-            employeeInstructionStatusRepository.save(employeeInstructionStatus);
-
-//            System.out.println(instructionRepository.findAllByEmployeeId(UUID.fromString("1a6fce5a-cd67-11eb-b8bc-0242ac130003")));
-//            System.out.println(instructionRepository.findAllByEmployeeId(UUID.fromString("bc66e0af-0f63-4110-89ad-1d49da666a33")));
-
+            instructionConfirmationRepository.save(instructionConfirmation);
         };
     }
 }
