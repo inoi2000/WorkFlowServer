@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -37,9 +38,20 @@ public class Instruction {
     @JoinColumn(name = "data_id")
     private InstructionData data;
 
-    private transient UUID employeeId;
     private transient boolean isConfirmed;
     private transient LocalDateTime confirmedAt;
+
+    @ManyToMany(cascade = {CascadeType.MERGE})
+    @JoinTable(
+            name = "employee_instruction_statuses",
+            joinColumns = @JoinColumn(name = "instruction_id"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id")
+    )
+    private List<Employee> employees;
+
+    @OneToMany(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "instruction_id")
+    private List<EmployeeInstructionStatus> employeeInstructionStatus;
 
     private static final int NUMBER_OF_DAYS_UNTIL_INSTRUCTION_EXPIRES = 7;
 

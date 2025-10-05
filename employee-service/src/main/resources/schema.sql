@@ -80,3 +80,15 @@ CREATE TABLE IF NOT EXISTS employee_instruction_statuses
     FOREIGN KEY (employee_id) REFERENCES workflow.employees(id),
     FOREIGN KEY (instruction_id) REFERENCES workflow.instructions(id)
     );
+CREATE TABLE IF NOT EXISTS instruction_confirmations
+(
+    id BINARY(16) NOT NULL,
+    employee_id BINARY(16) NOT NULL,
+    instruction_id BINARY(16) NOT NULL,
+    is_confirmed BOOLEAN NOT NULL DEFAULT FALSE,
+    confirmed_at DATETIME NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_employee_instruction (employee_id, instruction_id),
+    FOREIGN KEY (employee_id) REFERENCES workflow.employees(id),
+    FOREIGN KEY (instruction_id) REFERENCES workflow.instructions(id)
+    );
