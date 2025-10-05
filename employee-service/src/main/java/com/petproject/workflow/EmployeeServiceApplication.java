@@ -1,16 +1,14 @@
 package com.petproject.workflow;
 
-import com.petproject.workflow.store.entities.Department;
-import com.petproject.workflow.store.entities.Employee;
-import com.petproject.workflow.store.entities.Position;
-import com.petproject.workflow.store.repositories.DepartmentRepository;
-import com.petproject.workflow.store.repositories.EmployeeRepository;
-import com.petproject.workflow.store.repositories.PositionRepository;
+import com.petproject.workflow.store.entities.*;
+import com.petproject.workflow.store.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @SpringBootApplication
@@ -23,9 +21,17 @@ public class EmployeeServiceApplication {
     public CommandLineRunner dataLoader(
             EmployeeRepository employeeRepository,
             PositionRepository positionRepository,
-            DepartmentRepository departmentRepository)
+            DepartmentRepository departmentRepository,
+            InstructionDataRepository instructionDataRepository,
+            InstructionRepository instructionRepository,
+            InstructionConfirmationRepository instructionConfirmationRepository)
     {
         return args -> {
+
+            instructionConfirmationRepository.deleteAll();
+            instructionRepository.deleteAll();
+            instructionDataRepository.deleteAll();
+
             employeeRepository.deleteAll();
             positionRepository.deleteAll();
             departmentRepository.deleteAll();
@@ -59,6 +65,12 @@ public class EmployeeServiceApplication {
                     700,
                     false
             );
+            Position industrialSecurityPosition = new Position(
+                    UUID.randomUUID(),
+                    "Пром-безопасность",
+                    700,
+                    false
+            );
             Position driverPosition = new Position(
                     UUID.randomUUID(),
                     "Водитель",
@@ -69,6 +81,7 @@ public class EmployeeServiceApplication {
             positionRepository.save(adminPosition);
             positionRepository.save(directorPosition);
             positionRepository.save(hrPosition);
+            positionRepository.save(industrialSecurityPosition);
             positionRepository.save(driverPosition);
 
             Employee admin = new Employee(UUID.fromString(
@@ -95,6 +108,14 @@ public class EmployeeServiceApplication {
                     hrPosition,
                     office
             );
+            Employee industrialSecurity = new Employee(UUID.fromString(
+                    "73ea403e-8c9a-4cf8-bc7a-88d68dfcc20f"),
+                    "Сидоров Виталий Иванович",
+                    "+79228494122",
+                    "sidorov@mail.ru",
+                    industrialSecurityPosition,
+                    base
+            );
             Employee driver = new Employee(UUID.fromString(
                     "1a6fce5a-cd67-11eb-b8bc-0242ac130003"),
                     "Стариханов Федр Петрович",
@@ -107,7 +128,33 @@ public class EmployeeServiceApplication {
             employeeRepository.save(admin);
             employeeRepository.save(director);
             employeeRepository.save(hr);
+            employeeRepository.save(industrialSecurity);
             employeeRepository.save(driver);
+
+            InstructionData instructionData = new InstructionData(
+                    UUID.fromString("4e259e04-8f27-4254-bbd6-3962c1d86106"),
+                    "Ежедневный инструктаж по пожарной безопасности"
+            );
+            instructionDataRepository.save(instructionData);
+            Instruction instruction = new Instruction(
+                    UUID.fromString("bc66e0af-0f63-4110-89ad-1d49da666a33"),
+                    LocalDateTime.now(),
+                    LocalDateTime.now(),
+                    LocalDate.now().plusDays(7),
+                    UUID.fromString("73ea403e-8c9a-4cf8-bc7a-88d68dfcc20f"),
+                    instructionData,
+                    null
+            );
+            instructionRepository.save(instruction);
+            InstructionConfirmation instructionConfirmation = new InstructionConfirmation(
+                    new InstructionConfirmationKey(
+                            UUID.fromString("1a6fce5a-cd67-11eb-b8bc-0242ac130003"),
+                            UUID.fromString("bc66e0af-0f63-4110-89ad-1d49da666a33")
+                    ),
+                    true,
+                    LocalDateTime.now()
+            );
+            instructionConfirmationRepository.save(instructionConfirmation);
         };
     }
 }

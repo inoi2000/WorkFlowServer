@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -37,9 +39,9 @@ public class Instruction {
     @JoinColumn(name = "data_id")
     private InstructionData data;
 
-    private transient UUID employeeId;
-    private transient boolean isConfirmed;
-    private transient LocalDateTime confirmedAt;
+    @OneToMany(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "instruction_id")
+    private List<InstructionConfirmation> instructionConfirmations = new ArrayList<>();
 
     private static final int NUMBER_OF_DAYS_UNTIL_INSTRUCTION_EXPIRES = 7;
 

@@ -70,11 +70,11 @@ CREATE TABLE IF NOT EXISTS instructions
     FOREIGN KEY (data_id) REFERENCES workflow.instructions_data(id)
     );
 
-CREATE TABLE IF NOT EXISTS employee_instruction_statuses
+CREATE TABLE IF NOT EXISTS instruction_confirmations
 (
     employee_id BINARY(16) NOT NULL,
     instruction_id BINARY(16) NOT NULL,
-    is_confirmed BOOLEAN,
+    is_confirmed BOOLEAN NOT NULL DEFAULT FALSE,
     confirmed_at DATETIME,
     PRIMARY KEY (employee_id, instruction_id),
     FOREIGN KEY (employee_id) REFERENCES workflow.employees(id),
