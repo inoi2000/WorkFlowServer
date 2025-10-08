@@ -27,8 +27,10 @@ public class Access {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private AccessDurationType type;
+
     @Column(name = "valid_until")
     private LocalDate validUntil;
 

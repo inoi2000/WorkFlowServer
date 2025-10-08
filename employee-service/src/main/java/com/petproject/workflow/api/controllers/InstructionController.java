@@ -2,7 +2,10 @@ package com.petproject.workflow.api.controllers;
 
 import com.petproject.workflow.api.dtos.InstructionDto;
 import com.petproject.workflow.api.dtos.InstructionMapper;
+import com.petproject.workflow.api.services.InstructionService;
 import com.petproject.workflow.store.repositories.InstructionRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,27 +18,22 @@ import java.util.UUID;
 @RequestMapping(path = "/api/instructions", produces = "application/json")
 public class InstructionController {
 
-    private final InstructionRepository instructionRepository;
-    private final InstructionMapper instructionMapper;
+    private final InstructionService instructionService;
 
     public InstructionController(
-            InstructionRepository instructionRepository,
-            InstructionMapper instructionMapper) {
-        this.instructionRepository = instructionRepository;
-        this.instructionMapper = instructionMapper;
+            InstructionService instructionService) {
+        this.instructionService = instructionService;
     }
 
     @GetMapping("/{id}")
-    public InstructionDto getInstructionById(@PathVariable("id") UUID id) {
-        var instruction = instructionRepository.findById(id).get();
-        return instructionMapper.maptoInstructionDto(instruction);
+    public ResponseEntity<InstructionDto> getInstructionById(@PathVariable("id") UUID id) {
+        return instructionService.getInstructionById(id)
+                .map(instruction -> new ResponseEntity<>(instruction, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("a/{id}")
-    public List<InstructionDto> getAllInstructionById(@PathVariable("id") UUID id) {
-        return instructionRepository.findAllByEmployeeId(id)
-                .stream()
-                .map(instruction -> instructionMapper.maptoInstructionDto(instruction, id))
-                .toList();
+    @GetMapping("/employee/{employeeId}")
+    public Iterable<InstructionDto> getAllInstructionsByEmployeeId(@PathVariable("employeeId") UUID employeeId) {
+        return instructionService.getAllInstructionsByEmployeeId(employeeId);
     }
 }
