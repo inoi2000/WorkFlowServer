@@ -23,6 +23,9 @@ public class InstructionData {
     @Column(name = "id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @Column(name = "text")
-    private String text;
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "content")
+    private String content;
 }

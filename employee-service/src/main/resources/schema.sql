@@ -30,7 +30,8 @@ CREATE TABLE IF NOT EXISTS employees
 CREATE TABLE IF NOT EXISTS accesses_data
 (
     id BINARY(16) NOT NULL,
-    text VARCHAR(1024) NOT NULL,
+    title VARCHAR(64) NOT NULL,
+    content VARCHAR(1024) NOT NULL,
     PRIMARY KEY (id)
     );
 
@@ -39,7 +40,7 @@ CREATE TABLE IF NOT EXISTS accesses
     id BINARY(16) NOT NULL,
     created_at DATETIME NOT NULL,
     updated_at DATETIME NOT NULL,
-    type ENUM('ONETIME', 'TEMPORARY', 'PERMANENT') NOT NULL,
+    type ENUM('ONETIME', 'TEMPORARY', 'TEMPORARY30', 'TEMPORARY180', 'TEMPORARY360', 'PERMANENT') NOT NULL,
     valid_until DATETIME,
     issuer_id BINARY(16) NOT NULL,
     holder_id BINARY(16) NOT NULL,
@@ -53,7 +54,8 @@ CREATE TABLE IF NOT EXISTS accesses
 CREATE TABLE IF NOT EXISTS instructions_data
 (
     id BINARY(16) NOT NULL,
-    text VARCHAR(1024) NOT NULL,
+    title VARCHAR(64) NOT NULL,
+    content VARCHAR(1024) NOT NULL,
     PRIMARY KEY (id)
     );
 

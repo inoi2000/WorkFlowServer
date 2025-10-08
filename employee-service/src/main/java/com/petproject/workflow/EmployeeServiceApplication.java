@@ -22,15 +22,16 @@ public class EmployeeServiceApplication {
             EmployeeRepository employeeRepository,
             PositionRepository positionRepository,
             DepartmentRepository departmentRepository,
+            AccessRepository accessRepository,
             InstructionDataRepository instructionDataRepository,
             InstructionRepository instructionRepository,
-            InstructionConfirmationRepository instructionConfirmationRepository)
-    {
+            InstructionConfirmationRepository instructionConfirmationRepository) {
         return args -> {
 
             instructionConfirmationRepository.deleteAll();
             instructionRepository.deleteAll();
             instructionDataRepository.deleteAll();
+            accessRepository.deleteAll();
 
             employeeRepository.deleteAll();
             positionRepository.deleteAll();
@@ -133,7 +134,8 @@ public class EmployeeServiceApplication {
 
             InstructionData instructionData = new InstructionData(
                     UUID.fromString("4e259e04-8f27-4254-bbd6-3962c1d86106"),
-                    "Ежедневный инструктаж по пожарной безопасности"
+                    "Ежедневный инструктаж по пожарной безопасности",
+                    "Работники обязаны соблюдать инструктаж по противопожарной безопасности, быть бдительными"
             );
             instructionDataRepository.save(instructionData);
             Instruction instruction = new Instruction(
@@ -155,6 +157,24 @@ public class EmployeeServiceApplication {
                     LocalDateTime.now()
             );
             instructionConfirmationRepository.save(instructionConfirmation);
+
+            AccessData accessData = new AccessData(
+                    UUID.fromString("4e259e04-8f27-4254-bbd6-3962c1d86106"),
+                    "Допуск к работе на высоте",
+                    "Разрешение на проведение работ на высоте более 1.8 метра"
+            );
+
+            Access access = new Access(
+                    UUID.randomUUID(),
+                    LocalDateTime.now(),
+                    LocalDateTime.now(),
+                    AccessDurationType.PERMANENT,
+                    LocalDate.now().plusDays(10),
+                    accessData,
+                    UUID.fromString("73ea403e-8c9a-4cf8-bc7a-88d68dfcc20f"),
+                    UUID.fromString("1a6fce5a-cd67-11eb-b8bc-0242ac130003")
+            );
+            accessRepository.save(access);
         };
     }
 }
