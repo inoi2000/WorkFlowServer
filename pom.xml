@@ -41,6 +41,7 @@
         <module>absence_service</module>
         <module>announcement_service</module>
         <module>notification_service</module>
+        <module>journey-service</module>
     </modules>
 
     <build>
