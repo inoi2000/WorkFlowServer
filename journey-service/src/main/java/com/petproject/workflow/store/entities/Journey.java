@@ -36,6 +36,15 @@ public class Journey {
     @Column(nullable = false)
     private JourneyStatus status;
 
+    @Column(name = "start_odometer")
+    private double startOdometer;
+
+    @Column(name = "end_odometer")
+    private double endOdometer;
+
+    @Column(name = "estimated_duration_minutes", nullable = false)
+    private int estimatedDurationMinutes;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

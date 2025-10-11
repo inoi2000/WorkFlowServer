@@ -21,8 +21,8 @@ public class StatementDto {
     private UUID id;
 
     @NotNull
-    @JsonProperty("logistician")
-    private EmployeeDto logistician;
+    @JsonProperty("logist")
+    private EmployeeDto logist;
 
     @NotNull
     private String data;

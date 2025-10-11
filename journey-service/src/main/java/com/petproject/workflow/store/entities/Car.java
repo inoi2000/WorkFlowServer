@@ -38,6 +38,9 @@ public class Car {
     @Column(length = 50)
     private String color;
 
+    @Column()
+    private double odometer;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CarStatus status;
