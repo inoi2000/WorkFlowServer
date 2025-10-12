@@ -15,6 +15,7 @@ public class CarMapper {
                 carDto.getVin(),
                 carDto.getYear(),
                 carDto.getColor(),
+                carDto.getOdometer(),
                 carDto.getStatus()
         );
     }
@@ -28,6 +29,7 @@ public class CarMapper {
                 car.getVin(),
                 car.getYear(),
                 car.getColor(),
+                car.getOdometer(),
                 car.getStatus()
         );
     }

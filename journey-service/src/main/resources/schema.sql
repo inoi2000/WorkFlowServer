@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS statements
 (
     id BINARY(16) NOT NULL,
-    logistician_id BINARY(16) NOT NULL,		-- Id работника
+    logist_id BINARY(16) NOT NULL,		-- Id работника
     data VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,
     created_at DATETIME NOT NULL,
@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS cars
     vin VARCHAR(17) UNIQUE,                -- VIN номер
     year INTEGER,                          -- Год выпуска
     color VARCHAR(50),                     -- Цвет
+    odometer DOUBLE,                       -- Одометр
     status ENUM('ACTIVE', 'MAINTENANCE', 'INACTIVE') NOT NULL,
     PRIMARY KEY (id)
     );
@@ -29,6 +30,9 @@ CREATE TABLE IF NOT EXISTS journeys
     statement_id BINARY(16) NOT NULL UNIQUE,-- Id заявки
     driver_id BINARY(16) NOT NULL,			-- Id работника
     status ENUM('NEW', 'CONFIRMED', 'STARTED', 'FINISHED', 'CANCELED') NOT NULL,
+    start_odometer DOUBLE,
+    end_odometer DOUBLE,
+    estimated_duration_minutes INT NOT NULL,
     created_at DATETIME NOT NULL,
     confirmed_at DATETIME,
     started_at DATETIME,

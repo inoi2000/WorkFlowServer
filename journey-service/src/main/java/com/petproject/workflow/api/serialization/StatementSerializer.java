@@ -16,7 +16,7 @@ public class StatementSerializer extends JsonSerializer<StatementDto> {
             SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();
         jsonGenerator.writeStringField("id", statement.getId().toString());
-        jsonGenerator.writeObjectField("logistician", statement.getLogistician());
+        jsonGenerator.writeObjectField("logistician", statement.getLogist());
         jsonGenerator.writeStringField("data", statement.getData());
         jsonGenerator.writeStringField("address", statement.getAddress());
         jsonGenerator.writeStringField("created_at", statement.getCreatedAt().toString());

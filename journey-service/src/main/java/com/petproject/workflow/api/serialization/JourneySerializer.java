@@ -20,6 +20,11 @@ public class JourneySerializer extends JsonSerializer<JourneyDto> {
         jsonGenerator.writeObjectField("driver", journey.getDriver());
         jsonGenerator.writeStringField("status", journey.getStatus().toString());
         jsonGenerator.writeStringField("created_at", journey.getCreatedAt().toString());
+        jsonGenerator.writeNumberField("estimated_duration_minutes", journey.getEstimatedDurationMinutes());
+        if (journey.getStartOdometer() != 0D)
+            jsonGenerator.writeNumberField("start_odometer", journey.getStartOdometer());
+        if (journey.getEndOdometer() != 0D)
+            jsonGenerator.writeNumberField("end_odometer", journey.getEndOdometer());
         if (journey.getConfirmedAt() != null)
             jsonGenerator.writeStringField("confirmed_at", journey.getConfirmedAt().toString());
         if (journey.getStartedAt() != null)

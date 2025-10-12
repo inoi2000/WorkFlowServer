@@ -38,6 +38,9 @@ public class CarDto {
     private String color;
 
     @NotNull
+    private double odometer;
+
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private CarStatus status;
 }

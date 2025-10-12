@@ -20,8 +20,8 @@ public class Statement {
     @Column(name = "id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @Column(name = "logistician_id", nullable = false, columnDefinition = "BINARY(16)")
-    private UUID logisticianId;
+    @Column(name = "logist_id", nullable = false, columnDefinition = "BINARY(16)")
+    private UUID logistId;
 
     @Column(nullable = false, length = 255)
     private String data;

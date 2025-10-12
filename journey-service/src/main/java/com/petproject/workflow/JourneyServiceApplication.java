@@ -43,6 +43,7 @@ public class JourneyServiceApplication {
             car1.setVin("1HGCM82633A123456");
             car1.setYear(2022);
             car1.setColor("Black");
+            car1.setOdometer(123.456);
             car1.setStatus(CarStatus.ACTIVE);
 
             Car car2 = new Car();
@@ -53,6 +54,7 @@ public class JourneyServiceApplication {
             car2.setVin("2FADP63E25B789012");
             car2.setYear(2021);
             car2.setColor("White");
+            car2.setOdometer(189.211);
             car2.setStatus(CarStatus.ACTIVE);
 
             Car car3 = new Car();
@@ -63,6 +65,7 @@ public class JourneyServiceApplication {
             car3.setVin("3VWCM7AT4CM654321");
             car3.setYear(2023);
             car3.setColor("Blue");
+            car3.setOdometer(99.211);
             car3.setStatus(CarStatus.MAINTENANCE);
 
             carRepository.saveAll(List.of(car1, car2, car3));
@@ -70,7 +73,7 @@ public class JourneyServiceApplication {
             // 2. Создаем тестовые заявки (statements) - они первичны
             Statement statement1 = new Statement();
             statement1.setId(UUID.fromString("44444444-4444-4444-4444-444444444444"));
-            statement1.setLogisticianId(UUID.fromString("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"));
+            statement1.setLogistId(UUID.fromString("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"));
             statement1.setData("Доставка документов в офис");
             statement1.setAddress("ул. Ленина, д. 10, офис 25");
             statement1.setCreatedAt(LocalDateTime.now().minusDays(2));
@@ -78,7 +81,7 @@ public class JourneyServiceApplication {
 
             Statement statement2 = new Statement();
             statement2.setId(UUID.fromString("55555555-5555-5555-5555-555555555555"));
-            statement2.setLogisticianId(UUID.fromString("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"));
+            statement2.setLogistId(UUID.fromString("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"));
             statement2.setData("Перевозка оборудования");
             statement2.setAddress("пр. Мира, д. 15, склад 3");
             statement2.setCreatedAt(LocalDateTime.now().minusDays(1));
@@ -86,7 +89,7 @@ public class JourneyServiceApplication {
 
             Statement statement3 = new Statement();
             statement3.setId(UUID.fromString("66666666-6666-6666-6666-666666666666"));
-            statement3.setLogisticianId(UUID.fromString("cccccccc-cccc-cccc-cccc-cccccccccccc"));
+            statement3.setLogistId(UUID.fromString("cccccccc-cccc-cccc-cccc-cccccccccccc"));
             statement3.setData("Срочная доставка товара");
             statement3.setAddress("ул. Советская, д. 5, магазин 'Электроника'");
             statement3.setCreatedAt(LocalDateTime.now().minusHours(3));
@@ -102,6 +105,9 @@ public class JourneyServiceApplication {
             journey1.setCar(car1);
             journey1.setDriverId(UUID.fromString("dddddddd-dddd-dddd-dddd-dddddddddddd"));
             journey1.setStatus(JourneyStatus.FINISHED);
+            journey1.setStartOdometer(123.456);
+            journey1.setEndOdometer(123.456);
+            journey1.setEstimatedDurationMinutes(123);
             journey1.setCreatedAt(LocalDateTime.now().minusDays(2));
             journey1.setConfirmedAt(LocalDateTime.now().minusDays(2).plusHours(1));
             journey1.setStartedAt(LocalDateTime.now().minusDays(2).plusHours(2));
@@ -114,6 +120,9 @@ public class JourneyServiceApplication {
             journey2.setCar(car2);
             journey2.setDriverId(UUID.fromString("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"));
             journey2.setStatus(JourneyStatus.STARTED);
+            journey2.setStartOdometer(123.456);
+            journey2.setEndOdometer(123.456);
+            journey2.setEstimatedDurationMinutes(123);
             journey2.setCreatedAt(LocalDateTime.now().minusDays(1));
             journey2.setConfirmedAt(LocalDateTime.now().minusDays(1).plusHours(1));
             journey2.setStartedAt(LocalDateTime.now().minusDays(1).plusHours(2));
@@ -126,6 +135,9 @@ public class JourneyServiceApplication {
             journey3.setCar(car1);
             journey3.setDriverId(UUID.fromString("ffffffff-ffff-ffff-ffff-ffffffffffff"));
             journey3.setStatus(JourneyStatus.CONFIRMED);
+            journey3.setStartOdometer(123.456);
+            journey3.setEndOdometer(123.456);
+            journey3.setEstimatedDurationMinutes(123);
             journey3.setCreatedAt(LocalDateTime.now().minusHours(3));
             journey3.setConfirmedAt(LocalDateTime.now().minusHours(2));
             journey3.setStartedAt(null);
