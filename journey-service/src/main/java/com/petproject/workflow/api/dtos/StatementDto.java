@@ -28,6 +28,10 @@ public class StatementDto {
     private String data;
 
     @NotNull
+    @JsonProperty("contact_phone")
+    private String contactPhone;
+
+    @NotNull
     private String address;
 
     @NotNull
@@ -40,7 +44,5 @@ public class StatementDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime updatedAt;
 
-    @NotNull
-    @JsonSerialize(using = JourneySerializer.class)
     private JourneyDto journey;
 }

@@ -14,6 +14,10 @@ public interface EmployeeRepository extends CrudRepository<Employee, UUID> {
 
     List<Employee> findAllById(Iterable<UUID> ids);
 
-    @Query("SELECT e FROM Employee e WHERE e.position.level < (SELECT emp.position.level FROM Employee emp WHERE emp.id = :currentEmployeeId)")
+    @Query("SELECT e FROM Employee e WHERE e.position.level < " +
+            "(SELECT emp.position.level FROM Employee emp WHERE emp.id = :currentEmployeeId)")
     List<Employee> findAllEmployeesWithLowerPositionLevel(@Param("currentEmployeeId") UUID currentEmployeeId);
+
+    @Query("SELECT e FROM Employee e JOIN e.position p WHERE p.name = :positionName")
+    List<Employee> findAllEmployeesWithPositionName(@Param("positionName") String positionName);
 }

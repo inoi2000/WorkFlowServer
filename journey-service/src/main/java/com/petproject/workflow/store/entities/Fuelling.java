@@ -37,4 +37,7 @@ public class Fuelling {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    public Fuelling(UUID id){
+        this.id = id;
+    }
 }

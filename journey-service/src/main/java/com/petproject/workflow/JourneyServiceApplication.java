@@ -1,10 +1,7 @@
 package com.petproject.workflow;
 
 import com.petproject.workflow.store.entities.*;
-import com.petproject.workflow.store.repositories.CarRepository;
-import com.petproject.workflow.store.repositories.FuellingRepository;
-import com.petproject.workflow.store.repositories.JourneyRepository;
-import com.petproject.workflow.store.repositories.StatementRepository;
+import com.petproject.workflow.store.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,6 +20,7 @@ public class JourneyServiceApplication {
     @Bean
     public CommandLineRunner dataLoader(
             CarRepository carRepository,
+            TrailerRepository trailerRepository,
             FuellingRepository fuellingRepository,
             JourneyRepository journeyRepository,
             StatementRepository statementRepository
@@ -33,175 +31,225 @@ public class JourneyServiceApplication {
             journeyRepository.deleteAll();
             statementRepository.deleteAll();
             carRepository.deleteAll();
+            trailerRepository.deleteAll();
 
-            // 1. Создаем тестовые автомобили с полными данными
-            Car car1 = new Car();
-            car1.setId(UUID.fromString("11111111-1111-1111-1111-111111111111"));
-            car1.setBrand("Toyota");
-            car1.setModel("Camry");
-            car1.setLicensePlate("A123BC777");
-            car1.setVin("1HGCM82633A123456");
-            car1.setYear(2022);
-            car1.setColor("Black");
-            car1.setOdometer(123.456);
-            car1.setStatus(CarStatus.ACTIVE);
+            // Фиксированные ID
+            UUID logistId = UUID.fromString("96690d40-dfb1-473c-a1ef-e6abb05061ca");
+            UUID operatorId = UUID.fromString("8d41cbf0-f0e5-4b62-b8b5-419381457931");
+            UUID driverId = UUID.fromString("1a6fce5a-cd67-11eb-b8bc-0242ac130003");
 
-            Car car2 = new Car();
-            car2.setId(UUID.fromString("22222222-2222-2222-2222-222222222222"));
-            car2.setBrand("Ford");
-            car2.setModel("Focus");
-            car2.setLicensePlate("B456DE777");
-            car2.setVin("2FADP63E25B789012");
-            car2.setYear(2021);
-            car2.setColor("White");
-            car2.setOdometer(189.211);
-            car2.setStatus(CarStatus.ACTIVE);
+            // Создание тестовых автомобилей для перевозки нефтепродуктов
+            Car car1 = new Car(
+                    UUID.randomUUID(),
+                    "Volvo", "FH16", "A123BC", "YV2R2DBS5CA123456", 2022, "Orange", 85000.5, CarStatus.ACTIVE
+            );
 
-            Car car3 = new Car();
-            car3.setId(UUID.fromString("33333333-3333-3333-3333-333333333333"));
-            car3.setBrand("Volkswagen");
-            car3.setModel("Tiguan");
-            car3.setLicensePlate("C789FG777");
-            car3.setVin("3VWCM7AT4CM654321");
-            car3.setYear(2023);
-            car3.setColor("Blue");
-            car3.setOdometer(99.211);
-            car3.setStatus(CarStatus.MAINTENANCE);
+            Car car2 = new Car(
+                    UUID.randomUUID(),
+                    "MAN", "TGX", "B456DE", "MANTGXS00CL123456", 2021, "White", 125000.0, CarStatus.MAINTENANCE
+            );
 
-            carRepository.saveAll(List.of(car1, car2, car3));
+            Car car3 = new Car(
+                    UUID.randomUUID(),
+                    "Scania", "R450", "C789FG", "SCCZHZBT0F0S12345", 2023, "Blue", 35000.0, CarStatus.ACTIVE
+            );
 
-            // 2. Создаем тестовые заявки (statements) - они первичны
-            Statement statement1 = new Statement();
-            statement1.setId(UUID.fromString("44444444-4444-4444-4444-444444444444"));
-            statement1.setLogistId(UUID.fromString("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"));
-            statement1.setData("Доставка документов в офис");
-            statement1.setAddress("ул. Ленина, д. 10, офис 25");
-            statement1.setCreatedAt(LocalDateTime.now().minusDays(2));
-            statement1.setUpdatedAt(LocalDateTime.now().minusDays(2));
+            Car car4 = new Car(
+                    UUID.randomUUID(),
+                    "Mercedes-Benz", "Actros", "D012GH", "W1M953ZZ0KP123789", 2022, "Yellow", 95000.0, CarStatus.INACTIVE
+            );
 
-            Statement statement2 = new Statement();
-            statement2.setId(UUID.fromString("55555555-5555-5555-5555-555555555555"));
-            statement2.setLogistId(UUID.fromString("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"));
-            statement2.setData("Перевозка оборудования");
-            statement2.setAddress("пр. Мира, д. 15, склад 3");
-            statement2.setCreatedAt(LocalDateTime.now().minusDays(1));
-            statement2.setUpdatedAt(LocalDateTime.now().minusDays(1));
+            carRepository.saveAll(List.of(car1, car2, car3, car4));
 
-            Statement statement3 = new Statement();
-            statement3.setId(UUID.fromString("66666666-6666-6666-6666-666666666666"));
-            statement3.setLogistId(UUID.fromString("cccccccc-cccc-cccc-cccc-cccccccccccc"));
-            statement3.setData("Срочная доставка товара");
-            statement3.setAddress("ул. Советская, д. 5, магазин 'Электроника'");
-            statement3.setCreatedAt(LocalDateTime.now().minusHours(3));
-            statement3.setUpdatedAt(LocalDateTime.now().minusHours(3));
+            // Создание тестовых цистерн и прицепов для нефтепродуктов и химотходов
+            Trailer trailer1 = new Trailer(
+                    UUID.randomUUID(),
+                    "Schmitz", "T123TR", 38000.0, "Stainless Steel"
+            );
 
-            // Сначала сохраняем заявки
-            statementRepository.saveAll(List.of(statement1, statement2, statement3));
+            Trailer trailer2 = new Trailer(
+                    UUID.randomUUID(),
+                    "Krone", "T456TR", 42000.0, "Carbon Steel"
+            );
 
-            // 3. Создаем тестовые поездки (journeys) с полными временными метками
-            Journey journey1 = new Journey();
-            journey1.setId(UUID.fromString("77777777-7777-7777-7777-777777777777"));
-            journey1.setStatement(statement1);
-            journey1.setCar(car1);
-            journey1.setDriverId(UUID.fromString("dddddddd-dddd-dddd-dddd-dddddddddddd"));
-            journey1.setStatus(JourneyStatus.FINISHED);
-            journey1.setStartOdometer(123.456);
-            journey1.setEndOdometer(123.456);
-            journey1.setEstimatedDurationMinutes(123);
-            journey1.setCreatedAt(LocalDateTime.now().minusDays(2));
-            journey1.setConfirmedAt(LocalDateTime.now().minusDays(2).plusHours(1));
-            journey1.setStartedAt(LocalDateTime.now().minusDays(2).plusHours(2));
-            journey1.setFinishedAt(LocalDateTime.now().minusDays(2).plusHours(4));
-            journey1.setCanceledAt(null);
+            Trailer trailer3 = new Trailer(
+                    UUID.randomUUID(),
+                    "Kögel", "T789TR", 35000.0, "Stainless Steel"
+            );
 
-            Journey journey2 = new Journey();
-            journey2.setId(UUID.fromString("88888888-8888-8888-8888-888888888888"));
-            journey2.setStatement(statement2);
-            journey2.setCar(car2);
-            journey2.setDriverId(UUID.fromString("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"));
-            journey2.setStatus(JourneyStatus.STARTED);
-            journey2.setStartOdometer(123.456);
-            journey2.setEndOdometer(123.456);
-            journey2.setEstimatedDurationMinutes(123);
-            journey2.setCreatedAt(LocalDateTime.now().minusDays(1));
-            journey2.setConfirmedAt(LocalDateTime.now().minusDays(1).plusHours(1));
-            journey2.setStartedAt(LocalDateTime.now().minusDays(1).plusHours(2));
-            journey2.setFinishedAt(null);
-            journey2.setCanceledAt(null);
+            Trailer trailer4 = new Trailer(
+                    UUID.randomUUID(),
+                    "Ravensberger", "T012TR", 28000.0, "HDPE"
+            );
 
-            Journey journey3 = new Journey();
-            journey3.setId(UUID.fromString("99999999-9999-9999-9999-999999999999"));
-            journey3.setStatement(statement3);
-            journey3.setCar(car1);
-            journey3.setDriverId(UUID.fromString("ffffffff-ffff-ffff-ffff-ffffffffffff"));
-            journey3.setStatus(JourneyStatus.CONFIRMED);
-            journey3.setStartOdometer(123.456);
-            journey3.setEndOdometer(123.456);
-            journey3.setEstimatedDurationMinutes(123);
-            journey3.setCreatedAt(LocalDateTime.now().minusHours(3));
-            journey3.setConfirmedAt(LocalDateTime.now().minusHours(2));
-            journey3.setStartedAt(null);
-            journey3.setFinishedAt(null);
-            journey3.setCanceledAt(null);
+            trailerRepository.saveAll(List.of(trailer1, trailer2, trailer3, trailer4));
 
-            // Сохраняем поездки
-            journeyRepository.saveAll(List.of(journey1, journey2, journey3));
+            // Создание тестовых заявок (Statements) для нефтеперевозок
+            LocalDateTime now = LocalDateTime.now();
 
-            // 4. Связываем заявки с поездками (после сохранения поездок)
+            Statement statement1 = new Statement(
+                    UUID.randomUUID(),
+                    logistId,
+                    "Перевозка дизельного топлива - 38 тонн. ADR: 3. Требуется цистерна из нержавеющей стали.",
+                    "+79161234567",
+                    "НПЗ 'Газпромнефть', Московская обл., г. Одинцово",
+                    now.minusDays(2),
+                    now.minusDays(1),
+                    null
+            );
+
+            Statement statement2 = new Statement(
+                    UUID.randomUUID(),
+                    logistId,
+                    "Транспортировка бензина АИ-95 - 42 тонны. ADR: 3. Класс опасности: 1.",
+                    "+79167654321",
+                    "АЗС 'Лукойл', Москва, ш. Энтузиастов, 45",
+                    now.minusDays(1),
+                    now.minusHours(12),
+                    null
+            );
+
+            Statement statement3 = new Statement(
+                    UUID.randomUUID(),
+                    logistId,
+                    "Вывоз химических отходов - 28 тонн. ADR: 8. Коррозионные вещества. Требуется HDPE цистерна.",
+                    "+79169998877",
+                    "Химкомбинат 'Азот', г. Дзержинск, Нижегородская обл.",
+                    now.minusHours(6),
+                    now.minusHours(2),
+                    null
+            );
+
+            Statement statement4 = new Statement(
+                    UUID.randomUUID(),
+                    logistId,
+                    "Перевозка мазута - 35 тонн. ADR: 3. Требуется подогрев цистерны.",
+                    "+79165554433",
+                    "ТЭЦ-21, Москва, ул. Вавилова, 13",
+                    now.minusHours(3),
+                    now.minusHours(1),
+                    null
+            );
+
+            statementRepository.saveAll(List.of(statement1, statement2, statement3, statement4));
+
+            // Создание тестовых выездов (Journeys)
+            Journey journey1 = new Journey(
+                    UUID.randomUUID(),
+                    car1,
+                    driverId,
+                    JourneyStatus.FINISHED,
+                    84500.0,
+                    85000.5,
+                    now.minusDays(2),
+                    now.minusDays(2).plusHours(1),
+                    now.minusDays(2).plusHours(2),
+                    now.minusDays(1),
+                    null,
+                    trailer1,
+                    statement1
+            );
+
+            Journey journey2 = new Journey(
+                    UUID.randomUUID(),
+                    car3,
+                    driverId,
+                    JourneyStatus.STARTED,
+                    34800.0,
+                    0.0,
+                    now.minusDays(1),
+                    now.minusDays(1).plusHours(1),
+                    now.minusHours(4),
+                    null,
+                    null,
+                    trailer2,
+                    statement2
+            );
+
+            Journey journey3 = new Journey(
+                    UUID.randomUUID(),
+                    car2,
+                    driverId,
+                    JourneyStatus.CONFIRMED,
+                    0.0,
+                    0.0,
+                    now.minusHours(6),
+                    now.minusHours(3),
+                    null,
+                    null,
+                    null,
+                    trailer4,
+                    statement3
+            );
+
+            Journey journey4 = new Journey(
+                    UUID.randomUUID(),
+                    car4,
+                    driverId,
+                    JourneyStatus.NEW,
+                    0.0,
+                    0.0,
+                    now.minusHours(3),
+                    null,
+                    null,
+                    null,
+                    null,
+                    trailer3,
+                    statement4
+            );
+
+            journeyRepository.saveAll(List.of(journey1, journey2, journey3, journey4));
+
+            // Обновление связи Statement -> Journey
             statement1.setJourney(journey1);
             statement2.setJourney(journey2);
             statement3.setJourney(journey3);
+            statement4.setJourney(journey4);
+            statementRepository.saveAll(List.of(statement1, statement2, statement3, statement4));
 
-            // Обновляем заявки со связями
-            statementRepository.saveAll(List.of(statement1, statement2, statement3));
+            // Создание тестовых заправок (Fuellings)
+            Fuelling fuelling1 = new Fuelling(
+                    UUID.randomUUID(),
+                    driverId,
+                    operatorId,
+                    car1,
+                    450.5,
+                    now.minusDays(1).plusHours(2)
+            );
 
-            // 5. Создаем тестовые заправки (fuellings) с правильными UUID
-            Fuelling fuelling1 = new Fuelling();
-            fuelling1.setId(UUID.fromString("a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1"));
-            fuelling1.setCar(car1);
-            fuelling1.setDriverId(UUID.fromString("dddddddd-dddd-dddd-dddd-dddddddddddd"));
-            fuelling1.setOperatorId(UUID.fromString("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"));
-            fuelling1.setVolume(45.5);
-            fuelling1.setCreatedAt(LocalDateTime.now().minusDays(3));
+            Fuelling fuelling2 = new Fuelling(
+                    UUID.randomUUID(),
+                    driverId,
+                    operatorId,
+                    car3,
+                    380.0,
+                    now.minusHours(6)
+            );
 
-            Fuelling fuelling2 = new Fuelling();
-            fuelling2.setId(UUID.fromString("b1b1b1b1-b1b1-b1b1-b1b1-b1b1b1b1b1b1"));
-            fuelling2.setCar(car2);
-            fuelling2.setDriverId(UUID.fromString("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"));
-            fuelling2.setOperatorId(UUID.fromString("b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2"));
-            fuelling2.setVolume(38.0);
-            fuelling2.setCreatedAt(LocalDateTime.now().minusDays(2));
+            Fuelling fuelling3 = new Fuelling(
+                    UUID.randomUUID(),
+                    driverId,
+                    operatorId,
+                    car1,
+                    420.0,
+                    now.minusDays(3)
+            );
 
-            Fuelling fuelling3 = new Fuelling();
-            fuelling3.setId(UUID.fromString("c1c1c1c1-c1c1-c1c1-c1c1-c1c1c1c1c1c1"));
-            fuelling3.setCar(car1);
-            fuelling3.setDriverId(UUID.fromString("dddddddd-dddd-dddd-dddd-dddddddddddd"));
-            fuelling3.setOperatorId(UUID.fromString("a2a2a2a2-a2a2-a2a2-a2a2-a2a2a2a2a2a2"));
-            fuelling3.setVolume(42.75);
-            fuelling3.setCreatedAt(LocalDateTime.now().minusDays(1));
-
-            Fuelling fuelling4 = new Fuelling();
-            fuelling4.setId(UUID.fromString("d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1"));
-            fuelling4.setCar(car3);
-            fuelling4.setDriverId(UUID.fromString("e1e1e1e1-e1e1-e1e1-e1e1-e1e1e1e1e1e1"));
-            fuelling4.setOperatorId(UUID.fromString("f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1"));
-            fuelling4.setVolume(55.25);
-            fuelling4.setCreatedAt(LocalDateTime.now().minusHours(6));
+            Fuelling fuelling4 = new Fuelling(
+                    UUID.randomUUID(),
+                    driverId,
+                    operatorId,
+                    car2,
+                    520.0,
+                    now.minusDays(4)
+            );
 
             fuellingRepository.saveAll(List.of(fuelling1, fuelling2, fuelling3, fuelling4));
 
-            System.out.println("✅ Тестовые данные успешно загружены в БД!");
-            System.out.println("🚗 Автомобилей: " + carRepository.count());
-            System.out.println("📋 Заявок: " + statementRepository.count());
-            System.out.println("🛣️ Поездок: " + journeyRepository.count());
-            System.out.println("⛽ Заправок: " + fuellingRepository.count());
-
-            // Дополнительная проверка связей
-            System.out.println("\n🔗 Проверка связей:");
-            statementRepository.findAll().forEach(statement -> {
-                System.out.println("Заявка " + statement.getId() + " -> Поездка " +
-                        (statement.getJourney() != null ? statement.getJourney().getId() : "null"));
-            });
+            System.out.println("Тестовые данные для нефтеперевозок успешно загружены!");
+            System.out.println("Создано: 4 автомобиля, 4 цистерны, 4 заявки, 4 выезда, 4 заправки");
+            System.out.println("Типы перевозок: дизельное топливо, бензин, химические отходы, мазут");
+            System.out.println("Использованы фиксированные ID сотрудников");
         };
     }
 }

@@ -26,6 +26,9 @@ public class Statement {
     @Column(nullable = false, length = 255)
     private String data;
 
+    @Column(name = "contact_phone")
+    private String contactPhone;
+
     @Column(nullable = false, length = 255)
     private String address;
 
@@ -35,6 +38,10 @@ public class Statement {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToOne(mappedBy = "statement", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne(mappedBy = "statement", cascade = {CascadeType.MERGE})
     private Journey journey;
+
+    public Statement(UUID id){
+        this.id = id;
+    }
 }

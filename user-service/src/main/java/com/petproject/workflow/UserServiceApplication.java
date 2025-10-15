@@ -27,11 +27,13 @@ public class UserServiceApplication {
         return args -> {
             userRepository.deleteAll()
                     .thenMany(Flux.just(
-                            createUser("123e4567-e89b-12d3-a456-426614174000", "mishavinov", "12345", Role.ROLE_ADMIN, encoder),
-                            createUser("f81d4fae-7dec-11d0-a765-00a0c91e6bf6", "ivanov", "12345", Role.ROLE_DIRECTOR, encoder),
-                            createUser("16763be4-6022-406e-a950-fcd5018633ca", "yakovleva09", "12345", Role.ROLE_HR, encoder),
-                            createUser("73ea403e-8c9a-4cf8-bc7a-88d68dfcc20f", "sidorov", "12345", Role.ROLE_INDUSTRIAL_SECURITY, encoder),
-                            createUser("1a6fce5a-cd67-11eb-b8bc-0242ac130003", "starii", "12345", Role.ROLE_DRIVER, encoder)
+                            createUser("123e4567-e89b-12d3-a456-426614174000", "admin", "12345", Role.ROLE_ADMIN, encoder),
+                            createUser("f81d4fae-7dec-11d0-a765-00a0c91e6bf6", "director", "12345", Role.ROLE_DIRECTOR, encoder),
+                            createUser("16763be4-6022-406e-a950-fcd5018633ca", "hr", "12345", Role.ROLE_HR, encoder),
+                            createUser("73ea403e-8c9a-4cf8-bc7a-88d68dfcc20f", "industrialSec", "12345", Role.ROLE_INDUSTRIAL_SECURITY, encoder),
+                            createUser("1a6fce5a-cd67-11eb-b8bc-0242ac130003", "driver", "12345", Role.ROLE_DRIVER, encoder),
+                            createUser("96690d40-dfb1-473c-a1ef-e6abb05061ca", "logist", "12345", Role.ROLE_OPERATOR, encoder),
+                            createUser("8d41cbf0-f0e5-4b62-b8b5-419381457931", "operator", "12345", Role.ROLE_LOGIST, encoder)
                     ))
                     .flatMap(user -> entityTemplate.insert(User.class).using(user))
                     .subscribe(

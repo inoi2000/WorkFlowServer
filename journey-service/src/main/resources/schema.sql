@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS statements
     id BINARY(16) NOT NULL,
     logist_id BINARY(16) NOT NULL,		-- Id работника
     data VARCHAR(255) NOT NULL,
+    contact_phone VARCHAR(12) NOT NULL,
     address VARCHAR(255) NOT NULL,
     created_at DATETIME NOT NULL,
     updated_at DATETIME NOT NULL,
@@ -23,16 +24,26 @@ CREATE TABLE IF NOT EXISTS cars
     PRIMARY KEY (id)
     );
 
+CREATE TABLE IF NOT EXISTS trailers
+(
+    id BINARY(16) NOT NULL,
+    brand VARCHAR(100) NOT NULL,            -- Марка
+    license_plate VARCHAR(20) UNIQUE NOT NULL, -- Госномер
+    volume_liter DOUBLE NOT NULL,
+    material VARCHAR(100),
+    PRIMARY KEY (id)
+    );
+
 CREATE TABLE IF NOT EXISTS journeys
 (
     id BINARY(16) NOT NULL,
     car_id BINARY(16) NOT NULL,				-- Id машины
     statement_id BINARY(16) NOT NULL UNIQUE,-- Id заявки
     driver_id BINARY(16) NOT NULL,			-- Id работника
+    trailer_id BINARY(16),			        -- Id прицепа
     status ENUM('NEW', 'CONFIRMED', 'STARTED', 'FINISHED', 'CANCELED') NOT NULL,
     start_odometer DOUBLE,
     end_odometer DOUBLE,
-    estimated_duration_minutes INT NOT NULL,
     created_at DATETIME NOT NULL,
     confirmed_at DATETIME,
     started_at DATETIME,
@@ -40,6 +51,7 @@ CREATE TABLE IF NOT EXISTS journeys
     canceled_at DATETIME,
     PRIMARY KEY (id),
     FOREIGN KEY (car_id) REFERENCES workflow.cars(id),
+    FOREIGN KEY (trailer_id) REFERENCES workflow.trailers(id),
     FOREIGN KEY (statement_id) REFERENCES workflow.statements(id)
     );
 

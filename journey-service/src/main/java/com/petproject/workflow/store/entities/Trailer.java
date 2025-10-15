@@ -1,6 +1,9 @@
 package com.petproject.workflow.store.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +16,8 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "cars")
-public class Car {
+@Table(name = "trailers")
+public class Trailer {
 
     @Id
     @Column(name = "id", columnDefinition = "BINARY(16)")
@@ -23,29 +26,16 @@ public class Car {
     @Column(nullable = false, length = 100)
     private String brand;
 
-    @Column(nullable = false, length = 100)
-    private String model;
-
     @Column(name = "license_plate", nullable = false, unique = true, length = 20)
     private String licensePlate;
 
-    @Column(unique = true, length = 17)
-    private String vin;
+    @Column(name = "volume_liter", nullable = false)
+    private double volumeLiter;
 
-    @Column()
-    private int year;
-
-    @Column(length = 50)
-    private String color;
-
-    @Column()
-    private double odometer;
-
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private CarStatus status;
+    private String material;
 
-    public Car(UUID id) {
+    public Trailer(UUID id){
         this.id = id;
     }
 }
