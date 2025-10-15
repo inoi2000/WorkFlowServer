@@ -25,14 +25,6 @@ public class Journey {
     @JoinColumn(name = "car_id", nullable = false)
     private Car car;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trailer_id")
-    private Trailer trailer;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    @JoinColumn(name = "statement_id", nullable = false, unique = true)
-    private Statement statement;
-
     @Column(name = "driver_id", nullable = false, columnDefinition = "BINARY(16)")
     private UUID driverId;
 
@@ -60,6 +52,14 @@ public class Journey {
 
     @Column(name = "canceled_at")
     private LocalDateTime canceledAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trailer_id")
+    private Trailer trailer;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "statement_id", nullable = false, unique = true)
+    private Statement statement;
 
     public Journey(UUID id){
         this.id = id;

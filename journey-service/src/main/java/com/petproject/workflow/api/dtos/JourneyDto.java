@@ -25,12 +25,6 @@ public class JourneyDto {
     @NotNull
     private CarDto car;
 
-    private TrailerDto trailer;
-
-    @NotNull
-    @JsonSerialize(using = StatementSerializer.class)
-    private StatementDto statement;
-
     @NotNull
     private EmployeeDto driver;
 
@@ -64,4 +58,8 @@ public class JourneyDto {
     @JsonProperty("canceled_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime canceledAt;
+
+    private TrailerDto trailer;
+
+    private StatementDto statement;
 }

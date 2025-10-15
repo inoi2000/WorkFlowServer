@@ -52,8 +52,6 @@ public class StatementJourneyMapper {
         return new Journey(
                 journeyDto.getId(),
                 new Car(journeyDto.getCar().getId()),
-                trailer,
-                new Statement(journeyDto.getStatement().getId()),
                 journeyDto.getDriver().getId(),
                 journeyDto.getStatus(),
                 journeyDto.getStartOdometer(),
@@ -62,7 +60,9 @@ public class StatementJourneyMapper {
                 journeyDto.getConfirmedAt(),
                 journeyDto.getStartedAt(),
                 journeyDto.getFinishedAt(),
-                journeyDto.getCanceledAt()
+                journeyDto.getCanceledAt(),
+                trailer,
+                new Statement(journeyDto.getStatement().getId())
         );
     }
 
@@ -99,8 +99,6 @@ public class StatementJourneyMapper {
         return new JourneyDto(
                 journey.getId(),
                 carDto,
-                trailerDto,
-                null,
                 driver,
                 journey.getStatus(),
                 journey.getStartOdometer(),
@@ -109,7 +107,9 @@ public class StatementJourneyMapper {
                 journey.getConfirmedAt(),
                 journey.getStartedAt(),
                 journey.getFinishedAt(),
-                journey.getCanceledAt()
+                journey.getCanceledAt(),
+                trailerDto,
+                null
         );
     }
 }

@@ -44,7 +44,5 @@ public class StatementDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime updatedAt;
 
-    @NotNull
-    @JsonSerialize(using = JourneySerializer.class)
     private JourneyDto journey;
 }

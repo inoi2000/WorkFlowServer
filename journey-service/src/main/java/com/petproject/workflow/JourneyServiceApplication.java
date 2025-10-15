@@ -137,8 +137,6 @@ public class JourneyServiceApplication {
             Journey journey1 = new Journey(
                     UUID.randomUUID(),
                     car1,
-                    trailer1,
-                    statement1,
                     driverId,
                     JourneyStatus.FINISHED,
                     84500.0,
@@ -147,14 +145,14 @@ public class JourneyServiceApplication {
                     now.minusDays(2).plusHours(1),
                     now.minusDays(2).plusHours(2),
                     now.minusDays(1),
-                    null
+                    null,
+                    trailer1,
+                    statement1
             );
 
             Journey journey2 = new Journey(
                     UUID.randomUUID(),
                     car3,
-                    trailer2,
-                    statement2,
                     driverId,
                     JourneyStatus.STARTED,
                     34800.0,
@@ -163,14 +161,14 @@ public class JourneyServiceApplication {
                     now.minusDays(1).plusHours(1),
                     now.minusHours(4),
                     null,
-                    null
+                    null,
+                    trailer2,
+                    statement2
             );
 
             Journey journey3 = new Journey(
                     UUID.randomUUID(),
                     car2,
-                    trailer4,
-                    statement3,
                     driverId,
                     JourneyStatus.CONFIRMED,
                     0.0,
@@ -179,14 +177,14 @@ public class JourneyServiceApplication {
                     now.minusHours(3),
                     null,
                     null,
-                    null
+                    null,
+                    trailer4,
+                    statement3
             );
 
             Journey journey4 = new Journey(
                     UUID.randomUUID(),
                     car4,
-                    trailer3,
-                    statement4,
                     driverId,
                     JourneyStatus.NEW,
                     0.0,
@@ -195,7 +193,9 @@ public class JourneyServiceApplication {
                     null,
                     null,
                     null,
-                    null
+                    null,
+                    trailer3,
+                    statement4
             );
 
             journeyRepository.saveAll(List.of(journey1, journey2, journey3, journey4));
