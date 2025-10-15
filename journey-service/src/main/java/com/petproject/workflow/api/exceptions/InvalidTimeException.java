@@ -1,4 +1,4 @@
-package com.petproject.workflow.api;
+package com.petproject.workflow.api.exceptions;
 
 public class InvalidTimeException extends Exception {
 

@@ -9,4 +9,8 @@ import java.util.UUID;
 public interface JourneyRepository extends CrudRepository<Journey, UUID> {
 
     List<Journey> findAll();
+
+    List<Journey> findByDriverId(UUID driverId);
+
+    List<Journey> findByCarId(UUID carId);
 }

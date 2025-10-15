@@ -1,8 +1,9 @@
 package com.petproject.workflow.api.controllers;
 
-import com.petproject.workflow.store.entities.Statement;
-import com.petproject.workflow.store.repositories.StatementRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.petproject.workflow.api.dtos.StatementDto;
+import com.petproject.workflow.api.exceptions.NotFoundIdException;
+import com.petproject.workflow.api.services.StatementService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,22 +13,18 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/statements", produces = "application/json")
+@RequiredArgsConstructor
 public class StatementController {
 
-    private final StatementRepository statementRepository;
-
-    @Autowired
-    public StatementController(StatementRepository statementRepository) {
-        this.statementRepository = statementRepository;
-    }
+    private final StatementService statementService;
 
     @GetMapping("/")
-    public Iterable<Statement> getAllStatements() {
-        return statementRepository.findAll();
+    public Iterable<StatementDto> getAllStatements() {
+        return statementService.getAllStatements();
     }
 
-    @GetMapping("/{id}")
-    public Statement getStatementById(@PathVariable UUID id) {
-        return statementRepository.findById(id).orElse(null);
+    @GetMapping("/{statementId}")
+    public StatementDto getStatementById(@PathVariable UUID statementId) throws NotFoundIdException {
+        return statementService.getStatementById(statementId);
     }
 }
