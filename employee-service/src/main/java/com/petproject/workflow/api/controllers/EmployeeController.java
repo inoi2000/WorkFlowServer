@@ -5,6 +5,7 @@ import com.petproject.workflow.api.dtos.EmployeeMapper;
 import com.petproject.workflow.store.entities.Employee;
 import com.petproject.workflow.store.repositories.EmployeeRepository;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +17,11 @@ import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping(path = "/api/employees", produces="application/json")
+@RequiredArgsConstructor
 public class EmployeeController {
 
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
-
-    public EmployeeController(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
-        this.employeeRepository = employeeRepository;
-        this.employeeMapper = employeeMapper;
-    }
 
     @GetMapping("/")
     public Iterable<EmployeeDto> getAllEmployees() {
@@ -56,6 +53,12 @@ public class EmployeeController {
     @GetMapping("/subordinate/{id}")
     public Iterable<EmployeeDto> getSubordinateEmployees(@PathVariable("id") String id) {
         List<Employee> employees = employeeRepository.findAllEmployeesWithLowerPositionLevel(UUID.fromString(id));
+        return employees.stream().map(employeeMapper::mapToEmployeeDto).toList();
+    }
+
+    @GetMapping("/drivers")
+    public Iterable<EmployeeDto> getDriversEmployees() {
+        List<Employee> employees = employeeRepository.findAllEmployeesWithPositionName("Водитель");
         return employees.stream().map(employeeMapper::mapToEmployeeDto).toList();
     }
 
