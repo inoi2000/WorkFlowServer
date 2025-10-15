@@ -11,7 +11,10 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class EmployeeServiceClient {
@@ -68,7 +71,7 @@ public class EmployeeServiceClient {
     private HttpHeaders getHeaders() {
         // Получаем OAuth2 токен
         OAuth2AuthorizeRequest authorizeRequest = OAuth2AuthorizeRequest
-                .withClientRegistrationId("task-service-client") // ID клиента из application.properties
+                .withClientRegistrationId("journey-service-client") // ID клиента из application.properties
                 .principal("internal-service") // Условное имя "сервисного" пользователя
                 .build();
 

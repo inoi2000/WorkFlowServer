@@ -1,7 +1,7 @@
 package com.petproject.workflow.api.controllers;
 
-import com.petproject.workflow.store.entities.Journey;
-import com.petproject.workflow.store.repositories.JourneyRepository;
+import com.petproject.workflow.api.dtos.JourneyDto;
+import com.petproject.workflow.api.services.JourneyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/api/journeys", produces = "application/json")
 public class JourneyController {
 
-    private final JourneyRepository journeyRepository;
+    private final JourneyService journeyService;
 
     @Autowired
-    public JourneyController(JourneyRepository journeyRepository) {
-        this.journeyRepository = journeyRepository;
+    public JourneyController(JourneyService journeyService) {
+        this.journeyService = journeyService;
     }
 
     @GetMapping("/")
-    public Iterable<Journey> getAllJourneys() {
-        return journeyRepository.findAll();
+    public Iterable<JourneyDto> getAllJourneys() {
+        return journeyService.getAllJourneys();
     }
 }
