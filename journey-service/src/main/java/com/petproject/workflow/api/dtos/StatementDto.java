@@ -28,6 +28,10 @@ public class StatementDto {
     private String data;
 
     @NotNull
+    @JsonProperty("contact_phone")
+    private String contactPhone;
+
+    @NotNull
     private String address;
 
     @NotNull

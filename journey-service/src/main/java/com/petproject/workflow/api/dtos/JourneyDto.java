@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.petproject.workflow.api.serialization.StatementSerializer;
 import com.petproject.workflow.store.entities.JourneyStatus;
-import jakarta.persistence.Column;
+import com.petproject.workflow.store.entities.Trailer;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +25,8 @@ public class JourneyDto {
     @NotNull
     private CarDto car;
 
+    private TrailerDto trailer;
+
     @NotNull
     @JsonSerialize(using = StatementSerializer.class)
     private StatementDto statement;
@@ -41,10 +43,6 @@ public class JourneyDto {
 
     @JsonProperty("end_odometer")
     private double endOdometer;
-
-    @NotNull
-    @JsonProperty("estimated_duration_minutes")
-    private int estimatedDurationMinutes;
 
     @NotNull
     @JsonProperty("created_at")

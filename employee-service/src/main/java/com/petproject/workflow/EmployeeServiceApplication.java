@@ -78,6 +78,18 @@ public class EmployeeServiceApplication {
                     500,
                     true
             );
+            Position logistPosition = new Position(
+                    UUID.randomUUID(),
+                    "Логист",
+                    600,
+                    false
+            );
+            Position operatorPosition = new Position(
+                    UUID.randomUUID(),
+                    "Оператор",
+                    550,
+                    true
+            );
 
             positionRepository.save(adminPosition);
             positionRepository.save(directorPosition);
@@ -125,12 +137,30 @@ public class EmployeeServiceApplication {
                     driverPosition,
                     base
             );
+            Employee logist = new Employee(UUID.fromString(
+                    "96690d40-dfb1-473c-a1ef-e6abb05061ca"),
+                    "Семакина Татьяна Юрьевна",
+                    "+79067850909",
+                    "semakina@mail.ru",
+                    logistPosition,
+                    office
+            );
+            Employee operator = new Employee(UUID.fromString(
+                    "8d41cbf0-f0e5-4b62-b8b5-419381457931"),
+                    "Савельев Петр Петрович",
+                    "+79067858888",
+                    "saveliev@mail.ru",
+                    operatorPosition,
+                    base
+            );
 
             employeeRepository.save(admin);
             employeeRepository.save(director);
             employeeRepository.save(hr);
             employeeRepository.save(industrialSecurity);
             employeeRepository.save(driver);
+            employeeRepository.save(logist);
+            employeeRepository.save(operator);
 
             InstructionData instructionData = new InstructionData(
                     UUID.fromString("4e259e04-8f27-4254-bbd6-3962c1d86106"),

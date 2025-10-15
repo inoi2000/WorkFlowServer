@@ -25,7 +25,11 @@ public class Journey {
     @JoinColumn(name = "car_id", nullable = false)
     private Car car;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "trailer_id")
+    private Trailer trailer;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "statement_id", nullable = false, unique = true)
     private Statement statement;
 
@@ -42,9 +46,6 @@ public class Journey {
     @Column(name = "end_odometer")
     private double endOdometer;
 
-    @Column(name = "estimated_duration_minutes", nullable = false)
-    private int estimatedDurationMinutes;
-
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -59,4 +60,8 @@ public class Journey {
 
     @Column(name = "canceled_at")
     private LocalDateTime canceledAt;
+
+    public Journey(UUID id){
+        this.id = id;
+    }
 }
