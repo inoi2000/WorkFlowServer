@@ -2,8 +2,6 @@ package com.petproject.workflow.api.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.petproject.workflow.api.serialization.JourneySerializer;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,7 +30,13 @@ public class StatementDto {
     private String contactPhone;
 
     @NotNull
-    private String address;
+    @JsonProperty("destination_time")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime destinationTime;
+
+    @NotNull
+    @JsonProperty("destination_address")
+    private String destinationAddress;
 
     @NotNull
     @JsonProperty("created_at")

@@ -25,7 +25,8 @@ public class StatementJourneyMapper {
                 statementDto.getLogist().getId(),
                 statementDto.getData(),
                 statementDto.getContactPhone(),
-                statementDto.getAddress(),
+                statementDto.getDestinationTime(),
+                statementDto.getDestinationAddress(),
                 statementDto.getCreatedAt(),
                 statementDto.getUpdatedAt(),
                 null
@@ -84,7 +85,8 @@ public class StatementJourneyMapper {
                 logist,
                 statement.getData(),
                 statement.getContactPhone(),
-                statement.getAddress(),
+                statement.getDestinationTime(),
+                statement.getDestinationAddress(),
                 statement.getCreatedAt(),
                 statement.getUpdatedAt(),
                 null

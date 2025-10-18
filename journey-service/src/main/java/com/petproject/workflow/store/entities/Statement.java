@@ -29,8 +29,11 @@ public class Statement {
     @Column(name = "contact_phone")
     private String contactPhone;
 
-    @Column(nullable = false, length = 255)
-    private String address;
+    @Column(name = "destination_time", nullable = false)
+    private LocalDateTime destinationTime;
+
+    @Column(name = "destination_address", nullable = false, length = 255)
+    private String destinationAddress;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
