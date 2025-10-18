@@ -2,10 +2,7 @@ package com.petproject.workflow.api.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.petproject.workflow.api.serialization.StatementSerializer;
 import com.petproject.workflow.store.entities.JourneyStatus;
-import com.petproject.workflow.store.entities.Trailer;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;

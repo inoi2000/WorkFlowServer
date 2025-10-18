@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS statements
     logist_id BINARY(16) NOT NULL,		-- Id работника
     data VARCHAR(255) NOT NULL,
     contact_phone VARCHAR(12) NOT NULL,
-    address VARCHAR(255) NOT NULL,
+    destination_time DATETIME NOT NULL,
+    destination_address VARCHAR(255) NOT NULL,
     created_at DATETIME NOT NULL,
     updated_at DATETIME NOT NULL,
     PRIMARY KEY (id)
