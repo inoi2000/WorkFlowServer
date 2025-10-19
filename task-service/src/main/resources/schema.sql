@@ -1,11 +1,10 @@
 CREATE TABLE IF NOT EXISTS tasks (
     id BINARY(16) NOT NULL,
     description VARCHAR(256) NOT NULL,
-    creation DATE NOT NULL,
+    created_at DATETIME NOT NULL,
     deadline DATE NOT NULL,
     status VARCHAR(24) NOT NULL,
     priority VARCHAR(24) NOT NULL,
-    destination VARCHAR(64),
     should_be_inspected BOOLEAN NOT NULL,
     executor_id BINARY(16) NOT NULL,
     inspector_id BINARY(16) NOT NULL,

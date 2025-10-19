@@ -1,9 +1,13 @@
 package com.petproject.workflow.store;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -31,14 +35,11 @@ public class Task {
     @Column(name = "priority", nullable = false)
     private TaskPriority priority;
 
-    @Column(name = "creation", nullable = false)
-    private LocalDate creation;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     @Column(name = "deadline", nullable = false)
     private LocalDate deadline;
-
-    @Column(name = "destination")
-    private String destination;
 
     @Column(name = "should_be_inspected")
     private boolean shouldBeInspected;
@@ -63,9 +64,8 @@ public class Task {
                 Objects.equals(description, task.description) &&
                 status == task.status &&
                 priority == task.priority &&
-                Objects.equals(creation, task.creation) &&
+                Objects.equals(createdAt, task.createdAt) &&
                 Objects.equals(deadline, task.deadline) &&
-                Objects.equals(destination, task.destination) &&
                 Objects.equals(executor, task.executor) &&
                 Objects.equals(inspector, task.inspector);
     }
@@ -77,9 +77,8 @@ public class Task {
                 description,
                 status,
                 priority,
-                creation,
+                createdAt,
                 deadline,
-                destination,
                 shouldBeInspected,
                 executor,
                 inspector
