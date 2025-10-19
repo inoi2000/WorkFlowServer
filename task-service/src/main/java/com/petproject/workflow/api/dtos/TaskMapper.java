@@ -27,13 +27,13 @@ public class TaskMapper {
             comments = Collections.emptyList();
         }
 
-        return new Task(dto.getId(),
+        return new Task(
+                dto.getId(),
                 dto.getDescription(),
                 dto.getStatus(),
                 dto.getPriority(),
-                dto.getCreation(),
+                dto.getCreatedAt(),
                 dto.getDeadline(),
-                dto.getDestination(),
                 dto.isShouldBeInspected(),
                 dto.getExecutor().getId(),
                 dto.getInspector().getId(),
@@ -57,9 +57,8 @@ public class TaskMapper {
                 task.getDescription(),
                 task.getStatus(),
                 task.getPriority(),
-                task.getCreation(),
+                task.getCreatedAt(),
                 task.getDeadline(),
-                task.getDestination(),
                 task.isShouldBeInspected(),
                 executor,
                 inspector,

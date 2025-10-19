@@ -11,10 +11,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 @Transactional
@@ -41,7 +38,6 @@ public class TaskService {
         Task task = taskMapper.mapToTask(dto);
         task.setId(UUID.randomUUID());
         task.setStatus(TaskStatus.NEW);
-        task.setCreation(LocalDate.now());
         var result = toTaskDto(taskRepository.save(task));
         var notification = new TaskNotificationDto(
                 task.getId(),

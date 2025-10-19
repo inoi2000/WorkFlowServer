@@ -10,7 +10,7 @@ public class CommentMapper {
         return new Comment(
                 dto.getId(),
                 dto.getText(),
-                dto.getCreation(),
+                dto.getCreatedAt(),
                 dto.getCommentStatus(),
                 dto.getTaskId()
         );
@@ -20,7 +20,7 @@ public class CommentMapper {
         return new CommentDto(
                 comment.getId(),
                 comment.getText(),
-                comment.getCreation(),
+                comment.getCreatedAt(),
                 comment.getCommentStatus(),
                 comment.getTaskId()
         );

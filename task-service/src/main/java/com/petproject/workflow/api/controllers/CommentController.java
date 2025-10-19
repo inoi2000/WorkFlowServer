@@ -42,7 +42,6 @@ public class CommentController {
     @ResponseStatus(HttpStatus.CREATED)
     public Comment createComment(@RequestBody @Valid CommentDto dto) {
         dto.setId(UUID.randomUUID());
-        dto.setCreation(LocalDate.now());
         Comment comment = commentMapper.mapToComment(dto);
         return commentRepository.save(comment);
     }
