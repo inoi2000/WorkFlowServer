@@ -1,5 +1,7 @@
 package com.petproject.workflow.store;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -11,7 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -30,8 +32,10 @@ public class Announcement {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "post_data")
-    private LocalDate postData;
+    @JsonProperty("created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     @NotNull
     @Size(min=10, message="Content must be at least 10 characters long")

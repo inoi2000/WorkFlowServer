@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -39,7 +39,7 @@ public class AnnouncementController {
     @ResponseStatus(HttpStatus.CREATED)
     public Announcement create(@RequestBody @Valid Announcement announcement) {
         announcement.setId(UUID.randomUUID());
-        announcement.setPostData(LocalDate.now());
+        announcement.setCreatedAt(LocalDateTime.now());
         return announcementRepository.save(announcement);
     }
 }

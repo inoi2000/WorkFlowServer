@@ -27,7 +27,8 @@ public class TaskMapper {
             comments = Collections.emptyList();
         }
 
-        return new Task(dto.getId(),
+        return new Task(
+                dto.getId(),
                 dto.getDescription(),
                 dto.getStatus(),
                 dto.getPriority(),

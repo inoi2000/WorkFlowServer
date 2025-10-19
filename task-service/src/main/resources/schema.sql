@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS tasks (
 CREATE TABLE IF NOT EXISTS comments (
     id BINARY(16) NOT NULL,
     text VARCHAR(256) NOT NULL,
-    creation DATE NOT NULL,
+    created_at DATETIME NOT NULL,
     comment_status VARCHAR(24) NOT NULL,
     task_id BINARY(16) NOT NULL,
     PRIMARY KEY (id),

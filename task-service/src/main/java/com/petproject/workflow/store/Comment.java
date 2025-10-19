@@ -24,8 +24,8 @@ public class Comment {
     @Column(name = "text")
     private String text;
 
-    @Column(name = "creation")
-    private LocalDate creation;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "comment_status")
