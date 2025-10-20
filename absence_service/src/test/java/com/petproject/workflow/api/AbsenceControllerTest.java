@@ -1,5 +1,6 @@
 package com.petproject.workflow.api;
 
+import com.petproject.workflow.api.controllers.AbsenceController;
 import com.petproject.workflow.store.Absence;
 import com.petproject.workflow.store.AbsenceRepository;
 import com.petproject.workflow.store.AbsenceStatus;
