@@ -8,13 +8,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AbsencePolicyDto {
+public class PolicyDto {
 
     @NotNull
     private UUID id;
@@ -32,12 +32,6 @@ public class AbsencePolicyDto {
     private Boolean requiresApproval;
 
     @NotNull
-    @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
-    private LocalDateTime createdAt;
-
-    @NotNull
-    @JsonProperty("updated_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
-    private LocalDateTime updatedAt;
+    @JsonProperty("can_approve_position_ids")
+    private List<UUID> canApprovePositionIds;
 }

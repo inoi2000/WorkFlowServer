@@ -49,43 +49,43 @@ public class EmployeeServiceApplication {
             departmentRepository.save(base);
 
             Position adminPosition = new Position(
-                    UUID.randomUUID(),
+                    UUID.fromString("23347472-98be-4d11-9c0c-66bcfaca14cc"),
                     "Системный администратор",
                     1000,
                     false
             );
             Position directorPosition = new Position(
-                    UUID.randomUUID(),
+                    UUID.fromString("78476c70-d901-4075-9aae-4416c06a3fa4"),
                     "Директор",
                     900,
                     true
             );
             Position hrPosition = new Position(
-                    UUID.randomUUID(),
+                    UUID.fromString("dc81fee5-afa1-4379-80b2-9ee26a7a74d4"),
                     "Кадровик",
                     700,
                     false
             );
             Position industrialSecurityPosition = new Position(
-                    UUID.randomUUID(),
+                    UUID.fromString("9d5df9ff-4f44-4f74-aff6-a0c3c5711581"),
                     "Пром-безопасность",
                     700,
                     false
             );
             Position driverPosition = new Position(
-                    UUID.randomUUID(),
+                    UUID.fromString("355d30fa-68e3-442c-be6a-33b9c2483300"),
                     "Водитель",
                     500,
                     true
             );
             Position logistPosition = new Position(
-                    UUID.randomUUID(),
+                    UUID.fromString("62862eb3-e692-4d75-b15c-f348ec95c62c"),
                     "Логист",
                     600,
                     false
             );
             Position operatorPosition = new Position(
-                    UUID.randomUUID(),
+                    UUID.fromString("d4063c51-251e-4e80-836d-20ddeb921b28"),
                     "Оператор",
                     550,
                     true

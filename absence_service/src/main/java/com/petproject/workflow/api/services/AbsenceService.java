@@ -2,11 +2,11 @@ package com.petproject.workflow.api.services;
 
 import com.petproject.workflow.api.dtos.AbsenceDto;
 import com.petproject.workflow.api.dtos.AbsenceMapper;
-import com.petproject.workflow.api.dtos.AbsencePolicyMapper;
+import com.petproject.workflow.api.dtos.PolicyMapper;
 import com.petproject.workflow.api.dtos.EmployeeDto;
 import com.petproject.workflow.api.exceptions.NotFoundIdException;
 import com.petproject.workflow.store.Absence;
-import com.petproject.workflow.store.AbsencePolicyRepository;
+import com.petproject.workflow.store.PolicyRepository;
 import com.petproject.workflow.store.AbsenceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,11 +21,11 @@ import java.util.UUID;
 public class AbsenceService {
 
     private final AbsenceRepository absenceRepository;
-    private final AbsencePolicyRepository absencePolicyRepository;
+    private final PolicyRepository policyRepository;
     private final EmployeeServiceClient employeeServiceClient;
     private final EmployeeHelper employeeHelper;
     private final AbsenceMapper absenceMapper;
-    private final AbsencePolicyMapper absencePolicyMapper;
+    private final PolicyMapper policyMapper;
 
 
     public AbsenceDto getAbsenceById(UUID absenceId) throws NotFoundIdException {

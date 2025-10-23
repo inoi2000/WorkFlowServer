@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -17,6 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Table(name = "absences")
 public class Absence {
+
     @Id
     @Column(name = "id", columnDefinition = "BINARY(16)")
     private UUID id;
@@ -42,11 +44,11 @@ public class Absence {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "policy_id", nullable = false)
-    private AbsencePolicy policy;
+    private Policy policy;
 
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 }

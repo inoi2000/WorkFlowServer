@@ -4,14 +4,17 @@ import com.petproject.workflow.store.Absence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class AbsenceMapper {
 
-    private final AbsencePolicyMapper absencePolicyMapper;
+    private final PolicyMapper policyMapper;
 
     @Autowired
-    public AbsenceMapper(AbsencePolicyMapper absencePolicyMapper) {
-        this.absencePolicyMapper = absencePolicyMapper;
+    public AbsenceMapper(PolicyMapper policyMapper) {
+        this.policyMapper = policyMapper;
     }
 
     public Absence mapToAbsence(AbsenceDto absenceDto) {
@@ -23,7 +26,7 @@ public class AbsenceMapper {
                 absenceDto.getPlace(),
                 absenceDto.getEmployee().getId(),
                 absenceDto.getCreatedBy().getId(),
-                absencePolicyMapper.mapToAbsencePolicy(absenceDto.getPolicy()),
+                policyMapper.mapToPolicy(absenceDto.getPolicy()),  // ← изменилось
                 absenceDto.getCreatedAt(),
                 absenceDto.getUpdatedAt()
         );
@@ -41,7 +44,7 @@ public class AbsenceMapper {
                 absence.getPlace(),
                 employee,
                 createdBy,
-                absencePolicyMapper.mapToAbsencePolicyDto(absence.getPolicy()),
+                policyMapper.mapToPolicyDto(absence.getPolicy()),  // ← изменилось
                 absence.getCreatedAt(),
                 absence.getUpdatedAt()
         );

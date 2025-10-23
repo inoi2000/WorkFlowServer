@@ -4,5 +4,5 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;
 
-public interface AbsencePolicyRepository extends CrudRepository<AbsencePolicy, UUID> {
+public interface ApprovalRepository extends CrudRepository<Approval, UUID> {
 }

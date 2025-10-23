@@ -46,7 +46,7 @@ public class AbsenceDto {
 
     @NotNull
     @JsonProperty("policy")
-    private AbsencePolicyDto policy;
+    private PolicyDto policy;
 
     @NotNull
     @JsonProperty("created_at")
