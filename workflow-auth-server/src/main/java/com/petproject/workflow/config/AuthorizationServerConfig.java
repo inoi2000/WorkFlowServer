@@ -132,13 +132,24 @@ public class AuthorizationServerConfig {
                                 .requireProofKey(false)
                                 .build())
                         .build();
+        RegisteredClient absenceService =
+                RegisteredClient.withId("b4a29037-98be-4613-9229-2a5374c6c735")
+                        .clientId("absence-service-client")
+                        .clientSecret(passwordEncoder.encode("secret"))
+                        .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                        .scope("INTERNAL")
+                        .clientSettings(ClientSettings.builder()
+                                .requireProofKey(false)
+                                .build())
+                        .build();
 
         return new InMemoryRegisteredClientRepository(
                 androidApp,
                 adminPanel,
                 authServer,
                 taskService,
-                journeyService
+                journeyService,
+                absenceService
         );
     }
 
