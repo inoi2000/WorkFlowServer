@@ -82,3 +82,27 @@ CREATE TABLE IF NOT EXISTS instruction_confirmations
     FOREIGN KEY (employee_id) REFERENCES workflow.employees(id),
     FOREIGN KEY (instruction_id) REFERENCES workflow.instructions(id)
     );
+
+CREATE TABLE IF NOT EXISTS employee_assignments
+(
+    id BINARY(16) NOT NULL,
+    employee_id BINARY(16) NOT NULL,
+    department_id BINARY(16),
+    position_id BINARY(16),
+    change_type ENUM('HIRE', 'TRANSFER', 'PROMOTION', 'DEMOTION', 'TERMINATION', 'SUSPENSION') NOT NULL,
+    effective_date DATE NOT NULL,
+    end_date DATE,                     -- Для временных перемещений
+    reason TEXT,
+    changed_by BINARY(16) NOT NULL,
+    created_at DATETIME NOT NULL,
+    previous_department_id BINARY(16), -- Предыдущий отдел
+    previous_position_id BINARY(16),   -- Предыдущая должность
+
+    PRIMARY KEY (id),
+    FOREIGN KEY (employee_id) REFERENCES workflow.employees(id),
+    FOREIGN KEY (department_id) REFERENCES workflow.departments(id),
+    FOREIGN KEY (position_id) REFERENCES workflow.positions(id),
+    FOREIGN KEY (previous_department_id) REFERENCES workflow.departments(id),
+    FOREIGN KEY (previous_position_id) REFERENCES workflow.positions(id),
+    FOREIGN KEY (changed_by) REFERENCES workflow.employees(id)
+    );
