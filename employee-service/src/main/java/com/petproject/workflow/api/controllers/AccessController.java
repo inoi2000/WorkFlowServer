@@ -32,11 +32,11 @@ public class AccessController {
 
     @GetMapping("/issuer/{issuerId}")
     public Iterable<AccessDto> getAllAccessesByIssuerId(@PathVariable("issuerId") UUID issuerId) {
-        return accessService.getAllInstructionsByIssuerId(issuerId);
+        return accessService.getAllAccessesByIssuerId(issuerId);
     }
 
     @GetMapping("/holder/{holderId}")
     public Iterable<AccessDto> getAllAccessesByHolderId(@PathVariable("holderId") UUID holderId) {
-        return accessService.getAllInstructionsByHolderId(holderId);
+        return accessService.getAllAccessesByHolderId(holderId);
     }
 }

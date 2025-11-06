@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS tasks (
     inspector_id BINARY(16) NOT NULL,
     PRIMARY KEY (id)
 );
-
 CREATE TABLE IF NOT EXISTS comments (
     id BINARY(16) NOT NULL,
     text VARCHAR(256) NOT NULL,
@@ -20,3 +19,13 @@ CREATE TABLE IF NOT EXISTS comments (
     PRIMARY KEY (id),
     FOREIGN KEY (task_id) REFERENCES workflow.tasks(id)
 );
+CREATE TABLE IF NOT EXISTS task_events (
+    id BINARY(16) NOT NULL PRIMARY KEY,
+    task_id BINARY(16) NOT NULL,
+    old_status VARCHAR(24) NULL,
+    new_status VARCHAR(24) NOT NULL,
+    changed_at DATETIME NOT NULL,
+    changed_by BINARY(16) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (task_id) REFERENCES workflow.tasks(id)
+    );
