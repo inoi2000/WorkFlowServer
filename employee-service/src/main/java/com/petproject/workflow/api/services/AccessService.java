@@ -30,14 +30,14 @@ public class AccessService {
         return accessOptional.map(accessMapper::maptoAccessDto);
     }
 
-    public List<AccessDto> getAllInstructionsByHolderId(UUID holderId) {
+    public List<AccessDto> getAllAccessesByHolderId(UUID holderId) {
         return accessRepository.findByHolderId(holderId)
                 .stream()
                 .map(accessMapper::maptoAccessDto)
                 .toList();
     }
 
-    public List<AccessDto> getAllInstructionsByIssuerId(UUID issuerId) {
+    public List<AccessDto> getAllAccessesByIssuerId(UUID issuerId) {
         return accessRepository.findByIssuerId(issuerId)
                 .stream()
                 .map(accessMapper::maptoAccessDto)
