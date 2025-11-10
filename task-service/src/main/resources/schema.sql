@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS comments (
     FOREIGN KEY (task_id) REFERENCES workflow.tasks(id)
 );
 CREATE TABLE IF NOT EXISTS task_events (
-    id BINARY(16) NOT NULL PRIMARY KEY,
+    id BINARY(16) NOT NULL,
     task_id BINARY(16) NOT NULL,
     old_status VARCHAR(24) NULL,
     new_status VARCHAR(24) NOT NULL,
