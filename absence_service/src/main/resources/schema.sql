@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS absences
     created_at DATETIME NOT NULL,
     updated_at DATETIME NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (policy_id) REFERENCES workflow.policies(id)
+    FOREIGN KEY (policy_id) REFERENCES policies(id)
     );
 
 CREATE TABLE IF NOT EXISTS approvals
@@ -37,5 +37,5 @@ CREATE TABLE IF NOT EXISTS approvals
     approver_id BINARY(16) NOT NULL,
     description VARCHAR(256),
     PRIMARY KEY (id),
-    FOREIGN KEY (absence_id) REFERENCES workflow.absences(id)
+    FOREIGN KEY (absence_id) REFERENCES absences(id)
     );

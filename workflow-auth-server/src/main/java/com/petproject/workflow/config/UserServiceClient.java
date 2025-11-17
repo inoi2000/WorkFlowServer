@@ -1,6 +1,7 @@
 package com.petproject.workflow.config;
 
 import com.petproject.workflow.store.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +17,8 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class UserServiceClient implements UserDetailsService {
 
-    private static final String BASE_URL = "http://localhost:9100/api/users/auth/";
+    @Value("${workflow.user-service.base-uri}")
+    private String baseUrl;
 
     private final RestTemplate restTemplate;
     private final AuthorizedClientServiceOAuth2AuthorizedClientManager clientManager;
@@ -49,7 +51,7 @@ public class UserServiceClient implements UserDetailsService {
         headers.setBearerAuth(accessToken);
 
         ResponseEntity<User> response = restTemplate.exchange(
-                BASE_URL + username,
+                baseUrl + username,
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
                 User.class

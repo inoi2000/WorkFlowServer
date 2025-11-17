@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS employees
     position_id BINARY(16),
     department_id BINARY(16),
     PRIMARY KEY (id),
-    FOREIGN KEY (position_id) REFERENCES workflow.positions(id),
-    FOREIGN KEY (department_id) REFERENCES workflow.departments(id)
+    FOREIGN KEY (position_id) REFERENCES positions(id),
+    FOREIGN KEY (department_id) REFERENCES departments(id)
     );
 
 CREATE TABLE IF NOT EXISTS accesses_data
@@ -46,9 +46,9 @@ CREATE TABLE IF NOT EXISTS accesses
     holder_id BINARY(16) NOT NULL,
     data_id BINARY(16) NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (issuer_id) REFERENCES workflow.employees(id),
-    FOREIGN KEY (holder_id) REFERENCES workflow.employees(id),
-    FOREIGN KEY (data_id) REFERENCES workflow.accesses_data(id)
+    FOREIGN KEY (issuer_id) REFERENCES employees(id),
+    FOREIGN KEY (holder_id) REFERENCES employees(id),
+    FOREIGN KEY (data_id) REFERENCES accesses_data(id)
     );
 
 CREATE TABLE IF NOT EXISTS instructions_data
@@ -68,8 +68,8 @@ CREATE TABLE IF NOT EXISTS instructions
     instructor_id BINARY(16) NOT NULL,
     data_id BINARY(16) NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (instructor_id) REFERENCES workflow.employees(id),
-    FOREIGN KEY (data_id) REFERENCES workflow.instructions_data(id)
+    FOREIGN KEY (instructor_id) REFERENCES employees(id),
+    FOREIGN KEY (data_id) REFERENCES instructions_data(id)
     );
 
 CREATE TABLE IF NOT EXISTS instruction_confirmations
@@ -79,8 +79,8 @@ CREATE TABLE IF NOT EXISTS instruction_confirmations
     is_confirmed BOOLEAN NOT NULL DEFAULT FALSE,
     confirmed_at DATETIME,
     PRIMARY KEY (employee_id, instruction_id),
-    FOREIGN KEY (employee_id) REFERENCES workflow.employees(id),
-    FOREIGN KEY (instruction_id) REFERENCES workflow.instructions(id)
+    FOREIGN KEY (employee_id) REFERENCES employees(id),
+    FOREIGN KEY (instruction_id) REFERENCES instructions(id)
     );
 
 CREATE TABLE IF NOT EXISTS employee_assignments
@@ -99,10 +99,10 @@ CREATE TABLE IF NOT EXISTS employee_assignments
     previous_position_id BINARY(16),   -- Предыдущая должность
 
     PRIMARY KEY (id),
-    FOREIGN KEY (employee_id) REFERENCES workflow.employees(id),
-    FOREIGN KEY (department_id) REFERENCES workflow.departments(id),
-    FOREIGN KEY (position_id) REFERENCES workflow.positions(id),
-    FOREIGN KEY (previous_department_id) REFERENCES workflow.departments(id),
-    FOREIGN KEY (previous_position_id) REFERENCES workflow.positions(id),
-    FOREIGN KEY (changed_by) REFERENCES workflow.employees(id)
+    FOREIGN KEY (employee_id) REFERENCES employees(id),
+    FOREIGN KEY (department_id) REFERENCES departments(id),
+    FOREIGN KEY (position_id) REFERENCES positions(id),
+    FOREIGN KEY (previous_department_id) REFERENCES departments(id),
+    FOREIGN KEY (previous_position_id) REFERENCES positions(id),
+    FOREIGN KEY (changed_by) REFERENCES employees(id)
     );
