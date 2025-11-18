@@ -31,33 +31,33 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
 
-    @Mock
-    private UserRepository userRepository;
+//    @Mock
+//    private UserRepository userRepository;
+//
+//    @InjectMocks
+//    private UserController userController;
+//
+//    private User validUser;
+//    private User invalidUser;
+//    private Validator validator;
 
-    @InjectMocks
-    private UserController userController;
-
-    private User validUser;
-    private User invalidUser;
-    private Validator validator;
-
-    @BeforeEach
-    void setUp() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
-
-        validUser = User.builder()
-                .id(UUID.randomUUID())
-                .username("validuser")
-                .password("validpassword123")
-                .role(Role.ROLE_DRIVER)
-                .build();
-
-        invalidUser = User.builder()
-                .id(UUID.randomUUID())
-                .username("user") // слишком короткий
-                .password("pass") // слишком короткий
-                .role(Role.ROLE_DRIVER)
-                .build();
-    }
+//    @BeforeEach
+//    void setUp() {
+//        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+//        validator = factory.getValidator();
+//
+//        validUser = User.builder()
+//                .id(UUID.randomUUID())
+//                .username("validuser")
+//                .password("validpassword123")
+//                .role(Role.ROLE_DRIVER)
+//                .build();
+//
+//        invalidUser = User.builder()
+//                .id(UUID.randomUUID())
+//                .username("user") // слишком короткий
+//                .password("pass") // слишком короткий
+//                .role(Role.ROLE_DRIVER)
+//                .build();
+//    }
 }

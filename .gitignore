@@ -1,4 +1,5 @@
 HELP.md
+_docker/
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -12,6 +13,9 @@ target/
 .settings
 .springBeans
 .sts4-cache
+
+### Keys
+*.properties
 
 ### IntelliJ IDEA ###
 .idea

@@ -5,6 +5,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.petproject.workflow.store.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -39,6 +40,11 @@ import java.util.UUID;
 @Configuration
 public class AuthorizationServerConfig {
 
+    @Value("${workflow.auth-service.issuer}")
+    private String issuer;
+    @Value("${workflow.admin-panel.redirect-uri}")
+    private String adminPanelRedirectUri;
+
     @Bean
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -63,8 +69,7 @@ public class AuthorizationServerConfig {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
-                .issuer("https://192.168.0.159:9000")
-//                .issuer("http://localhost:9000")
+                .issuer(issuer)
                 .build();
     }
 
@@ -95,8 +100,7 @@ public class AuthorizationServerConfig {
                                 ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                         .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                         .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                        .redirectUri(
-                                "http://127.0.0.1:9090/login/oauth2/code/admin-client")
+                        .redirectUri(adminPanelRedirectUri)
                         .scope(OidcScopes.OPENID)
                         .clientSettings(ClientSettings.builder()
                                 .requireProofKey(false)

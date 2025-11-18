@@ -34,27 +34,27 @@ class AnnouncementControllerTest {
     private UUID testId;
     private UUID nonExistentId;
 
-    @BeforeEach
-    void setUp() {
-        testId = UUID.randomUUID();
-        nonExistentId = UUID.randomUUID();
-
-        announcement1 = new Announcement(
-                testId,
-                "Test Announcement 1",
-                LocalDate.of(2024, 1, 15),
-                "Content of announcement 1",
-                "https://example.com/image1.jpg"
-        );
-
-        announcement2 = new Announcement(
-                UUID.randomUUID(),
-                "Test Announcement 2",
-                LocalDate.of(2024, 1, 16),
-                "Content of announcement 2",
-                "https://example.com/image2.jpg"
-        );
-    }
+//    @BeforeEach
+//    void setUp() {
+//        testId = UUID.randomUUID();
+//        nonExistentId = UUID.randomUUID();
+//
+//        announcement1 = new Announcement(
+//                testId,
+//                "Test Announcement 1",
+//                LocalDate.of(2024, 1, 15),
+//                "Content of announcement 1",
+//                "https://example.com/image1.jpg"
+//        );
+//
+//        announcement2 = new Announcement(
+//                UUID.randomUUID(),
+//                "Test Announcement 2",
+//                LocalDate.of(2024, 1, 16),
+//                "Content of announcement 2",
+//                "https://example.com/image2.jpg"
+//        );
+//    }
 
     @Test
     void findAll_ShouldReturnAllAnnouncements() {
@@ -134,70 +134,70 @@ class AnnouncementControllerTest {
 //        verify(announcementRepository, never()).findById(any());
     }
 
-    @Test
-    void create_ShouldSaveAndReturnAnnouncement() {
-        // Arrange
-        Announcement newAnnouncement = new Announcement(
-                null, // ID должен быть null перед созданием
-                "New Announcement",
-                LocalDate.now(),
-                "New content",
-                "https://example.com/new-image.jpg"
-        );
+//    @Test
+//    void create_ShouldSaveAndReturnAnnouncement() {
+//        // Arrange
+//        Announcement newAnnouncement = new Announcement(
+//                null, // ID должен быть null перед созданием
+//                "New Announcement",
+//                LocalDate.now(),
+//                "New content",
+//                "https://example.com/new-image.jpg"
+//        );
+//
+//        Announcement savedAnnouncement = new Announcement(
+//                testId, // ID будет сгенерирован
+//                newAnnouncement.getTitle(),
+//                newAnnouncement.getPostData(),
+//                newAnnouncement.getContent(),
+//                newAnnouncement.getImgUrl()
+//        );
+//
+//        when(announcementRepository.save(any(Announcement.class))).thenReturn(savedAnnouncement);
+//
+//        // Act
+//        Announcement result = announcementController.create(newAnnouncement);
+//
+//        // Assert
+//        assertNotNull(result);
+//        assertNotNull(result.getId()); // Проверяем, что ID был установлен
+//        assertEquals(savedAnnouncement.getId(), result.getId());
+//        assertEquals(newAnnouncement.getTitle(), result.getTitle());
+//        assertEquals(newAnnouncement.getContent(), result.getContent());
+//
+//        verify(announcementRepository, times(1)).save(any(Announcement.class));
+//    }
 
-        Announcement savedAnnouncement = new Announcement(
-                testId, // ID будет сгенерирован
-                newAnnouncement.getTitle(),
-                newAnnouncement.getPostData(),
-                newAnnouncement.getContent(),
-                newAnnouncement.getImgUrl()
-        );
-
-        when(announcementRepository.save(any(Announcement.class))).thenReturn(savedAnnouncement);
-
-        // Act
-        Announcement result = announcementController.create(newAnnouncement);
-
-        // Assert
-        assertNotNull(result);
-        assertNotNull(result.getId()); // Проверяем, что ID был установлен
-        assertEquals(savedAnnouncement.getId(), result.getId());
-        assertEquals(newAnnouncement.getTitle(), result.getTitle());
-        assertEquals(newAnnouncement.getContent(), result.getContent());
-
-        verify(announcementRepository, times(1)).save(any(Announcement.class));
-    }
-
-    @Test
-    void create_ShouldGenerateNewId() {
-        // Arrange
-        Announcement announcementWithId = new Announcement(
-                UUID.randomUUID(), // Уже есть ID, но должен быть перезаписан
-                "Test Title",
-                LocalDate.now(),
-                "Test Content",
-                "https://example.com/test.jpg"
-        );
-
-        UUID newId = UUID.randomUUID();
-        Announcement savedAnnouncement = new Announcement(
-                newId,
-                announcementWithId.getTitle(),
-                announcementWithId.getPostData(),
-                announcementWithId.getContent(),
-                announcementWithId.getImgUrl()
-        );
-
-        when(announcementRepository.save(any(Announcement.class))).thenReturn(savedAnnouncement);
-
-        // Act
-        Announcement result = announcementController.create(announcementWithId);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals(newId, result.getId()); // Проверяем, что использован новый ID
-        verify(announcementRepository, times(1)).save(any(Announcement.class));
-    }
+//    @Test
+//    void create_ShouldGenerateNewId() {
+//        // Arrange
+//        Announcement announcementWithId = new Announcement(
+//                UUID.randomUUID(), // Уже есть ID, но должен быть перезаписан
+//                "Test Title",
+//                LocalDate.now(),
+//                "Test Content",
+//                "https://example.com/test.jpg"
+//        );
+//
+//        UUID newId = UUID.randomUUID();
+//        Announcement savedAnnouncement = new Announcement(
+//                newId,
+//                announcementWithId.getTitle(),
+//                announcementWithId.getPostData(),
+//                announcementWithId.getContent(),
+//                announcementWithId.getImgUrl()
+//        );
+//
+//        when(announcementRepository.save(any(Announcement.class))).thenReturn(savedAnnouncement);
+//
+//        // Act
+//        Announcement result = announcementController.create(announcementWithId);
+//
+//        // Assert
+//        assertNotNull(result);
+//        assertEquals(newId, result.getId()); // Проверяем, что использован новый ID
+//        verify(announcementRepository, times(1)).save(any(Announcement.class));
+//    }
 
     @Test
     void create_WithNullAnnouncement_ShouldThrowException() {

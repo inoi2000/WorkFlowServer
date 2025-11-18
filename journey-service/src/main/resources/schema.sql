@@ -51,9 +51,9 @@ CREATE TABLE IF NOT EXISTS journeys
     finished_at DATETIME,
     canceled_at DATETIME,
     PRIMARY KEY (id),
-    FOREIGN KEY (car_id) REFERENCES workflow.cars(id),
-    FOREIGN KEY (trailer_id) REFERENCES workflow.trailers(id),
-    FOREIGN KEY (statement_id) REFERENCES workflow.statements(id)
+    FOREIGN KEY (car_id) REFERENCES cars(id),
+    FOREIGN KEY (trailer_id) REFERENCES trailers(id),
+    FOREIGN KEY (statement_id) REFERENCES statements(id)
     );
 
 CREATE TABLE IF NOT EXISTS fuellings
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS fuellings
     volume DOUBLE NOT NULL, 			    -- обьем топлива
     created_at DATETIME NOT NULL,			-- время заправки
     PRIMARY KEY (id),
-    FOREIGN KEY (car_id) REFERENCES workflow.cars(id)
+    FOREIGN KEY (car_id) REFERENCES cars(id)
     );
 
 
