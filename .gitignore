@@ -15,7 +15,7 @@ target/
 .sts4-cache
 
 ### Keys
-*.properties
+**/*.properties
 
 ### IntelliJ IDEA ###
 .idea
