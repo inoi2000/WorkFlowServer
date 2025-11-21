@@ -1,5 +1,6 @@
 HELP.md
 _docker/
+_secrets
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -16,6 +17,8 @@ target/
 
 ### Keys
 **/*.properties
+**/*.p12
+**/*.crt
 
 ### IntelliJ IDEA ###
 .idea
