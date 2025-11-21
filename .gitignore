@@ -16,6 +16,8 @@ target/
 
 ### Keys
 **/*.properties
+**/*.p12
+**/*.crt
 
 ### IntelliJ IDEA ###
 .idea
