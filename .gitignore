@@ -1,6 +1,5 @@
 HELP.md
 _docker/
-_secrets
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -16,9 +15,7 @@ target/
 .sts4-cache
 
 ### Keys
-**/*.properties
-**/*.p12
-**/*.crt
+**/application-prod.properties
 
 ### IntelliJ IDEA ###
 .idea
