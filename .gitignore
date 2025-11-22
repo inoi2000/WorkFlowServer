@@ -16,6 +16,7 @@ target/
 
 ### Keys
 **/application-prod.properties
+**/*.p12
 
 ### IntelliJ IDEA ###
 .idea
