@@ -100,6 +100,7 @@ public class EmployeeServiceApplication {
             Employee admin = new Employee(UUID.fromString(
                     "123e4567-e89b-12d3-a456-426614174000"),
                     "Авинов Михаил Сергеевич",
+                    "123e4567-e89b-12d3-a456-426614174000.png",
                     "+79033653774",
                     "mishavinov@mail.ru",
                     adminPosition,
@@ -108,6 +109,7 @@ public class EmployeeServiceApplication {
             Employee director = new Employee(UUID.fromString(
                     "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"),
                     "Иванов Иван Иванович",
+                    "f81d4fae-7dec-11d0-a765-00a0c91e6bf6.png",
                     "+79066653994",
                     "ivanov@inbox.ru",
                     directorPosition,
@@ -116,6 +118,7 @@ public class EmployeeServiceApplication {
             Employee hr = new Employee(UUID.fromString(
                     "16763be4-6022-406e-a950-fcd5018633ca"),
                     "Яковлева Елена Сергеевна",
+                    "16763be4-6022-406e-a950-fcd5018633ca.png",
                     "+79256653999",
                     "yacovleva@mail.ru",
                     hrPosition,
@@ -124,6 +127,7 @@ public class EmployeeServiceApplication {
             Employee industrialSecurity = new Employee(UUID.fromString(
                     "73ea403e-8c9a-4cf8-bc7a-88d68dfcc20f"),
                     "Сидоров Виталий Иванович",
+                    "73ea403e-8c9a-4cf8-bc7a-88d68dfcc20f.png",
                     "+79228494122",
                     "sidorov@mail.ru",
                     industrialSecurityPosition,
@@ -132,6 +136,7 @@ public class EmployeeServiceApplication {
             Employee driver = new Employee(UUID.fromString(
                     "1a6fce5a-cd67-11eb-b8bc-0242ac130003"),
                     "Стариханов Федр Петрович",
+                    "1a6fce5a-cd67-11eb-b8bc-0242ac130003.png",
                     "+79067853343",
                     "staricov22@mail.ru",
                     driverPosition,
@@ -140,6 +145,7 @@ public class EmployeeServiceApplication {
             Employee logist = new Employee(UUID.fromString(
                     "96690d40-dfb1-473c-a1ef-e6abb05061ca"),
                     "Семакина Татьяна Юрьевна",
+                    "96690d40-dfb1-473c-a1ef-e6abb05061ca.jpg",
                     "+79067850909",
                     "semakina@mail.ru",
                     logistPosition,
@@ -148,6 +154,7 @@ public class EmployeeServiceApplication {
             Employee operator = new Employee(UUID.fromString(
                     "8d41cbf0-f0e5-4b62-b8b5-419381457931"),
                     "Савельев Петр Петрович",
+                    "8d41cbf0-f0e5-4b62-b8b5-419381457931.jpg",
                     "+79067858888",
                     "saveliev@mail.ru",
                     operatorPosition,
