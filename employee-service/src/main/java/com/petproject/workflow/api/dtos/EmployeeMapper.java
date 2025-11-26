@@ -20,6 +20,7 @@ public class EmployeeMapper {
         return new Employee(
                 employeeDto.getId(),
                 employeeDto.getName(),
+                null,
                 employeeDto.getPhone(),
                 employeeDto.getEmail(),
                 positionMapper.mapToPosition(employeeDto.getPosition()),

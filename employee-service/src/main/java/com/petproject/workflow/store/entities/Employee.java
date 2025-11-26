@@ -23,6 +23,9 @@ public class Employee {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "photo_key")
+    private String photoKey;
+
     @Column(name = "phone")
     private String phone;
 
