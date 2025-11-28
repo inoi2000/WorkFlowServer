@@ -1,6 +1,6 @@
 package com.petproject.workflow.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 import com.petproject.workflow.api.controllers.PositionController;
 import com.petproject.workflow.api.dtos.PositionDto;
 import com.petproject.workflow.api.dtos.PositionMapper;
@@ -40,7 +40,7 @@ class PositionControllerTest {
     private PositionController positionController;
 
     private MockMvc mockMvc;
-    private ObjectMapper objectMapper = new ObjectMapper();
+//    private ObjectMapper objectMapper = new ObjectMapper();
 
 //    @Test
 //    void testGetAllPositions_ShouldReturnListOfPositionDtos() throws Exception {

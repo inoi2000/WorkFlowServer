@@ -25,4 +25,13 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleSSLException(Exception e) {
+        if (e.getMessage().contains("Invalid character found in method name")) {
+            return ResponseEntity.badRequest()
+                    .body("Use HTTP instead of HTTPS or configure SSL properly");
+        }
+        return ResponseEntity.status(500).body("Internal server error");
+    }
 }
