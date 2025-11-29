@@ -20,4 +20,9 @@ public interface EmployeeRepository extends CrudRepository<Employee, UUID> {
 
     @Query("SELECT e FROM Employee e JOIN e.position p WHERE p.name = :positionName")
     List<Employee> findAllEmployeesWithPositionName(@Param("positionName") String positionName);
+
+    @Query("SELECT e FROM Employee e LEFT JOIN e.position p " +
+            "WHERE LOWER(e.name) LIKE LOWER(CONCAT('%', :searchString, '%')) OR " +
+            "LOWER(p.name) LIKE LOWER(CONCAT('%', :searchString, '%'))")
+    List<Employee> findAllEmployeesByNameOrPositionName(@Param("searchString") String searchString);
 }
