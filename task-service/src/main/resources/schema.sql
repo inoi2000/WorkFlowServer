@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS comments (
     text VARCHAR(256) NOT NULL,
     created_at DATETIME NOT NULL,
     comment_status VARCHAR(24) NOT NULL,
+    file_key VARCHAR(42),
     task_id BINARY(16) NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (task_id) REFERENCES tasks(id)

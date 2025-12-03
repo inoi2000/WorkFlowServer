@@ -1,48 +1,46 @@
 package com.petproject.workflow.api.controllers;
 
 import com.petproject.workflow.api.dtos.CommentDto;
-import com.petproject.workflow.api.dtos.CommentMapper;
-import com.petproject.workflow.store.Comment;
-import com.petproject.workflow.store.CommentRepository;
+import com.petproject.workflow.api.exceptions.CreateInstanceException;
+import com.petproject.workflow.api.services.CommentService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.io.IOException;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @RestController
-@RequestMapping(path = "/api/comments", produces="application/json")
+@RequiredArgsConstructor
+@RequestMapping(path = "/api/comments", produces = "application/json")
 public class CommentController {
 
-    private final CommentRepository commentRepository;
-    private final CommentMapper commentMapper;
-
-    @Autowired
-    public CommentController(
-            CommentRepository commentRepository,
-            CommentMapper commentMapper) {
-        this.commentRepository = commentRepository;
-        this.commentMapper = commentMapper;
-    }
+    private final CommentService commentService;
 
     @GetMapping()
-    public Iterable<CommentDto> getAllCommentsByTask(@RequestParam("task_id") String taskId) {
-        UUID uuid = UUID.fromString(taskId);
-        return commentRepository.findAllByTaskId(uuid).stream()
-                .map(commentMapper::mapToCommentDto)
-                .collect(Collectors.toList());
+    public Iterable<CommentDto> getAllCommentsByTask(@RequestParam("task_id") UUID taskId) {
+        return commentService.getAllCommentsByTask(taskId);
     }
 
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public Comment createComment(@RequestBody @Valid CommentDto dto) {
-        dto.setId(UUID.randomUUID());
-        Comment comment = commentMapper.mapToComment(dto);
-        return commentRepository.save(comment);
+    public CommentDto createComment(@RequestBody @Valid CommentDto dto) throws CreateInstanceException {
+        return commentService.createComment(dto);
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(
+            @RequestParam("file") MultipartFile file
+    ) {
+        try {
+            String fileKey = commentService.uploadFile(file);
+            return ResponseEntity.ok(fileKey);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Ошибка при загрузке файла: " + e.getMessage());
+        }
     }
 }

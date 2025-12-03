@@ -24,6 +24,9 @@ public class Comment {
     @Column(name = "text")
     private String text;
 
+    @Column(name = "file_key")
+    private String fileKey;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

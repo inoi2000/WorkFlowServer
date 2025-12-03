@@ -20,6 +20,8 @@ public class CommentDto {
     @Size(min=5, message="Text must be at least 5 characters long")
     private String text;
 
+    private String fileKey;
+
     @NotNull
     @JsonProperty("created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")

@@ -10,6 +10,7 @@ public class CommentMapper {
         return new Comment(
                 dto.getId(),
                 dto.getText(),
+                dto.getFileKey(),
                 dto.getCreatedAt(),
                 dto.getCommentStatus(),
                 dto.getTaskId()
@@ -20,6 +21,7 @@ public class CommentMapper {
         return new CommentDto(
                 comment.getId(),
                 comment.getText(),
+                comment.getFileKey(),
                 comment.getCreatedAt(),
                 comment.getCommentStatus(),
                 comment.getTaskId()

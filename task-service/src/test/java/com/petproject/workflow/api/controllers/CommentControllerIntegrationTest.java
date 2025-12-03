@@ -5,7 +5,7 @@ import com.petproject.workflow.api.dtos.CommentDto;
 import com.petproject.workflow.store.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+//import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -23,20 +23,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+//@AutoConfigureMockMvc
 public class CommentControllerIntegrationTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private CommentRepository commentRepository;
-
-    @Autowired
-    private TaskRepository taskRepository;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+//    @Autowired
+//    private MockMvc mockMvc;
+//
+//    @Autowired
+//    private CommentRepository commentRepository;
+//
+//    @Autowired
+//    private TaskRepository taskRepository;
+//
+//    @Autowired
+//    private ObjectMapper objectMapper;
 
 //    @Test
 //    @WithMockUser(username = "test-user", roles = {"HR"})
