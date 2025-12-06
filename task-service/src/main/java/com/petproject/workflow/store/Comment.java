@@ -6,8 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -30,6 +31,10 @@ public class Comment {
     @Enumerated(EnumType.STRING)
     @Column(name = "comment_status")
     private CommentStatus commentStatus;
+
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "comment_id")
+    private List<FileKey> fileKeys = new ArrayList<>();
 
     @Column(name = "task_id", columnDefinition = "BINARY(16)")
     private UUID taskId;

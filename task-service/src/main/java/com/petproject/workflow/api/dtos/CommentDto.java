@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -28,6 +29,9 @@ public class CommentDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @NotNull
     private CommentStatus commentStatus;
+
+    @JsonProperty("file_keys")
+    private List<FileKeyDto> fileKeys;
 
     @NotNull
     private UUID taskId;

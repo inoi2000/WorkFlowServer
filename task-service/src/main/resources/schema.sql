@@ -19,6 +19,13 @@ CREATE TABLE IF NOT EXISTS comments (
     PRIMARY KEY (id),
     FOREIGN KEY (task_id) REFERENCES tasks(id)
 );
+CREATE TABLE IF NOT EXISTS file_keys (
+    id BINARY(16) NOT NULL,
+    file_key VARCHAR(42) NOT NULL,
+    comment_id BINARY(16),
+    PRIMARY KEY (id),
+    FOREIGN KEY (comment_id) REFERENCES comments(id)
+);
 CREATE TABLE IF NOT EXISTS task_events (
     id BINARY(16) NOT NULL,
     task_id BINARY(16) NOT NULL,
