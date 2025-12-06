@@ -1,6 +1,7 @@
 package com.petproject.workflow.api.controllers;
 
 import com.petproject.workflow.api.dtos.CommentDto;
+import com.petproject.workflow.api.dtos.FileKeyDto;
 import com.petproject.workflow.api.exceptions.CreateInstanceException;
 import com.petproject.workflow.api.services.CommentService;
 import jakarta.validation.Valid;
@@ -32,15 +33,14 @@ public class CommentController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(
+    public ResponseEntity<FileKeyDto> uploadFile(
             @RequestParam("file") MultipartFile file
-    ) {
+    ) throws CreateInstanceException {
         try {
-            String fileKey = commentService.uploadFile(file);
-            return ResponseEntity.ok(fileKey);
+            FileKeyDto dto = commentService.uploadFile(file);
+            return ResponseEntity.ok(dto);
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Ошибка при загрузке файла: " + e.getMessage());
+            throw new CreateInstanceException(e.getMessage());
         }
     }
 }

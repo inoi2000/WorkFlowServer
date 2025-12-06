@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -20,8 +21,6 @@ public class CommentDto {
     @Size(min=5, message="Text must be at least 5 characters long")
     private String text;
 
-    private String fileKey;
-
     @NotNull
     @JsonProperty("created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
@@ -30,6 +29,9 @@ public class CommentDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @NotNull
     private CommentStatus commentStatus;
+
+    @JsonProperty("file_keys")
+    private List<FileKeyDto> fileKeys;
 
     @NotNull
     private UUID taskId;
