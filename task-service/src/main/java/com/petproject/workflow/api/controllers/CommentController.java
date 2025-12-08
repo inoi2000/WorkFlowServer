@@ -28,7 +28,7 @@ public class CommentController {
 
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentDto createComment(@RequestBody @Valid CommentDto dto) throws CreateInstanceException {
+    public CommentDto createComment(@RequestBody @Valid CommentDto dto) {
         return commentService.createComment(dto);
     }
 
@@ -42,5 +42,10 @@ public class CommentController {
         } catch (IOException e) {
             throw new CreateInstanceException(e.getMessage());
         }
+    }
+
+    @DeleteMapping("/file_keys/{fileKeyId}")
+    public ResponseEntity<Boolean> deleteFile(@PathVariable UUID fileKeyId) {
+        return new ResponseEntity<>(commentService.deleteFile(fileKeyId), HttpStatus.OK);
     }
 }
