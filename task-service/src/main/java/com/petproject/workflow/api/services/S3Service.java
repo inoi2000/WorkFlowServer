@@ -25,7 +25,7 @@ public class S3Service {
     @Value("${aws.s3.bucket.path}")
     private String path;
 
-    public FileResponse getFile(String key) {
+    public FileResponse getFile(String key) throws IOException {
         FileResponse response = new FileResponse();
         response.setContentType(getContentType(key));
         response.setData(downloadFile(key));
@@ -53,11 +53,11 @@ public class S3Service {
             return fileKey;
 
         } catch (S3Exception e) {
-            throw new RuntimeException("Ошибка при загрузке файла в S3: " + e.getMessage(), e);
+            throw new IOException("Ошибка при загрузке файла в S3: " + e.getMessage(), e);
         }
     }
 
-    public byte[] downloadFile(String key) {
+    public byte[] downloadFile(String key) throws IOException {
         try {
             String fullKey = path + key;
             GetObjectRequest getObjectRequest = GetObjectRequest.builder()
@@ -69,11 +69,11 @@ public class S3Service {
             return objectBytes.asByteArray();
 
         } catch (S3Exception e) {
-            throw new RuntimeException("Ошибка при получении файла из S3: " + e.getMessage(), e);
+            throw new IOException("Ошибка при получении файла из S3: " + e.getMessage(), e);
         }
     }
 
-    public MediaType getContentType(String key) {
+    public MediaType getContentType(String key) throws IOException {
         try {
             String fullKey = path + key;
             HeadObjectRequest headObjectRequest = HeadObjectRequest.builder()
@@ -85,11 +85,11 @@ public class S3Service {
             return MediaType.valueOf(headObjectResponse.contentType());
 
         } catch (S3Exception e) {
-            throw new RuntimeException("Ошибка при получении метаданных файла: " + e.getMessage(), e);
+            throw new IOException("Ошибка при получении метаданных файла: " + e.getMessage(), e);
         }
     }
 
-    public boolean fileExists(String key) {
+    public boolean fileExists(String key) throws IOException {
         try {
             HeadObjectRequest headObjectRequest = HeadObjectRequest.builder()
                     .bucket(bucketName)
@@ -101,7 +101,24 @@ public class S3Service {
         } catch (NoSuchKeyException e) {
             return false;
         } catch (S3Exception e) {
-            throw new RuntimeException("Ошибка при проверке существования файла: " + e.getMessage(), e);
+            throw new IOException("Ошибка при проверке существования файла: " + e.getMessage(), e);
+        }
+    }
+
+    public boolean deleteFile(String key) throws IOException {
+        try {
+            String fullKey = path + key;
+            DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(fullKey)
+                    .build();
+
+            s3Client.deleteObject(deleteObjectRequest);
+            return true;
+        } catch (NoSuchKeyException e) {
+            return false;
+        } catch (S3Exception e) {
+            throw new IOException("Ошибка при удалении файла из S3: " + e.getMessage(), e);
         }
     }
 
