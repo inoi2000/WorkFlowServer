@@ -1,13 +1,6 @@
 package com.petproject.workflow.store;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,21 +20,15 @@ public class Announcement {
     @Column(name = "id", columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @NotNull
-    @Size(min=5, message="Title must be at least 5 characters long")
     @Column(name = "title")
     private String title;
 
-    @JsonProperty("created_at")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @NotNull
-    @Size(min=10, message="Content must be at least 10 characters long")
     @Column(name = "content")
     private String content;
 
-    @Column(name = "img_url")
-    private String imgUrl;
+    @OneToOne(cascade = {CascadeType.MERGE,  CascadeType.PERSIST, CascadeType.REFRESH})
+    private FileKey fileKey;
 }
