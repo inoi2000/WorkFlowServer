@@ -72,4 +72,15 @@ public class AnnouncementService {
         ));
         return fileKeyMapper.mapToFileKeyDto(fileKey);
     }
+
+    public boolean deleteFile(UUID fileKeyId) {
+        try {
+            FileKey fileKey = fileKeyRepository.findById(fileKeyId).orElseThrow();
+            fileKeyRepository.delete(fileKey);
+            s3Service.deleteFile(fileKey.getKey());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

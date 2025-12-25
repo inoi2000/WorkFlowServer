@@ -62,4 +62,9 @@ public class AnnouncementController {
             throw new CreateInstanceException(e.getMessage());
         }
     }
+
+    @DeleteMapping("/file_keys/{fileKeyId}")
+    public ResponseEntity<Boolean> deleteFile(@PathVariable UUID fileKeyId) {
+        return new ResponseEntity<>(announcementService.deleteFile(fileKeyId), HttpStatus.OK);
+    }
 }
