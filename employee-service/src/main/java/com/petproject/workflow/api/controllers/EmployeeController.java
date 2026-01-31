@@ -35,6 +35,11 @@ public class EmployeeController {
         return employeeService.saveEmployee(dto);
     }
 
+    @GetMapping("/search/{query}")
+    public Iterable<EmployeeDto> getAllEmployeesByQuery(@PathVariable("query") String query) {
+        return employeeService.getAllEmployeesByNameOrPositionName(query);
+    }
+
     @GetMapping("/subordinate/{id}")
     public Iterable<EmployeeDto> getSubordinateEmployees(@PathVariable("id") UUID id) {
         return employeeService.getSubordinateEmployees(id);
@@ -43,11 +48,6 @@ public class EmployeeController {
     @GetMapping("/drivers")
     public Iterable<EmployeeDto> getDriversEmployees() {
         return employeeService.getEmployeeWithPositionName("Водитель");
-    }
-
-    @GetMapping("/search/{query}")
-    public Iterable<EmployeeDto> getDriversEmployees(@PathVariable("query") String query) {
-        return employeeService.getAllEmployeesByNameOrPositionName(query);
     }
 
     @PostMapping("/batch")

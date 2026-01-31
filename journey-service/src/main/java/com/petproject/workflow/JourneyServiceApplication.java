@@ -41,22 +41,22 @@ public class JourneyServiceApplication {
             // Создание тестовых автомобилей для перевозки нефтепродуктов
             Car car1 = new Car(
                     UUID.randomUUID(),
-                    "Volvo", "FH16", "A123BC", "YV2R2DBS5CA123456", 2022, "Orange", 85000.5, CarStatus.ACTIVE
+                    "Volvo", "FH16", "A123BC", "YV2R2DBS5CA123456", 2022, "Ораньжевая", 85000.5, CarStatus.ACTIVE
             );
 
             Car car2 = new Car(
                     UUID.randomUUID(),
-                    "MAN", "TGX", "B456DE", "MANTGXS00CL123456", 2021, "White", 125000.0, CarStatus.MAINTENANCE
+                    "MAN", "TGX", "B456DE", "MANTGXS00CL123456", 2021, "Белая", 125000.0, CarStatus.MAINTENANCE
             );
 
             Car car3 = new Car(
                     UUID.randomUUID(),
-                    "Scania", "R450", "C789FG", "SCCZHZBT0F0S12345", 2023, "Blue", 35000.0, CarStatus.ACTIVE
+                    "Scania", "R450", "C789FG", "SCCZHZBT0F0S12345", 2023, "Синяя", 35000.0, CarStatus.ACTIVE
             );
 
             Car car4 = new Car(
                     UUID.randomUUID(),
-                    "Mercedes-Benz", "Actros", "D012GH", "W1M953ZZ0KP123789", 2022, "Yellow", 95000.0, CarStatus.INACTIVE
+                    "Mercedes-Benz", "Actros", "D012GH", "W1M953ZZ0KP123789", 2022, "Желтая", 95000.0, CarStatus.INACTIVE
             );
 
             carRepository.saveAll(List.of(car1, car2, car3, car4));
@@ -64,17 +64,17 @@ public class JourneyServiceApplication {
             // Создание тестовых цистерн и прицепов для нефтепродуктов и химотходов
             Trailer trailer1 = new Trailer(
                     UUID.randomUUID(),
-                    "Schmitz", "T123TR", 38000.0, "Stainless Steel"
+                    "Schmitz", "T123TR", 38000.0, "Нержавеющая сталь"
             );
 
             Trailer trailer2 = new Trailer(
                     UUID.randomUUID(),
-                    "Krone", "T456TR", 42000.0, "Carbon Steel"
+                    "Krone", "T456TR", 42000.0, "Карбонавая сталь"
             );
 
             Trailer trailer3 = new Trailer(
                     UUID.randomUUID(),
-                    "Kögel", "T789TR", 35000.0, "Stainless Steel"
+                    "Kögel", "T789TR", 35000.0, "Нержавеющая сталь"
             );
 
             Trailer trailer4 = new Trailer(

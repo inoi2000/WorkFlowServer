@@ -43,6 +43,14 @@ public class StatementService {
         );
     }
 
+    public StatementDto createStatement(StatementDto dto) {
+        Statement statement = statementJourneyMapper.mapToStatement(dto);
+        statement.setId(UUID.randomUUID());
+        statement.getJourney().setId(UUID.randomUUID());
+        var result = statementRepository.save(statement);
+        return mapToStatementDto(result);
+    }
+
     private List<StatementDto> mapStatementsToDto(List<Statement> statements) {
         Set<UUID> employeesIds = employeeHelper.collectEmployeesUUIDFromStatementsIterabletoSet(statements);
         Iterable<EmployeeDto> employeesIterable = employeeServiceClient.getEmployeesByIds(employeesIds);
@@ -52,5 +60,16 @@ public class StatementService {
                         statement,
                         employeesMap.get(statement.getLogistId()),
                         employeesMap.get(statement.getJourney().getDriverId()))).toList();
+    }
+
+    private StatementDto mapToStatementDto(Statement statement) {
+        Set<UUID> employeesIds = employeeHelper.collectEmployeeUUIDtoSet(statement);
+        Iterable<EmployeeDto> employeesIterable = employeeServiceClient.getEmployeesByIds(employeesIds);
+        Map<UUID, EmployeeDto> employeesMap = employeeHelper.toMap(employeesIterable);
+        return statementJourneyMapper.mapToStatementDto(
+                statement,
+                employeesMap.get(statement.getLogistId()),
+                employeesMap.get(statement.getJourney().getDriverId())
+        );
     }
 }
