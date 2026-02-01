@@ -1,6 +1,5 @@
 package com.petproject.workflow.store.repositories;
 
-import com.petproject.workflow.api.dtos.CarDto;
 import com.petproject.workflow.store.entities.Car;
 import org.springframework.data.repository.CrudRepository;
 

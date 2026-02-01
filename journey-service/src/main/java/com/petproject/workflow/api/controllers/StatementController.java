@@ -3,11 +3,10 @@ package com.petproject.workflow.api.controllers;
 import com.petproject.workflow.api.dtos.StatementDto;
 import com.petproject.workflow.api.exceptions.NotFoundIdException;
 import com.petproject.workflow.api.services.StatementService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -21,6 +20,12 @@ public class StatementController {
     @GetMapping("/")
     public Iterable<StatementDto> getAllStatements() {
         return statementService.getAllStatements();
+    }
+
+    @PostMapping(consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public StatementDto createStatement(@RequestBody @Valid StatementDto statementDto) {
+        return statementService.createStatement(statementDto);
     }
 
     @GetMapping("/{statementId}")
