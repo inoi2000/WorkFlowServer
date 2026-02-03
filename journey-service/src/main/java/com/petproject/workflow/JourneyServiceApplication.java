@@ -84,60 +84,10 @@ public class JourneyServiceApplication {
 
             trailerRepository.saveAll(List.of(trailer1, trailer2, trailer3, trailer4));
 
-            // Создание тестовых заявок (Statements) для нефтеперевозок
+            // Создание тестовых выездов (Journeys)
+
             LocalDateTime now = LocalDateTime.now();
 
-            Statement statement1 = new Statement(
-                    UUID.randomUUID(),
-                    logistId,
-                    "Перевозка дизельного топлива - 38 тонн. ADR: 3. Требуется цистерна из нержавеющей стали.",
-                    "+79161234567",
-                    LocalDateTime.now().plusDays(0),
-                    "НПЗ 'Газпромнефть', Московская обл., г. Одинцово",
-                    now.minusDays(2),
-                    now.minusDays(1),
-                    null
-            );
-
-            Statement statement2 = new Statement(
-                    UUID.randomUUID(),
-                    logistId,
-                    "Транспортировка бензина АИ-95 - 42 тонны. ADR: 3. Класс опасности: 1.",
-                    "+79167654321",
-                    LocalDateTime.now().plusDays(1),
-                    "АЗС 'Лукойл', Москва, ш. Энтузиастов, 45",
-                    now.minusDays(1),
-                    now.minusHours(12),
-                    null
-            );
-
-            Statement statement3 = new Statement(
-                    UUID.randomUUID(),
-                    logistId,
-                    "Вывоз химических отходов - 28 тонн. ADR: 8. Коррозионные вещества. Требуется HDPE цистерна.",
-                    "+79169998877",
-                    LocalDateTime.now().plusDays(2),
-                    "Химкомбинат 'Азот', г. Дзержинск, Нижегородская обл.",
-                    now.minusHours(6),
-                    now.minusHours(2),
-                    null
-            );
-
-            Statement statement4 = new Statement(
-                    UUID.randomUUID(),
-                    logistId,
-                    "Перевозка мазута - 35 тонн. ADR: 3. Требуется подогрев цистерны.",
-                    "+79165554433",
-                    LocalDateTime.now().plusDays(3),
-                    "ТЭЦ-21, Москва, ул. Вавилова, 13",
-                    now.minusHours(3),
-                    now.minusHours(1),
-                    null
-            );
-
-            statementRepository.saveAll(List.of(statement1, statement2, statement3, statement4));
-
-            // Создание тестовых выездов (Journeys)
             Journey journey1 = new Journey(
                     UUID.randomUUID(),
                     car1,
@@ -151,7 +101,7 @@ public class JourneyServiceApplication {
                     now.minusDays(1),
                     null,
                     trailer1,
-                    statement1
+                    null
             );
 
             Journey journey2 = new Journey(
@@ -167,7 +117,7 @@ public class JourneyServiceApplication {
                     null,
                     null,
                     trailer2,
-                    statement2
+                    null
             );
 
             Journey journey3 = new Journey(
@@ -183,7 +133,7 @@ public class JourneyServiceApplication {
                     null,
                     null,
                     trailer4,
-                    statement3
+                    null
             );
 
             Journey journey4 = new Journey(
@@ -199,16 +149,59 @@ public class JourneyServiceApplication {
                     null,
                     null,
                     trailer3,
-                    statement4
+                    null
             );
 
-            journeyRepository.saveAll(List.of(journey1, journey2, journey3, journey4));
+            // Создание тестовых заявок (Statements) для нефтеперевозок
 
-            // Обновление связи Statement -> Journey
-            statement1.setJourney(journey1);
-            statement2.setJourney(journey2);
-            statement3.setJourney(journey3);
-            statement4.setJourney(journey4);
+            Statement statement1 = new Statement(
+                    UUID.randomUUID(),
+                    logistId,
+                    "Перевозка дизельного топлива - 38 тонн. ADR: 3. Требуется цистерна из нержавеющей стали.",
+                    "+79161234567",
+                    LocalDateTime.now().plusDays(0),
+                    "НПЗ 'Газпромнефть', Московская обл., г. Одинцово",
+                    now.minusDays(2),
+                    now.minusDays(1),
+                    journey1
+            );
+
+            Statement statement2 = new Statement(
+                    UUID.randomUUID(),
+                    logistId,
+                    "Транспортировка бензина АИ-95 - 42 тонны. ADR: 3. Класс опасности: 1.",
+                    "+79167654321",
+                    LocalDateTime.now().plusDays(1),
+                    "АЗС 'Лукойл', Москва, ш. Энтузиастов, 45",
+                    now.minusDays(1),
+                    now.minusHours(12),
+                    journey2
+            );
+
+            Statement statement3 = new Statement(
+                    UUID.randomUUID(),
+                    logistId,
+                    "Вывоз химических отходов - 28 тонн. ADR: 8. Коррозионные вещества. Требуется HDPE цистерна.",
+                    "+79169998877",
+                    LocalDateTime.now().plusDays(2),
+                    "Химкомбинат 'Азот', г. Дзержинск, Нижегородская обл.",
+                    now.minusHours(6),
+                    now.minusHours(2),
+                    journey3
+            );
+
+            Statement statement4 = new Statement(
+                    UUID.randomUUID(),
+                    logistId,
+                    "Перевозка мазута - 35 тонн. ADR: 3. Требуется подогрев цистерны.",
+                    "+79165554433",
+                    LocalDateTime.now().plusDays(3),
+                    "ТЭЦ-21, Москва, ул. Вавилова, 13",
+                    now.minusHours(3),
+                    now.minusHours(1),
+                    journey4
+            );
+
             statementRepository.saveAll(List.of(statement1, statement2, statement3, statement4));
 
             // Создание тестовых заправок (Fuellings)

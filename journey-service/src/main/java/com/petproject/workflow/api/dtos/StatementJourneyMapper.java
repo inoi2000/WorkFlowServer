@@ -4,22 +4,21 @@ import com.petproject.workflow.store.entities.Car;
 import com.petproject.workflow.store.entities.Journey;
 import com.petproject.workflow.store.entities.Statement;
 import com.petproject.workflow.store.entities.Trailer;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class StatementJourneyMapper {
 
     private final CarMapper carMapper;
     private final TrailerMapper trailerMapper;
 
-    public StatementJourneyMapper(
-            CarMapper carMapper,
-            TrailerMapper trailerMapper) {
-        this.carMapper = carMapper;
-        this.trailerMapper = trailerMapper;
-    }
-
     public Statement mapToStatement(StatementDto statementDto) {
+        Journey journey = null;
+        if (statementDto.getJourney() != null) {
+            journey = mapToJourney(statementDto.getJourney());
+        }
         return new Statement(
                 statementDto.getId(),
                 statementDto.getLogist().getId(),
@@ -29,7 +28,7 @@ public class StatementJourneyMapper {
                 statementDto.getDestinationAddress(),
                 statementDto.getCreatedAt(),
                 statementDto.getUpdatedAt(),
-                null
+                journey
         );
     }
 
@@ -50,6 +49,10 @@ public class StatementJourneyMapper {
         if (journeyDto.getTrailer() != null) {
             trailer = new Trailer(journeyDto.getTrailer().getId());
         }
+        Statement statement = null;
+        if (journeyDto.getStatement() != null) {
+            statement = mapToStatement(journeyDto.getStatement());
+        }
         return new Journey(
                 journeyDto.getId(),
                 new Car(journeyDto.getCar().getId()),
@@ -63,7 +66,7 @@ public class StatementJourneyMapper {
                 journeyDto.getFinishedAt(),
                 journeyDto.getCanceledAt(),
                 trailer,
-                new Statement(journeyDto.getStatement().getId())
+                statement
         );
     }
 

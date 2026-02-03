@@ -1,16 +1,3 @@
-CREATE TABLE IF NOT EXISTS statements
-(
-    id BINARY(16) NOT NULL,
-    logist_id BINARY(16) NOT NULL,		-- Id работника
-    data VARCHAR(255) NOT NULL,
-    contact_phone VARCHAR(12) NOT NULL,
-    destination_time DATETIME NOT NULL,
-    destination_address VARCHAR(255) NOT NULL,
-    created_at DATETIME NOT NULL,
-    updated_at DATETIME NOT NULL,
-    PRIMARY KEY (id)
-    );
-
 CREATE TABLE IF NOT EXISTS cars
 (
     id BINARY(16) NOT NULL,
@@ -39,7 +26,6 @@ CREATE TABLE IF NOT EXISTS journeys
 (
     id BINARY(16) NOT NULL,
     car_id BINARY(16) NOT NULL,				-- Id машины
-    statement_id BINARY(16) NOT NULL UNIQUE,-- Id заявки
     driver_id BINARY(16) NOT NULL,			-- Id работника
     trailer_id BINARY(16),			        -- Id прицепа
     status ENUM('NEW', 'CONFIRMED', 'STARTED', 'FINISHED', 'CANCELED') NOT NULL,
@@ -52,8 +38,22 @@ CREATE TABLE IF NOT EXISTS journeys
     canceled_at DATETIME,
     PRIMARY KEY (id),
     FOREIGN KEY (car_id) REFERENCES cars(id),
-    FOREIGN KEY (trailer_id) REFERENCES trailers(id),
-    FOREIGN KEY (statement_id) REFERENCES statements(id)
+    FOREIGN KEY (trailer_id) REFERENCES trailers(id)
+    );
+
+CREATE TABLE IF NOT EXISTS statements
+(
+    id BINARY(16) NOT NULL,
+    logist_id BINARY(16) NOT NULL,		-- Id работника
+    data VARCHAR(255) NOT NULL,
+    contact_phone VARCHAR(12) NOT NULL,
+    destination_time DATETIME NOT NULL,
+    destination_address VARCHAR(255) NOT NULL,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL,
+    journey_id BINARY(16) NOT NULL UNIQUE,-- Id выезда
+    PRIMARY KEY (id),
+    FOREIGN KEY (journey_id) REFERENCES journeys(id)
     );
 
 CREATE TABLE IF NOT EXISTS fuellings

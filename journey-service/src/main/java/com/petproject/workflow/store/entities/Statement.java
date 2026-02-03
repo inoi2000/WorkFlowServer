@@ -41,7 +41,8 @@ public class Statement {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToOne(mappedBy = "statement", cascade = {CascadeType.MERGE})
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "journey_id", nullable = false, unique = true)
     private Journey journey;
 
     public Statement(UUID id){
