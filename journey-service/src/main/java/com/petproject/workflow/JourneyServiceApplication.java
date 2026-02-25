@@ -27,9 +27,9 @@ public class JourneyServiceApplication {
     ) {
         return args -> {
             // Очистка существующих данных (опционально)
-            fuellingRepository.deleteAll();
-            journeyRepository.deleteAll();
             statementRepository.deleteAll();
+            journeyRepository.deleteAll();
+            fuellingRepository.deleteAll();
             carRepository.deleteAll();
             trailerRepository.deleteAll();
 
