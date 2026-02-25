@@ -57,8 +57,7 @@ public class Journey {
     @JoinColumn(name = "trailer_id")
     private Trailer trailer;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    @JoinColumn(name = "statement_id", nullable = false, unique = true)
+    @OneToOne(mappedBy = "journey", cascade = {CascadeType.MERGE})
     private Statement statement;
 
     public Journey(UUID id){
