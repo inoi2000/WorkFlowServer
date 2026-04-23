@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS policies_positions
     policy_id BINARY(16) NOT NULL,
     position_id BINARY(16) NOT NULL,
     PRIMARY KEY (policy_id, position_id)
+--     ,
+--     FOREIGN KEY (policy_id) REFERENCES policies(id)
     );
 
 CREATE TABLE IF NOT EXISTS absences

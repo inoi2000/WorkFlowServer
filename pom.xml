@@ -42,6 +42,7 @@
         <module>announcement_service</module>
         <module>notification_service</module>
         <module>journey-service</module>
+        <module>storage-service</module>
     </modules>
 
     <build>
