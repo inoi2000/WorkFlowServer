@@ -8,7 +8,7 @@ import com.petproject.workflow.store.Task;
 import com.petproject.workflow.store.TaskRepository;
 import com.petproject.workflow.store.TaskStatus;
 import jakarta.transaction.Transactional;
-import org.springframework.kafka.core.KafkaTemplate;
+//import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -19,18 +19,18 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final EmployeeServiceClient employeeServiceClient;
-    private final KafkaTemplate<String, TaskNotificationDto> kafkaTemplate;
+//    private final KafkaTemplate<String, TaskNotificationDto> kafkaTemplate;
 
     private final TaskMapper taskMapper;
 
     public TaskService(
             TaskRepository taskRepository,
             EmployeeServiceClient employeeServiceClient,
-            KafkaTemplate<String, TaskNotificationDto> kafkaTemplate,
+//            KafkaTemplate<String, TaskNotificationDto> kafkaTemplate,
             TaskMapper taskMapper) {
         this.taskRepository = taskRepository;
         this.employeeServiceClient = employeeServiceClient;
-        this.kafkaTemplate = kafkaTemplate;
+//        this.kafkaTemplate = kafkaTemplate;
         this.taskMapper = taskMapper;
     }
 
@@ -43,7 +43,7 @@ public class TaskService {
                 task.getId(),
                 task.getExecutor(),
                 "Новая задача");
-        kafkaTemplate.sendDefault(notification);
+//        kafkaTemplate.sendDefault(notification);
         return result;
     }
 
@@ -96,7 +96,7 @@ public class TaskService {
                             task.getId(),
                             task.getInspector(),
                             "Задача принята в работу");
-                    kafkaTemplate.sendDefault(notification);
+//                    kafkaTemplate.sendDefault(notification);
                     return result;
                 });
     }
@@ -121,7 +121,7 @@ public class TaskService {
                             task.getId(),
                             task.getInspector(),
                             text);
-                    kafkaTemplate.sendDefault(notification);
+//                    kafkaTemplate.sendDefault(notification);
                     return result;
                 });
     }
@@ -136,7 +136,7 @@ public class TaskService {
                             task.getId(),
                             task.getExecutor(),
                             "Задача выполнена");
-                    kafkaTemplate.sendDefault(notification);
+//                    kafkaTemplate.sendDefault(notification);
                     return result;
                 });
     }
@@ -154,7 +154,7 @@ public class TaskService {
                             task.getId(),
                             task.getExecutor(),
                             "Задача не утверждена");
-                    kafkaTemplate.sendDefault(notification);
+//                    kafkaTemplate.sendDefault(notification);
                     return result;
                 });
     }
@@ -169,7 +169,7 @@ public class TaskService {
                             task.getId(),
                             task.getExecutor(),
                             "Задача отменена");
-                    kafkaTemplate.sendDefault(notification);
+//                    kafkaTemplate.sendDefault(notification);
                     return result;
                 });
     }
