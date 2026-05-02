@@ -35,7 +35,7 @@ public class Storage {
     @JoinColumn(name = "current_waste_id")
     private Waste currentWaste;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST,  fetch = FetchType.LAZY)
     @JoinTable(
             name = "allowed_storages_wastes",
             joinColumns = @JoinColumn(name = "storage_id"),
