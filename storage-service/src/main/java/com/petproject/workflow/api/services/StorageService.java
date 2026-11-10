@@ -1,7 +1,7 @@
 package com.petproject.workflow.api.services;
 
 import com.petproject.workflow.api.dtos.StorageDto;
-import com.petproject.workflow.api.dtos.StorageWasteMapper;
+import com.petproject.workflow.api.dtos.StorageProductMapper;
 import com.petproject.workflow.api.exceptions.NotFoundIdException;
 import com.petproject.workflow.store.entities.Storage;
 import com.petproject.workflow.store.repositories.StorageRepository;
@@ -16,12 +16,12 @@ import java.util.UUID;
 public class StorageService {
 
     private final StorageRepository storageRepository;
-    private final StorageWasteMapper storageWasteMapper;
+    private final StorageProductMapper storageProductMapper;
 
     public List<StorageDto> getAllStorages() {
         List<Storage> storages = storageRepository.findAll();
         return storages.stream()
-                .map(storage -> storageWasteMapper.mapToStorageDto(storage, false))
+                .map(storage -> storageProductMapper.mapToStorageDto(storage, false))
                 .toList();
     }
 
@@ -29,6 +29,6 @@ public class StorageService {
         Storage storage = storageRepository
                 .findById(storageId)
                 .orElseThrow(() -> new NotFoundIdException("Storage with id " + storageId + " not found"));
-        return storageWasteMapper.mapToStorageDto(storage, true);
+        return storageProductMapper.mapToStorageDto(storage, true);
     }
 }
