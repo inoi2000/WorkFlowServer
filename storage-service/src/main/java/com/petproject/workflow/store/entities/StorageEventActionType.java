@@ -1,6 +1,7 @@
 package com.petproject.workflow.store.entities;
 
-public enum ActionType {
+public enum StorageEventActionType {
     POURING,
-    DRAINING
+    DRAINING,
+    CHECK
 }

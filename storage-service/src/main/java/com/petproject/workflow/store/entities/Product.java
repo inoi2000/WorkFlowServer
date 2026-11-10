@@ -15,8 +15,8 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "wastes")
-public class Waste {
+@Table(name = "products")
+public class Product {
 
     @Id
     @Column(name = "id", columnDefinition = "BINARY(16)")
@@ -25,9 +25,17 @@ public class Waste {
     @Column(nullable = false)
     private String name;
 
-    @Column(name = "is_recycle", nullable = false)
-    private boolean isRecycle;
+    @Column(nullable = false)
+    private double density;
 
-    @ManyToMany(mappedBy = "allowedWastes", fetch = FetchType.LAZY)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ProductStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ProductType type;
+
+    @ManyToMany(mappedBy = "allowedProducts", fetch = FetchType.LAZY)
     private List<Storage> allowedStorages = new ArrayList<>();
 }

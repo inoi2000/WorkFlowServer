@@ -8,25 +8,35 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class StorageEventMapper {
 
-    private final StorageWasteMapper storageWasteMapper;
+    private final StorageProductMapper storageProductMapper;
 
     public StorageEvent mapToStorageEvent(StorageEventDto storageEventDto) {
+        var storage = storageProductMapper.mapToStorage(storageEventDto.getStorage(), false);
+        var product = storageProductMapper.mapToProduct(storageEventDto.getProduct(), false);
+
         return new StorageEvent(
                 storageEventDto.getId(),
                 storageEventDto.getActionType(),
                 storageEventDto.getVolume(),
-                storageWasteMapper.mapToStorage(storageEventDto.getStorage(), false),
-                storageWasteMapper.mapToWaste(storageEventDto.getWaste(), false)
+                storage,
+                product,
+                storageEventDto.getEmployeeId(),
+                storageEventDto.getCreatedAt()
         );
     }
 
     public StorageEventDto mapToStorageEventDto(StorageEvent storageEvent) {
+        var storageDto = storageProductMapper.mapToStorageDto(storageEvent.getStorage(), false);
+        var productDto = storageProductMapper.mapToProductDto(storageEvent.getProduct(), false);
+
         return new StorageEventDto(
                 storageEvent.getId(),
                 storageEvent.getActionType(),
                 storageEvent.getVolume(),
-                storageWasteMapper.mapToStorageDto(storageEvent.getStorage(), false),
-                storageWasteMapper.mapToWasteDto(storageEvent.getWaste(), false)
+                storageDto,
+                productDto,
+                storageEvent.getEmployeeId(),
+                storageEvent.getCreatedAt()
         );
     }
 }

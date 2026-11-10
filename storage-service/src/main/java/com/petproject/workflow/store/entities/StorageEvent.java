@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -22,7 +23,7 @@ public class StorageEvent {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "action_type", nullable = false)
-    private ActionType actionType;
+    private StorageEventActionType actionType;
 
     @Column(nullable = false)
     private double volume;
@@ -32,6 +33,12 @@ public class StorageEvent {
     private Storage storage;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "waste_id", nullable = false)
-    private Waste waste;
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
+
+    @Column(name = "employee_id", columnDefinition = "BINARY(16)", nullable = false)
+    private UUID employeeId;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 }
